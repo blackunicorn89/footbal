@@ -58,6 +58,7 @@ const Navbar = (props) => {
               letterSpacing: '.3rem',
               color: 'inherit',
               textDecoration: 'none',
+
             }}
           >
             LOGO

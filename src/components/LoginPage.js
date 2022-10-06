@@ -11,7 +11,7 @@ const LoginPage = () => {
   const dispatch = useDispatch();
 
   const [state, setState] = useState({
-    username: "",
+    email: "",
     password: ""
   })
 
@@ -29,6 +29,7 @@ const LoginPage = () => {
     let user = {
       ...state
     }
+    console.log(state)
     dispatch(login(user));
   }
 
@@ -43,8 +44,8 @@ const LoginPage = () => {
           </Avatar>
           <h2>Sign in</h2>
         </Grid>
-        <form action="/login" method="post">
-          <TextField label="Username" name="username" value={state.username} onChange={onChange} placeholder="Enter username" margin="normal" fullWidth required />
+        <form action="/api/users/login" method="post">
+          <TextField type="email" label="Email" name="email" value={state.email} onChange={onChange} placeholder="Enter email" margin="normal" fullWidth required />
           <TextField label="Password" name="password" value={state.password} onChange={onChange} placeholder="Enter password" margin="normal" type="password" fullWidth required />
           <Button type="submit" color="primary" variant="contained" margin="normal" onClick={onSubmit} fullWidth>Sign in</Button>
         </form>
