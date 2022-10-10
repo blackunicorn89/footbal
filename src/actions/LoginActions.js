@@ -1,39 +1,39 @@
 export const LOADING = "LOADING";
 export const STOP_LOADING = "STOP_LOADING";
-export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
-export const REGISTER_FAILED = "REGISTER_FAILED";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILED = "LOGIN_FAILED";
-export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
-export const LOGOUT_FAILED = "LOGOUT_FAILED";
-export const CLEAR_STATE = "CLEAR_STATE";
+
 
 export const login = (user) => {
   return async (dispatch) => {
+
     let request = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user)
     }
     dispatch(loading());
-    let response = await fetch("api/users/login/", request);
+    let response = await fetch("/api/users/login", request)
     if (!response) {
-      dispatch(loginFailed("There was an error with the connection to server. Login failed."));
+      dispatch(loginFailed("Failed to parse login information. Login failed."))
       return;
     }
     if (response.ok) {
       let data = await response.json();
+      console.log(data)
       if (!data) {
         dispatch(loginFailed("Failed to parse login information. Login failed."));
-        return;
+        return
       }
-      dispatch(loginSuccess(data.token))
-      console.log(data) //Muuta
+      dispatch(loginSuccess(data.token));
+      // dispatch(getNews(data.token));
     } else {
       dispatch(loginFailed("Login failed. Server responded with a status " + response.status + " " + response.statusText));
     }
   }
 }
+
+// ACTION CREATORS
 
 export const loading = () => {
   return {
@@ -41,15 +41,22 @@ export const loading = () => {
   }
 }
 
-export const loginFailed = () => {
+export const stopLoading = () => {
   return {
-    type: LOGIN_FAILED
+    type: STOP_LOADING
   }
 }
 
-const loginSuccess = (token) => {
+const loginSuccess = () => {
   return {
-    type: LOGIN_SUCCESS,
-    token: token
+    type: LOGIN_SUCCESS
+  }
+}
+
+
+const loginFailed = (error) => {
+  return {
+    type: LOGIN_FAILED,
+    error: error
   }
 }

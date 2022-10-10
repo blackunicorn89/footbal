@@ -29,7 +29,7 @@ const LoginPage = () => {
     let user = {
       ...state
     }
-    console.log(state)
+
     dispatch(login(user));
   }
 
