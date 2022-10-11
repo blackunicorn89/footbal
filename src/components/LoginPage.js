@@ -49,8 +49,6 @@ const LoginPage = () => {
           <TextField label="Password" name="password" value={state.password} onChange={onChange} placeholder="Enter password" margin="normal" type="password" fullWidth required />
           <Button type="submit" color="primary" variant="contained" margin="normal" onClick={onSubmit} fullWidth>Sign in</Button>
         </form>
-
-
       </Paper>
     </Grid>
   )

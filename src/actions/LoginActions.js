@@ -1,8 +1,9 @@
+import { getNews } from "./NewsActions";
 export const LOADING = "LOADING";
 export const STOP_LOADING = "STOP_LOADING";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILED = "LOGIN_FAILED";
-
+export const CLEAR_STATE = "CLEAR_STATE";
 
 export const login = (user) => {
   return async (dispatch) => {
@@ -26,7 +27,7 @@ export const login = (user) => {
         return
       }
       dispatch(loginSuccess(data.token));
-      // dispatch(getNews(data.token));
+      dispatch(getNews(data));
     } else {
       dispatch(loginFailed("Login failed. Server responded with a status " + response.status + " " + response.statusText));
     }
@@ -39,19 +40,19 @@ export const loading = () => {
   return {
     type: LOADING
   }
-}
+};
 
 export const stopLoading = () => {
   return {
     type: STOP_LOADING
   }
-}
+};
 
 const loginSuccess = () => {
   return {
     type: LOGIN_SUCCESS
   }
-}
+};
 
 
 const loginFailed = (error) => {
@@ -60,3 +61,9 @@ const loginFailed = (error) => {
     error: error
   }
 }
+
+export const clearState = () => {
+  return {
+    type: CLEAR_STATE
+  }
+};
