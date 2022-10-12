@@ -18,7 +18,7 @@ const getInitialState = () => {
 }
 
 const saveToStorage = (state) => {
-  localStorage.getItem("newsstate", JSON.stringify(state));
+  localStorage.setItem("newsstate", JSON.stringify(state));
 }
 
 const initialState = getInitialState();
