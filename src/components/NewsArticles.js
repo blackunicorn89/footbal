@@ -7,12 +7,9 @@ const NewsArticles = (props) => {
 
   const appState = useSelector((state) => {
     return {
-      news: state
+      news: state.news
     }
-
   });
-
-
 
 
   return (
@@ -28,7 +25,7 @@ const NewsArticles = (props) => {
         </tr>
       </thead>
       <tbody>
-        {appState[0]}
+
       </tbody>
     </table>
   )

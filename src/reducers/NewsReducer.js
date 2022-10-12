@@ -28,10 +28,12 @@ const newsReducer = (state = initialState, action) => {
   let tempState = {};
   switch (action.type) {
     case FETCH_NEWS_SUCCESS:
+
       tempState = {
-        news: action,
+        news: action.news,
         error: ""
       }
+      console.log("NEws reducers console.log", tempState.news)
       saveToStorage(tempState);
       return tempState
     case FETCH_NEWS_FAILED:

@@ -39,6 +39,7 @@ export const getNews = () => {
 //Action Creators
 
 const fetchNewsSuccess = (news) => {
+  console.log("News actions console.log", news)
   return {
     type: FETCH_NEWS_SUCCESS,
     news: news

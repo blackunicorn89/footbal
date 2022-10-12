@@ -27,7 +27,7 @@ export const login = (user) => {
         return
       }
       dispatch(loginSuccess(data.token));
-      dispatch(getNews(data));
+      dispatch(getNews());
     } else {
       dispatch(loginFailed("Login failed. Server responded with a status " + response.status + " " + response.statusText));
     }
