@@ -18,7 +18,7 @@ const getInitialState = () => {
 }
 
 const saveToStorage = (state) => {
-  localStorage.getItem("newsstate", JSON.stringify(state));
+  localStorage.setItem("newsstate", JSON.stringify(state));
 }
 
 const initialState = getInitialState();
@@ -33,7 +33,7 @@ const newsReducer = (state = initialState, action) => {
         news: action.news,
         error: ""
       }
-      console.log("NEws reducers console.log", tempState.news)
+      console.log("News reducers console.log", tempState.news)
       saveToStorage(tempState);
       return tempState
     case FETCH_NEWS_FAILED:
