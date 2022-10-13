@@ -8,10 +8,13 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import loginReducer from './reducers/LoginReducer';
 import newsReducer from './reducers/NewsReducer';
+import playerReducer from './reducers/PlayerReducer';
+
 
 const rootReducer = combineReducers({
   login: loginReducer,
-  news: newsReducer
+  news: newsReducer,
+  player: playerReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
