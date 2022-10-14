@@ -6,6 +6,13 @@ const NewsArticles = (props) => {
 
   const dispatch = useDispatch();
 
+  //USE EFFECT ajetaan ennen renderöintiä. Se  hakee dispatchilla tiedot. Esim pelaajilla dispatch(getPlayers())
+
+  useEffect(() => {
+    dispatch(getNews())
+  }, []);
+
+
   const appState = useSelector((state) => state);
   console.log(appState)
   let articles = appState.news.news.newsArticles.map((article) => {
