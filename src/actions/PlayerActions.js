@@ -8,14 +8,14 @@ export const getPlayers = () => {
   return async (dispatch) => {
 
 
-    // let request = {
-    //   method: "GET",
-    //   headers: { "Content-Type": "application/json", "Authorization": "Bearer" + token, },
+    let request = {
+    method: "GET",
+    headers: { "Content-Type": "application/json"}
     //   body: ""
 
-    // }
+    }
     dispatch(loading());
-    let response = await fetch("/api/players/");
+    let response = await fetch("/api/players/", request);
 
     dispatch(stopLoading);
     if (!response) {

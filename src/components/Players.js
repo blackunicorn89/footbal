@@ -1,7 +1,8 @@
 import { stepButtonClasses } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getNews } from "../actions/PlayerActions";
+import { getPlayers } from "../actions/PlayerActions";
+import PlayerRow from "./PlayerRow";
 
 const Players = (props) => {
 
@@ -13,7 +14,7 @@ const Players = (props) => {
     }
   });
 
-  let players = appState.playerList.map((playerList) => {
+ /* let players = appState.playerList.map((player) => {
 
     return (
       < tr key={players.id} >
@@ -24,7 +25,12 @@ const Players = (props) => {
         <td> {players.description}</td>
       </tr >
     )
-  })
+  })*/
+
+  let players = appState.playerList.map((player) => {
+    
+    return <PlayerRow key={player.id} player={player}/>
+})
 
   return (
 

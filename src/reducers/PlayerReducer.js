@@ -23,14 +23,14 @@ const saveToStorage = (state) => {
 
 const initialState = getInitialState();
 
-const playerReducer = (state = initialState, player) => {
-  console.log("playerReducer. Action", player);
+const playerReducer = (state = initialState, action) => {
+  console.log("playerReducer. Action", action);
   let tempState = {};
-  switch (player.type) {
+  switch (action.type) {
     case FETCH_PLAYERS_SUCCESS:
 
       tempState = {
-        playerList: player.playerList,
+        playerList: action.playerList,
         error: ""
       }
       console.log("Player reducers console.log", tempState.playerList)
@@ -39,7 +39,7 @@ const playerReducer = (state = initialState, player) => {
     case FETCH_PLAYERS_FAILED:
       tempState = {
         ...state,
-        error: player.error
+        error: action.error
       }
       saveToStorage(tempState);
       return tempState;
