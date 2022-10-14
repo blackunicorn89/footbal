@@ -17,7 +17,7 @@ export const getNews = () => {
     dispatch(loading());
     let response = await fetch("/api/news");
 
-    dispatch(stopLoading);
+    dispatch(stopLoading());
     if (!response) {
       dispatch(fetchNewsFailed("There was an error with the connection. Fetching news failed."));
       return;
@@ -39,7 +39,7 @@ export const getNews = () => {
 //Action Creators
 
 const fetchNewsSuccess = (news) => {
-  console.log("News actions console.log", news)
+  //console.log("News actions console.log", news)
   return {
     type: FETCH_NEWS_SUCCESS,
     news: news

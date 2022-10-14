@@ -11,7 +11,7 @@ const getInitialState = () => {
     return state;
   } else {
     return {
-      news: [],
+      news: { newsArticles: [] },
       error: ""
     }
   }
@@ -33,7 +33,6 @@ const newsReducer = (state = initialState, action) => {
         news: action.news,
         error: ""
       }
-      console.log("News reducers console.log", tempState.news)
       saveToStorage(tempState);
       return tempState
     case FETCH_NEWS_FAILED:

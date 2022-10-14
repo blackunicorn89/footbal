@@ -6,8 +6,8 @@ import {
 } from "../actions/LoginActions"
 
 const getInitialState = () => {
-  if (sessionStorage.getItem("loginstate")) {
-    let state = JSON.parse(sessionStorage.getItem("loginstate"));
+  if (localStorage.getItem("loginstate")) {
+    let state = JSON.parse(localStorage.getItem("loginstate"));
     return state;
   } else {
     return {
