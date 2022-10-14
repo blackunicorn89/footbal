@@ -8,13 +8,11 @@ import DrawerComp from "./DrawerComp";
 import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
 import { AppBar, Grid, Tabs, Tab, useTheme, Toolbar, Typography, useMediaQuery } from "@mui/material";
 
-
-
-const Navbar = ({ props }) => {
+const Navbar = (props) => {
 
   const theme = useTheme();
-  const isMatch = useMediaQuery(theme.breakpoints.down('sm'));
-  const [value, setValue] = useState()
+  const isMatch = useMediaQuery(theme.breakpoints.down("sm"));
+  const [value, setValue] = useState(0)
 
   return (
     <React.Fragment>
@@ -36,17 +34,17 @@ const Navbar = ({ props }) => {
               <Grid item xs={5}>
                 <Tabs indicatorColor="secondary" textColor="inherit" value={value} onChange={(e, val) => setValue(val)}>
                   <Tab label="Ajankohtaista" component={Link} to={"/news"} />
-                  <Tab label="Pelaajat" component={Link} to={"players"} />
+                  <Tab label="Pelaajat" component={Link} to={"/players"} />
                 </Tabs>
               </Grid>
             </Grid>
           }
-
         </Toolbar>
       </AppBar>
       <Toolbar />
     </React.Fragment>
 
   )
+
 }
 export default Navbar;

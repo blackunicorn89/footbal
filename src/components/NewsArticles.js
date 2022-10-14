@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getNews } from "../actions/NewsActions";
+import Article from "./Article";
 
 const NewsArticles = (props) => {
 
@@ -27,20 +28,25 @@ const NewsArticles = (props) => {
   })
 
   return (
+    <div>
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>Päivämäärä</th>
+            <th>Otsikko</th>
+            <th>Sisältö</th>
 
-    <table className="table table-striped">
-      <thead>
-        <tr>
-          <th>Päivämäärä</th>
-          <th>Otsikko</th>
-          <th>Sisältö</th>
+          </tr>
+        </thead>
+        <tbody>
+          {articles}
+        </tbody>
+      </table>
 
-        </tr>
-      </thead>
-      <tbody>
-        {articles}
-      </tbody>
-    </table>
+
+      <Article />
+    </div>
+
   )
 }
 
