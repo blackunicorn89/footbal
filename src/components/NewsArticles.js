@@ -6,13 +6,9 @@ const NewsArticles = (props) => {
 
   const dispatch = useDispatch();
 
-  const appState = useSelector((state) => {
-    return {
-      news: state.news.news
-    }
-  });
-
-  let articles = appState.news.newsArticles.map((article) => {
+  const appState = useSelector((state) => state);
+  console.log(appState)
+  let articles = appState.news.news.newsArticles.map((article) => {
 
     return (
       < tr key={article.id} >
