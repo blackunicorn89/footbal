@@ -16,6 +16,8 @@ export const getPlayers = () => {
     }
     dispatch(loading());
     let response = await fetch("/api/players/", request);
+    console.log("response")
+    console.log(response)
 
     dispatch(stopLoading);
     if (!response) {
@@ -38,11 +40,11 @@ export const getPlayers = () => {
 
 //Action Creators
 
-const fetchPlayersSuccess = (playerList) => {
-  console.log("player actions console.log", playerList)
+const fetchPlayersSuccess = (players) => {
+  console.log("player actions console.log", players)
   return {
     type: FETCH_PLAYERS_SUCCESS,
-    playerList: playerList
+    players: players
   }
 }
 

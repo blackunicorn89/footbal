@@ -11,7 +11,7 @@ const getInitialState = () => {
     return state;
   } else {
     return {
-      playerList: [],
+      players: {players: []},
       error: ""
     }
   }
@@ -30,7 +30,7 @@ const playerReducer = (state = initialState, action) => {
     case FETCH_PLAYERS_SUCCESS:
 
       tempState = {
-        playerList: action.playerList,
+        players: action.players,
         error: ""
       }
       console.log("Player reducers console.log", tempState.playerList)

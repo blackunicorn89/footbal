@@ -8,11 +8,14 @@ const Players = (props) => {
 
   const dispatch = useDispatch();
 
-  const appState = useSelector((state) => {
-    return {
-      playerList: state.player.playerList
-    }
-  });
+  useEffect(() => {
+    dispatch(getPlayers())
+  }, []);
+
+
+  const  appState = useSelector((state) => state);
+  console.log(appState)
+ // let articles = appState.news.news.newsArticles.map((article) => {
 
  /* let players = appState.playerList.map((player) => {
 
@@ -27,7 +30,7 @@ const Players = (props) => {
     )
   })*/
 
-  let players = appState.playerList.map((player) => {
+  let players = appState.player.players.players.map((player) => {
     
     return <PlayerRow key={player.id} player={player}/>
 })
