@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import LoginPage from "./components/LoginPage"
 import NewsArticles from "./components/NewsArticles";
 import React from "react";
+import { Container } from "@mui/material"
 
 function App() {
 
@@ -25,10 +26,10 @@ function App() {
   }
   return (
 
-    <React.Fragment>
+    <Container>
       <Navbar />
       {tempRender}
-    </React.Fragment>
+    </Container>
 
 
 
