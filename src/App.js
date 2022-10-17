@@ -5,6 +5,7 @@ import LoginPage from "./components/LoginPage"
 import NewsArticles from "./components/NewsArticles";
 import Players from "./components/Players";
 import React from "react";
+import { Container } from "@mui/material"
 
 function App() {
 
@@ -28,10 +29,10 @@ function App() {
   }
   return (
 
-    <React.Fragment>
+    <Container>
       <Navbar />
       {tempRender}
-    </React.Fragment>
+    </Container>
 
 
 

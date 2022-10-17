@@ -1,9 +1,9 @@
 import React from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import {
-  Avatar,
   Card,
   CardHeader,
-  IconButton,
+  Fab,
 } from '@mui/material';
 import { red } from '@mui/material/colors';
 import { green } from '@mui/material/colors';
@@ -13,30 +13,29 @@ import CardContent from '@mui/material/CardContent';
 
 const Article = (props) => {
 
-  const removeArticle = (event) => {
+  const appState = useSelector((state) => state);
+  console.log("Article state", appState.login.token)
+  const removeArticle = (id) => {
     console.log("Remove Article")
   }
 
-  const editArticle = () => {
-    console.log("Edit Article")
+  const editArticle = (id) => {
+    console.log("Edit Article", id)
   }
 
   return (
 
-    <Card sx={{ minWidth: 275, maxWidth: 400, }}>
+    <Card sx={{ minWidth: 275, maxWidth: "md", margin: "auto" }}>
       <CardHeader
         action={
           <>
-            <IconButton onClick={editArticle}>
-              <Avatar sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit">
-                <EditIcon />
-              </Avatar>
-            </IconButton>
-            <IconButton onClick={removeArticle}>
-              <Avatar sx={{ bgcolor: red[500] }} aria-label="delete" >
-                <DeleteIcon />
-              </Avatar>
-            </IconButton>
+            <Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" onClick={() => { editArticle(props.id) }}>
+              <EditIcon />
+            </Fab>
+
+            <Fab sx={{ bgcolor: red[500] }} aria-label="delete" size="small" onClick={() => { removeArticle(props.id) }}>
+              <DeleteIcon />
+            </Fab>
           </>
         }
         title={props.header}
@@ -45,6 +44,7 @@ const Article = (props) => {
       <CardContent>
         {props.content}
       </CardContent>
+
     </Card>
   )
 }

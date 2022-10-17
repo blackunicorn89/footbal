@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getNews } from "../actions/NewsActions";
 import Article from "./Article";
-import { Grid } from "@mui/material"
+import { Grid, Container } from "@mui/material"
 
 const NewsArticles = (props) => {
 
@@ -14,13 +14,13 @@ const NewsArticles = (props) => {
   }, []);
 
   const appState = useSelector((state) => state);
-  console.log(appState)
+  console.log("NewsArticles State ", appState)
 
   let articles = appState.news.news.newsArticles.map((article) => {
     return (
 
-      <Grid item xs={12} sm={6} md={4}>
-        <Article key={article.id} header={article.header} date={article.date} content={article.content} />
+      <Grid item xs={12} sm={6} md={4} lg={12} key={article.id}>
+        <Article id={article.id} header={article.header} date={article.date} content={article.content} />
       </Grid >
     )
   })
@@ -30,6 +30,7 @@ const NewsArticles = (props) => {
     <Grid container spacing={2} alignItems="center" justify="center">
       {articles}
     </Grid>
+
   )
 }
 
