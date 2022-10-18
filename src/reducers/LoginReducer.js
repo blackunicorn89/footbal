@@ -13,8 +13,10 @@ const getInitialState = () => {
     return {
       isLogged: false,
       token: "",
+      admin: false,
       loading: false,
       error: ""
+
     }
   }
 }
@@ -45,6 +47,7 @@ const loginReducer = (state = initialState, action) => {
         loading: false,
         isLogged: true,
         token: action.token,
+        admin: action.admin,
         error: ""
       }
       saveToStorage(tempState);

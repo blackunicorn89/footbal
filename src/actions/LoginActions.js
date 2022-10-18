@@ -21,12 +21,13 @@ export const login = (user) => {
     }
     if (response.ok) {
       let data = await response.json();
-      console.log(data)
+
+
       if (!data) {
         dispatch(loginFailed("Failed to parse login information. Login failed."));
         return
       }
-      dispatch(loginSuccess(data.token));
+      dispatch(loginSuccess(data));
       dispatch(getNews());
     } else {
       dispatch(loginFailed("Login failed. Server responded with a status " + response.status + " " + response.statusText));
@@ -48,9 +49,12 @@ export const stopLoading = () => {
   }
 };
 
-const loginSuccess = () => {
+const loginSuccess = (data) => {
+
   return {
-    type: LOGIN_SUCCESS
+    type: LOGIN_SUCCESS,
+    token: data.token,
+    admin: data.admin
   }
 };
 

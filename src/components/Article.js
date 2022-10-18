@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -15,13 +15,9 @@ import CardContent from '@mui/material/CardContent';
 const Article = (props) => {
 
   const appState = useSelector((state) => state);
-  console.log("Article state", appState.login.token)
+
   const removeArticle = (id) => {
     console.log("Remove Article")
-  }
-
-  const editArticle = (id) => {
-    console.log("Edit Article", id)
   }
 
   return (
