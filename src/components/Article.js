@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from "react-router-dom";
 import {
   Card,
   CardHeader,
@@ -29,7 +30,7 @@ const Article = (props) => {
       <CardHeader
         action={
           <>
-            <Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" onClick={() => { editArticle(props.id) }}>
+            <Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"/editarticle/" + props.id} >
               <EditIcon />
             </Fab>
 
