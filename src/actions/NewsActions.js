@@ -137,10 +137,10 @@ const addArticleFailed = (error) => {
   }
 };
 
-const editArticleSuccess = (article) => {
+const editArticleSuccess = () => {
   return {
     type: EDIT_ARTICLE_SUCCESS,
-    news: article
+    error: ""
   }
 };
 
