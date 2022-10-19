@@ -1,29 +1,25 @@
 import { useState } from "react"
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams, Link } from "react-router-dom";
-import { editNews } from "../actions/NewsActions";
+import { addNews } from "../actions/NewsActions";
 import { Box, Grid, Paper, TextField, Button } from "@mui/material"
 
-const EditArticle = () => {
 
-  const dispatch = useDispatch();
-  const id = useParams()
+const AddArticle = () => {
 
-  const article = useSelector((state) =>
-    state.news.news.newsArticles.find((article => article.id === id.id))
-  );
+  const dispatch = useDispatch()
 
   const login = useSelector((state) =>
     state.login
   );
 
-
-
   const [state, setState] = useState({
-    header: article.header,
-    content: article.content,
-    date: article.date
+    header: "",
+    date: "",
+    content: ""
+
   })
+
 
   const onChange = (event) => {
     setState((state) => {
@@ -34,20 +30,22 @@ const EditArticle = () => {
     })
   }
 
+
   const onSubmit = (event) => {
-    event.preventDefault();
-    let article = state;
-    dispatch(editNews(login, article));
+    event.preventDefault()
+    let article = {
+      ...state
+    }
+    dispatch(addNews(login, article))
   };
 
   return (
-
     <Grid>
       <Paper elevation={10}>
         <Grid align="center">
-          <h2>Muokkaa</h2>
+          <h2>Lisää uusi artikkeli</h2>
         </Grid>
-        <form action="/api/news" method="put">
+        <form action="/api/news/" method="POST">
 
           <TextField type="text" label="Otsikko" name="header" value={state.header} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
           <TextField type="date" label="Päivämäärä" name="date" value={state.date} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
@@ -68,14 +66,11 @@ const EditArticle = () => {
                 <Button type="submit" color="primary" variant="contained" margin="normal" onClick={onSubmit} fullWidth sx={{ padding: 1, margin: 2 }} >Tallenna </Button>
               </Box>
             </Grid>
-
           </Grid>
-
-
         </form>
       </Paper>
     </Grid >
   )
+};
 
-}
-export default EditArticle;
+export default AddArticle;

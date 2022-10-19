@@ -3,10 +3,11 @@ import { useSelector } from 'react-redux';
 import Navbar from "./components/Navbar";
 import LoginPage from "./components/LoginPage"
 import NewsArticles from "./components/NewsArticles";
+import AddArticle from "./components/AddArticle";
 import EditArticle from "./components/EditArticle";
 import Players from "./components/Players";
 import React from "react";
-import { Container } from "@mui/material"
+import { Container } from "@mui/material";
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
   if (appState.login.isLogged) {
     tempRender = <Routes>
       <Route exact path="/" element={<NewsArticles />} />
+      <Route exact path="/addarticle" element={<AddArticle />} />
       <Route path="/editarticle/:id" element={<EditArticle />} />
       <Route path="/players" element={<Players />} />
       <Route path="*" element={<Navigate to="/" />} />

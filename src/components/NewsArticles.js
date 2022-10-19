@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getNews } from "../actions/NewsActions";
 import Article from "./Article";
-import { Grid, Container } from "@mui/material"
+import { Grid, Button } from "@mui/material"
 
 const NewsArticles = (props) => {
 
@@ -27,9 +28,20 @@ const NewsArticles = (props) => {
 
   return (
 
-    <Grid container spacing={2} alignItems="center" justify="center">
-      {articles}
-    </Grid>
+    <React.Fragment>
+      <Grid align="center" >
+        <h2> Ajankohtaista </h2>
+        <Button color="primary" variant="contained" margin="normal" component={Link} to={"/addarticle"} fullWidth sx={{ padding: 1, margin: 2 }} >Lisää uusi</Button>
+
+      </Grid>
+
+
+      <Grid container spacing={2} alignItems="center" justify="center">
+        {articles}
+      </Grid>
+
+    </React.Fragment>
+
 
   )
 }

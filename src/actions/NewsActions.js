@@ -1,8 +1,12 @@
+
 import { loading, stopLoading, clearState } from "./LoginActions"
 
 // Action constraits
 export const FETCH_NEWS_SUCCESS = "FETCH_NEWS_SUCCESS";
 export const FETCH_NEWS_FAILED = "FETCH_NEWS_FAILED";
+
+export const ADD_ARTICLE_SUCCESS = "ADD_ARTICLE_SUCCESS";
+export const ADD_ARTICLE_FAILED = "ADD_ARTICLE_FAILED";
 
 export const EDIT_ARTICLE_SUCCESS = "EDIT_ARTICLE_SUCCESS";
 export const EDIT_ARTICLE_FAILED = "EDIT_ARTICLE_FAILED";
@@ -30,28 +34,66 @@ export const getNews = () => {
     } else {
       dispatch(fetchNewsFailed("Fetching news articles failed. Server responded with status " + response.status + " " + response.statusText));
     }
+  }
+};
 
+
+// ADD NEWS
+
+export const addNews = (login, article) => {
+  return async (dispatch) => {
+    let request = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + login.token
+      },
+      body: JSON.stringify(article)
+    }
+    console.log("REQUESTR", request)
+    dispatch(loading());
+    let response = await fetch("/api/news/", request);
+    dispatch(stopLoading());
+    if (!response) {
+      dispatch(addArticleFailed("There was an error with the connection. Adding new article failed."))
+      return;
+    }
+    if (response.ok) {
+      dispatch(addArticleSuccess())
+      dispatch(getNews());
+    } else {
+      if (response.status === 403) {
+        dispatch(clearState());
+        dispatch(addArticleFailed("Your session has expired. Logging you out!"))
+      } else {
+        dispatch(addArticleFailed("Adding new article failed. Server responded with a status " + response.status + " " + response.statusText));
+      }
+    }
   }
 };
 
 // EDIT NEWS
 
-export const editNews = (token, article) => {
+export const editNews = (login, article) => {
   return async (dispatch) => {
     let request = {
       method: "PUT",
-      headers: { "Content-Type": "application/json" }, //Add bearer
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + login.token
+      },
       body: JSON.stringify(article)
     }
     dispatch(loading());
-    let response = await fetch("/api/news/" + article.id, request);
+    let response = await fetch("/api/news/", article.id, request);
     dispatch(stopLoading());
     if (!response) {
       dispatch(editArticleFailed("There was propblem with connection. Editing article failed"))
       return
     }
     if (response.ok) {
-      dispatch(editArticleSuccess());
+      let data = response.json();
+      dispatch(editArticleSuccess(data));
       dispatch(getNews());
     } else {
       if (response.status === 403) {
@@ -80,17 +122,31 @@ const fetchNewsFailed = (error) => {
     type: FETCH_NEWS_FAILED,
     error: error
   }
-}
+};
 
-const editArticleSuccess = () => {
+const addArticleSuccess = () => {
   return {
-    type: EDIT_ARTICLE_SUCCESS
+    type: ADD_ARTICLE_SUCCESS
   }
-}
+};
+
+const addArticleFailed = (error) => {
+  return {
+    type: ADD_ARTICLE_FAILED,
+    error: error
+  }
+};
+
+const editArticleSuccess = (article) => {
+  return {
+    type: EDIT_ARTICLE_SUCCESS,
+    news: article
+  }
+};
 
 const editArticleFailed = (error) => {
   return {
     type: EDIT_ARTICLE_FAILED,
     error: error
   }
-}
+};
