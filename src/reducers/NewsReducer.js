@@ -1,6 +1,8 @@
 import {
   FETCH_NEWS_SUCCESS,
   FETCH_NEWS_FAILED,
+  ADD_ARTICLE_SUCCESS,
+  ADD_ARTICLE_FAILED,
   EDIT_ARTICLE_SUCCESS,
   EDIT_ARTICLE_FAILED
 
@@ -44,6 +46,22 @@ const newsReducer = (state = initialState, action) => {
       }
       saveToStorage(tempState);
       return tempState;
+
+    case ADD_ARTICLE_SUCCESS:
+      tempState = {
+        ...state,
+        error: ""
+      }
+      saveToStorage(tempState);
+      return tempState
+
+    case ADD_ARTICLE_FAILED:
+      tempState = {
+        ...state,
+        error: action.error
+      }
+      saveToStorage(tempState)
+      return tempState
 
     case EDIT_ARTICLE_SUCCESS:
       tempState = {

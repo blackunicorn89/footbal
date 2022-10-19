@@ -40,7 +40,7 @@ const Navbar = (props) => {
           </Grid>
         }
       </Toolbar>
-      <Toolbar />
+
     </React.Fragment>
 
 
