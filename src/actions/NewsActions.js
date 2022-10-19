@@ -85,14 +85,14 @@ export const editNews = (login, article) => {
       body: JSON.stringify(article)
     }
     dispatch(loading());
-    let response = await fetch("/api/news/", article.id, request);
+    let response = await fetch("/api/news/" + article.id, request);
     dispatch(stopLoading());
     if (!response) {
       dispatch(editArticleFailed("There was propblem with connection. Editing article failed"))
       return
     }
     if (response.ok) {
-      let data = response.json();
+      let data = await response.json();
       dispatch(editArticleSuccess(data));
       dispatch(getNews());
     } else {

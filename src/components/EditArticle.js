@@ -36,7 +36,11 @@ const EditArticle = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    let article = state;
+    let article = {
+      ...state,
+      id: id.id
+    }
+    console.log("ARTICLEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE", article)
     dispatch(editNews(login, article));
   };
 
