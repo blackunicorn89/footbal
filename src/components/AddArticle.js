@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addNews } from "../actions/NewsActions";
 import { Box, Grid, Paper, TextField, Button } from "@mui/material"
@@ -8,6 +8,7 @@ import { Box, Grid, Paper, TextField, Button } from "@mui/material"
 const AddArticle = () => {
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const login = useSelector((state) =>
     state.login
@@ -37,6 +38,7 @@ const AddArticle = () => {
       ...state
     }
     dispatch(addNews(login, article))
+    navigate("/");
   };
 
   return (
