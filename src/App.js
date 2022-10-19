@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar";
 import LoginPage from "./components/LoginPage"
 import NewsArticles from "./components/NewsArticles";
 import EditArticle from "./components/EditArticle";
-import Players from "./components/Players";
+import Players from "./components/playerComponents/Players";
 import React from "react";
 import { Container } from "@mui/material"
 
