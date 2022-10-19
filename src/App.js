@@ -6,6 +6,7 @@ import NewsArticles from "./components/NewsArticles";
 import AddArticle from "./components/AddArticle";
 import EditArticle from "./components/EditArticle";
 import Players from "./components/playerComponents/Players";
+import AddPlayerForm from "./components/playerComponents/AddPlayerForm";
 import React from "react";
 import { Container } from "@mui/material";
 
@@ -26,10 +27,12 @@ function App() {
   if (appState.login.isLogged) {
     tempRender = <Routes>
       <Route exact path="/" element={<NewsArticles />} />
+      <Route exact path="/players/addplayer" element={<AddPlayerForm />} />
       <Route exact path="/addarticle" element={<AddArticle />} />
       <Route path="/editarticle/:id" element={<EditArticle />} />
       <Route path="/players" element={<Players />} />
       <Route path="*" element={<Navigate to="/" />} />
+
     </Routes>
   }
   return (

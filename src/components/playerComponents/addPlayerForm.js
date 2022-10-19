@@ -1,8 +1,10 @@
 import {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPlayer } from '../actions/PlayerActions';
+import { addPlayer } from '../../actions/PlayerActions';
+import { Link } from "react-router-dom";
+import { Box, Grid, Paper, TextField, Button } from "@mui/material"
 
-const addPlayerForm = (props) => {
+const AddPlayerForm = () => {
     const[state, setState] = useState({
         image:"",
         player_name:"",
@@ -11,7 +13,9 @@ const addPlayerForm = (props) => {
         description:""
     })
 
-    const token = useSelector(loginstate => loginstate.login.token)
+    const login = useSelector((state) =>
+        state.login
+    );
 
     const dispatch = useDispatch();
 
@@ -29,7 +33,7 @@ const addPlayerForm = (props) => {
         let player = {
             ...state
         }
-        dispatch (addPlayer(token, player));
+        dispatch (addPlayer(login, player));
         setState({
             image:"",
             player_name:"",
@@ -41,44 +45,41 @@ const addPlayerForm = (props) => {
     }
 
     return (
-        <form onSubmit={onSubmit}>
-            <label htmlFor="image">Kuva:</label>
-            <input type="image"
-                            name="image"
-                            id="type"
-                            value={playerstate.image}
-                            onChange={onChange} />
-            <label htmlFor="player_name">Pelaajan Nimi:</label>
-            <input type="text"
-                            name="player_name"
-                            id="player_name"
-                            value={loginstate.player_name}
-                            onChange={onChange} />
-            <label htmlFor="player_number" className="form-label">Pelaajan numero:</label>
-            <input type="number"
-                            name="player_number"
-                            id="player_number"
-                            step="0.01"
-                            value={loginstate.player_number}
-                            onChange={onChange} />
-             <label htmlFor="position" className="form-label">Paikka:</label>
-             <input type="text"
-                            name="position"
-                            id="position"
-                            value={loginstate.position}
-                            onChange={onChange} />
-            <label htmlFor="description" className="form-label">Kuvaus:</label>
-            <input type="text"
-                            name="description"
-                            id="description"
-                            value={loginstate.description}
-                            onChange={onChange} />
-            <input type="submit" value="Add"/>
+    <Grid>
+      <Paper elevation={10}>
+        <Grid align="center">
+          <h2>Lisää uusi artikkeli</h2>
+        </Grid>
+        <form action="/api/news/" method="POST">
+
+          <TextField type="image" label="Kuva" name="header" value={state.image} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
+          <TextField type="text" label="Pelaajan nimi" name="player_name" value={state.player_name} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
+          <TextField type="number" label="Pelaajan numero" name="player_number" value={state.player_number} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
+          <TextField type="text" label="Paikka" name="position" value={state.position} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
+          <TextField type="text" label="Kuvaus" name="description" value={state.description} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
+
+          <Grid container>
+            <Grid item xs={4}>
+              <Box display="flex" justifyContent="flex-start">
+                <Button color="secondary" variant="contained" margin="normal" component={Link} to={"/players"} fullWidth sx={{ padding: 1, margin: 2 }} >Peruuta</Button>
+              </Box>
+            </Grid>
+            <Grid item xs={4}>
+
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" justifyContent="flex-end">
+                <Button type="submit" color="primary" variant="contained" margin="normal" onClick={onSubmit} fullWidth sx={{ padding: 1, margin: 2 }} >Tallenna </Button>
+              </Box>
+            </Grid>
+          </Grid>
         </form>
+      </Paper>
+    </Grid >
     )
 
 }
 
 
 
-export default addPlayerForm;
+export default AddPlayerForm;
