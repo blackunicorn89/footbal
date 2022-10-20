@@ -4,7 +4,9 @@ import {
   ADD_ARTICLE_SUCCESS,
   ADD_ARTICLE_FAILED,
   EDIT_ARTICLE_SUCCESS,
-  EDIT_ARTICLE_FAILED
+  EDIT_ARTICLE_FAILED,
+  REMOVE_ARTICLE_SUCCESS,
+  REMOVE_ARTICLE_FAILED
 
 } from '../actions/NewsActions';
 
@@ -77,6 +79,22 @@ const newsReducer = (state = initialState, action) => {
         error: action.error
       }
       saveToStorage(tempState);
+      return tempState;
+
+    case REMOVE_ARTICLE_SUCCESS:
+      tempState = {
+        ...state,
+        error: ""
+      }
+      saveToStorage(tempState);
+      return tempState;
+
+    case REMOVE_ARTICLE_FAILED:
+      tempState = {
+        ...state,
+        error: action.error
+      }
+      saveToStorage(tempState)
       return tempState;
 
     default:
