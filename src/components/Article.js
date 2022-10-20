@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -11,14 +11,17 @@ import { green } from '@mui/material/colors';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CardContent from '@mui/material/CardContent';
+import { removeNews } from "../actions/NewsActions";
 
 const Article = (props) => {
+
+  const dispatch = useDispatch();
 
   const appState = useSelector((state) => state);
 
   const removeArticle = (id) => {
-    console.log("Remove Article")
-  }
+    dispatch(removeNews(appState.login.token, id))
+  };
 
   return (
 

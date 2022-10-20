@@ -11,6 +11,10 @@ export const ADD_ARTICLE_FAILED = "ADD_ARTICLE_FAILED";
 export const EDIT_ARTICLE_SUCCESS = "EDIT_ARTICLE_SUCCESS";
 export const EDIT_ARTICLE_FAILED = "EDIT_ARTICLE_FAILED";
 
+export const REMOVE_ARTICLE_SUCCESS = "REMOVE_ARTICLE_SUCCESS";
+export const REMOVE_ARTICLE_FAILED = "REMOVE_ARTICLE_FAILED";
+
+
 // GET NEWS
 
 export const getNews = () => {
@@ -107,6 +111,38 @@ export const editNews = (login, article) => {
   };
 };
 
+// REMOVE NEWS
+
+export const removeNews = (token, id) => {
+  return async (dispatch) => {
+    let request = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    }
+    dispatch(loading());
+    let response = await fetch("/api/news/" + id, request);
+    dispatch(stopLoading());
+    if (!response) {
+      dispatch(removeArticleFailed("There was an error with the connection. Removing article failed."))
+      return;
+    }
+    if (response.ok) {
+      dispatch(removeArticleSuccess());
+      dispatch(getNews())
+    } else {
+      if (response.status === 403) {
+        dispatch(clearState());
+        dispatch(removeArticleFailed("Your session has expired. Logging you out!"));
+      } else {
+        dispatch(removeArticleFailed("Removing Article failed. Server responded with a status " + response.status + " " + response.statusText))
+      }
+    }
+  };
+};
+
 //Action Creators
 
 const fetchNewsSuccess = (news) => {
@@ -147,6 +183,19 @@ const editArticleSuccess = () => {
 const editArticleFailed = (error) => {
   return {
     type: EDIT_ARTICLE_FAILED,
+    error: error
+  }
+};
+
+const removeArticleSuccess = () => {
+  return {
+    type: REMOVE_ARTICLE_SUCCESS
+  }
+};
+
+const removeArticleFailed = (error) => {
+  return {
+    type: REMOVE_ARTICLE_FAILED,
     error: error
   }
 };
