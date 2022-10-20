@@ -1,13 +1,15 @@
 import { useState } from "react"
 import { useSelector, useDispatch } from "react-redux";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate, Navigate } from "react-router-dom";
 import { editNews } from "../actions/NewsActions";
 import { Box, Grid, Paper, TextField, Button } from "@mui/material"
 
 const EditArticle = () => {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const id = useParams()
+
 
   const article = useSelector((state) =>
     state.news.news.newsArticles.find((article => article.id === id.id))
@@ -36,8 +38,12 @@ const EditArticle = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    let article = state;
+    let article = {
+      ...state,
+      id: id.id
+    }
     dispatch(editNews(login, article));
+    navigate("/");
   };
 
   return (
