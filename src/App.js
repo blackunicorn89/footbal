@@ -6,7 +6,7 @@ import NewsArticles from "./components/NewsArticles";
 import AddArticle from "./components/AddArticle";
 import EditArticle from "./components/EditArticle";
 import Players from "./components/playerComponents/Players";
-import AddPlayerForm from "./components/playerComponents/AddPlayerForm";
+import AddPlayerForm from "./components/playerComponents/AddPlayer";
 import React from "react";
 import { Container } from "@mui/material";
 

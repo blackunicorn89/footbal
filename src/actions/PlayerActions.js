@@ -40,13 +40,14 @@ export const getPlayers = () => {
   }
 };
 
-export const addPlayer = (token, player) => {
+export const addPlayer = (login, player) => {
   return async (dispatch) => {
       let request = {
           method:"POST",
-          headers: {"Content-type":"application/json", "token":token},
+          headers: {"Content-type":"application/json", "Authorization": "Bearer " + login.token},
           body:JSON.stringify(player)
       }
+      console.log("REQUEST", request)
       dispatch(loading())
       let response = await fetch("/api/players", request);
       dispatch(stopLoading())

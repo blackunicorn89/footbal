@@ -1,25 +1,51 @@
-import {useState} from 'react';
+import React, {useState, useR} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPlayer } from '../../actions/PlayerActions';
 import { Link } from "react-router-dom";
 import { Box, Grid, Paper, TextField, Button } from "@mui/material"
 
+
+
+
 const AddPlayerForm = () => {
     const[state, setState] = useState({
-        image:"",
         player_name:"",
         player_number:0,
         position:"",
         description:""
     })
 
+    const [selectedFile, setSelectedFile] = useState({
+        image:null,
+        fileInput:React.createRef()
+    })
+
     const login = useSelector((state) =>
         state.login
     );
 
+    const fileInput =  React.createRef();
+
     const dispatch = useDispatch();
 
+    const handleImage = (event) => {
+    
+      setSelectedFile((selectedFile) => {
+        return {
+          ...selectedFile,
+          [event.target.name]:fileInput.current.files[0].name[0]
+        }
+      })
+
+    }
+
     const onChange = (event) => {
+
+        
+      //const file = event.target.files[0];		
+      //const fileReader = new FileReader();
+      //console.log("testataa kuvaa " + fileReader.readAsDataURL(file));
+
         setState((state) => {
             return {
                 ...state,
@@ -28,9 +54,20 @@ const AddPlayerForm = () => {
         })
     }
 
+    /*const onInput = (event) => {
+      setState((state) => {
+          return {
+              ...state,
+              readFile(event),
+              [event.target.name]:event.target.value
+          }
+      })
+  }*/
+
     const onSubmit = (event) => {
         event.preventDefault();
         let player = {
+            ...selectedFile,
             ...state
         }
         dispatch (addPlayer(login, player));
@@ -42,17 +79,20 @@ const AddPlayerForm = () => {
             description:""
     
         })
+        setSelectedFile({
+          image:null
+      })
     }
 
     return (
     <Grid>
       <Paper elevation={10}>
         <Grid align="center">
-          <h2>Lisää uusi artikkeli</h2>
+          <h1>Lisää uusi Pelaaja</h1>
         </Grid>
-        <form action="/api/news/" method="POST">
+        <form>
 
-          <TextField type="image" label="Kuva" name="header" value={state.image} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
+          <TextField type="file" label="Kuva" name="image" ref={fileInput} value={state.image} onChange={handleImage} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
           <TextField type="text" label="Pelaajan nimi" name="player_name" value={state.player_name} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
           <TextField type="number" label="Pelaajan numero" name="player_number" value={state.player_number} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
           <TextField type="text" label="Paikka" name="position" value={state.position} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />

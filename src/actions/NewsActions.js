@@ -50,7 +50,7 @@ export const addNews = (login, article) => {
       },
       body: JSON.stringify(article)
     }
-    console.log("REQUESTR", request)
+    console.log("REQUEST", request)
     dispatch(loading());
     let response = await fetch("/api/news/", request);
     dispatch(stopLoading());

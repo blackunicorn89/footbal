@@ -1,9 +1,11 @@
 import { stepButtonClasses } from "@mui/material";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPlayers } from "../../actions/PlayerActions";
 import PlayerRow from "./PlayerRow";
-import addPlayerForm from "./AddPlayerForm";
+import addPlayerForm from "./AddPlayer";
+import { Grid, Button } from "@mui/material"
+import { Link } from "react-router-dom";
 
 const Players = (props) => {
 
@@ -31,8 +33,8 @@ const Players = (props) => {
 
     <React.Fragment>
       <Grid align="center" >
-        <h2> Ajankohtaista </h2>
-        <Button color="primary" variant="contained" margin="normal" component={Link} to={"/addarticle"} fullWidth sx={{ padding: 1, margin: 2 }} >Lisää uusi</Button>
+        <h1>Pelaajat</h1>
+        <Button color="primary" variant="contained" margin="normal" component={Link} to={"/players/addplayer"} fullWidth sx={{ padding: 1, margin: 2 }} >Lisää uusi</Button>
 
       </Grid>
 
