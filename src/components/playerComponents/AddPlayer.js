@@ -1,4 +1,4 @@
-import React, {useState, useR} from 'react';
+import  {useState, useRef} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPlayer } from '../../actions/PlayerActions';
 import { Link } from "react-router-dom";
@@ -9,6 +9,7 @@ import { Box, Grid, Paper, TextField, Button } from "@mui/material"
 
 const AddPlayerForm = () => {
     const[state, setState] = useState({
+        image:"",
         player_name:"",
         player_number:0,
         position:"",
@@ -16,42 +17,61 @@ const AddPlayerForm = () => {
     })
 
     const [selectedFile, setSelectedFile] = useState({
-        image:null,
-        fileInput:React.createRef()
+        image:""
     })
 
     const login = useSelector((state) =>
         state.login
     );
 
-    const fileInput =  React.createRef();
 
     const dispatch = useDispatch();
 
-    const handleImage = (event) => {
-    
-      setSelectedFile((selectedFile) => {
-        return {
-          ...selectedFile,
-          [event.target.name]:fileInput.current.files[0].name[0]
-        }
-      })
+    const fileInput = useRef(null)
 
+
+    const handleFileInput = (event) => {
+     
+      setState((state) => {
+        return {
+            ...state,
+            [event.target.name]:event.target.files[0].name
+        }
+    })
+    
     }
 
-    const onChange = (event) => {
+    /*const FileUploader = ({onFileSelect}) => {
 
+      const fileInput = useRef(null)
+  
+  
+      const handleFileInput = (e) => {
+  
+          // handle validations
+  
+          onFileSelect(e.target.files[0])
+  
+      }
+    }*/
+
+    const onChange = (event) => {
+      //console.log(event.value)
         
       //const file = event.target.files[0];		
       //const fileReader = new FileReader();
       //console.log("testataa kuvaa " + fileReader.readAsDataURL(file));
 
-        setState((state) => {
+      
+      
+      
+      setState((state) => {
             return {
                 ...state,
                 [event.target.name]:event.target.value
             }
         })
+        
     }
 
     /*const onInput = (event) => {
@@ -67,12 +87,14 @@ const AddPlayerForm = () => {
     const onSubmit = (event) => {
         event.preventDefault();
         let player = {
-            ...selectedFile,
-            ...state
+          ...selectedFile,
+          ...state
         }
+        console.log("Mitä syntyy " + player)
         dispatch (addPlayer(login, player));
         setState({
-            image:"",
+            
+            //image:null,
             player_name:"",
             player_number:0,
             position:"",
@@ -80,7 +102,7 @@ const AddPlayerForm = () => {
     
         })
         setSelectedFile({
-          image:null
+          image:""
       })
     }
 
@@ -92,7 +114,7 @@ const AddPlayerForm = () => {
         </Grid>
         <form>
 
-          <TextField type="file" label="Kuva" name="image" ref={fileInput} value={state.image} onChange={handleImage} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
+          <TextField type="file" label="Kuva" name="image" value={state.image} onChange={handleFileInput} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
           <TextField type="text" label="Pelaajan nimi" name="player_name" value={state.player_name} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
           <TextField type="number" label="Pelaajan numero" name="player_number" value={state.player_number} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
           <TextField type="text" label="Paikka" name="position" value={state.position} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
