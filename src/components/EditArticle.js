@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useSelector, useDispatch } from "react-redux";
-import { useParams, Link, useNavigate, Navigate } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { editNews } from "../actions/NewsActions";
 import { Box, Grid, Paper, TextField, Button } from "@mui/material"
 
@@ -10,7 +10,6 @@ const EditArticle = () => {
   const navigate = useNavigate()
   const id = useParams()
 
-
   const article = useSelector((state) =>
     state.news.news.newsArticles.find((article => article.id === id.id))
   );
@@ -19,12 +18,27 @@ const EditArticle = () => {
     state.login
   );
 
+  // MUI TEXTFIELD DEFAULT DATE 
 
+  const dateNow = new Date(article.date); // Creating a new date object with the current date and time
+  const year = dateNow.getFullYear(); // Getting current year from the created Date object
+  const monthWithOffset = dateNow.getUTCMonth() + 1; // January is 0 by default in JS. Offsetting +1 to fix date for calendar.
+  const month = // Setting current Month number from current Date object
+    monthWithOffset.toString().length < 2 // Checking if month is < 10 and pre-prending 0 if not to adjust for date input.
+      ? `0${monthWithOffset}`
+      : monthWithOffset;
+  const date =
+    dateNow.getUTCDate().toString().length < 2 // Checking if date is < 10 and pre-prending 0 if not to adjust for date input.
+      ? `0${dateNow.getUTCDate()}`
+      : dateNow.getUTCDate();
+  const materialDateInput = `${year}-${month}-${date}`; // combining to format for defaultValue or value attribute of material <TextField>
+
+  // END MUI TEXTFIELD DEFAULT DATE
 
   const [state, setState] = useState({
     header: article.header,
     content: article.content,
-    date: article.date
+    date: materialDateInput
   })
 
   const onChange = (event) => {
@@ -47,7 +61,6 @@ const EditArticle = () => {
   };
 
   return (
-
     <Grid>
       <Paper elevation={10}>
         <Grid align="center">
@@ -57,8 +70,7 @@ const EditArticle = () => {
 
           <TextField type="text" label="Otsikko" name="header" value={state.header} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
           <TextField type="date" label="Päivämäärä" name="date" value={state.date} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
-          <TextField type="text" label="uutinen" name="content" value={state.content} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
-
+          <TextField type="text" multiline label="uutinen" name="content" value={state.content} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
 
           <Grid container>
             <Grid item xs={4}>
@@ -67,21 +79,16 @@ const EditArticle = () => {
               </Box>
             </Grid>
             <Grid item xs={4}>
-
             </Grid>
             <Grid item xs={4}>
               <Box display="flex" justifyContent="flex-end">
                 <Button type="submit" color="primary" variant="contained" margin="normal" onClick={onSubmit} fullWidth sx={{ padding: 1, margin: 2 }} >Tallenna </Button>
               </Box>
             </Grid>
-
           </Grid>
-
-
         </form>
       </Paper>
     </Grid >
   )
-
 }
 export default EditArticle;
