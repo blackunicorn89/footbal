@@ -3,8 +3,15 @@ import { loading, stopLoading, clearState } from "./LoginActions"
 // Action constraits
 export const FETCH_PLAYERS_SUCCESS = "FETCH_PLAYERS_SUCCESS";
 export const FETCH_PLAYERS_FAILED = "FETCH_PLAYERS_FAILED";
+
 export const ADD_PLAYER_SUCCESS = "ADD_PLAYER_SUCCESS";
 export const ADD_PLAYER_FAILED = "ADD_PLAYER_FAILED";
+
+export const REMOVE_PLAYER_SUCCESS = "REMOVE_PLAYER_SUCCESS";
+export const REMOVE_PLAYER_FAILED = "REMOVE_PLAYER_FAILED";
+
+
+// GET PLAYERS
 
 export const getPlayers = () => {
   return async (dispatch) => {
@@ -40,6 +47,8 @@ export const getPlayers = () => {
   }
 };
 
+// ADD PLAYER
+
 export const addPlayer = (login, player) => {
   return async (dispatch) => {
       let request = {
@@ -72,6 +81,38 @@ export const addPlayer = (login, player) => {
   }
 }
 
+// REMOVE PLAYER
+
+export const removePlayer = (token, id) => {
+  return async (dispatch) => {
+    let request = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + token
+      }
+    }
+    dispatch(loading());
+    let response = await fetch("/api/players/" + id, request);
+    dispatch(stopLoading());
+    if (!response) {
+      dispatch(removePlayerFailed("There was an error with the connection. Removing player failed."))
+      return;
+    }
+    if (response.ok) {
+      dispatch(removePlayerSuccess());
+      dispatch(getPlayers())
+    } else {
+      if (response.status === 403) {
+        dispatch(clearState());
+        dispatch(removePlayerFailed("Your session has expired. Logging you out!"));
+      } else {
+        dispatch(removePlayerFailed("Removing player failed. Server responded with a status " + response.status + " " + response.statusText))
+      }
+    }
+  };
+};
+
 
 //Action Creators
 
@@ -99,6 +140,19 @@ const addPlayerSuccess = () => {
 const addPlayerFailed = (error) => {
   return {
       type:ADD_PLAYER_FAILED,
+      error:error
+  }
+}
+
+const removePlayerSuccess = () => {
+  return {
+      type:REMOVE_PLAYER_SUCCESS
+  }
+}
+
+const removePlayerFailed = (error) => {
+  return {
+      type:REMOVE_PLAYER_FAILED,
       error:error
   }
 }

@@ -1,6 +1,11 @@
 import {
   FETCH_PLAYERS_SUCCESS,
   FETCH_PLAYERS_FAILED,
+  ADD_PLAYER_SUCCESS,
+  ADD_PLAYER_FAILED,
+  REMOVE_PLAYER_SUCCESS,
+  REMOVE_PLAYER_FAILED
+  
 
 } from '../actions/PlayerActions';
 
@@ -44,8 +49,42 @@ const playerReducer = (state = initialState, action) => {
       saveToStorage(tempState);
       return tempState;
 
-    default:
-      return state;
+    case ADD_PLAYER_SUCCESS:
+    tempState = {
+      ...state,
+      error: ""
+    }
+    saveToStorage(tempState);
+    return tempState
+
+  case ADD_PLAYER_FAILED:
+    tempState = {
+      ...state,
+      error: action.error
+    }
+    saveToStorage(tempState)
+    return tempState
+
+  case REMOVE_PLAYER_SUCCESS:
+    tempState = {
+      ...state,
+      error: ""
+    }
+    saveToStorage(tempState);
+    return tempState;
+
+  case REMOVE_PLAYER_FAILED:
+    tempState = {
+      ...state,
+      error: action.error
+    }
+    saveToStorage(tempState)
+    return tempState;
+
+  default:
+    return state;
+
+
   }
 }
 

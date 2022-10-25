@@ -21,9 +21,14 @@ const Players = (props) => {
  
   
 
-  let players = appState.player.players.players.map((player) => {
+  let singlePlayer = appState.player.players.players.map((player) => {
+
+    return (
     
-    return <PlayerRow key={player.id} player={player}/>
+    <Grid item xs={12} sm={6} md={4} lg={12} key={player.id}>
+    <PlayerRow image = {player.image} id={player.id} player_name={player.player_name} player_number={player.player_number} description={player.description} />
+  </Grid >
+    )
 })
 
  
@@ -39,27 +44,10 @@ const Players = (props) => {
       </Grid>
 
 
-      {/*<Grid container spacing={2} alignItems="center" justify="center">
-        {articles}
-  </Grid>*/}
+    <Grid container spacing={2} alignItems="center" justify="center">
+        {singlePlayer}
+    </Grid>
 
-    
-
-
-    <table className="table table-striped">
-      <thead>
-        <tr>
-          <th>Kuva</th>  
-          <th>Nimi</th>
-          <th>Numero</th>
-          <th>Paikka</th>
-          <th>Kuvaus</th>
-        </tr>
-      </thead>
-      <tbody>
-        {players}
-      </tbody>
-    </table>
     </React.Fragment>
   )
 }
