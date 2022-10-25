@@ -11,7 +11,9 @@ import { green } from '@mui/material/colors';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CardContent from '@mui/material/CardContent';
+import Typography from "@mui/material/Typography";
 import { removeNews } from "../actions/NewsActions";
+
 
 const Article = (props) => {
 
@@ -23,8 +25,10 @@ const Article = (props) => {
     dispatch(removeNews(appState.login.token, id))
   };
 
-  return (
+  let date = new Date(props.date)
+  let localDate = date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();
 
+  return (
     <Card sx={{ minWidth: 275, maxWidth: "md", margin: "auto" }}>
       <CardHeader
         action={
@@ -39,12 +43,13 @@ const Article = (props) => {
           </>
         }
         title={props.header}
-        subheader={props.date} />
+        subheader={localDate} />
 
       <CardContent>
-        {props.content}
+        <Typography variant="body2" component="pre">
+          {props.content}
+        </Typography>
       </CardContent>
-
     </Card>
   )
 }
