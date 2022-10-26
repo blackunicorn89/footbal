@@ -2,7 +2,8 @@ import {
   LOADING,
   STOP_LOADING,
   LOGIN_SUCCESS,
-  LOGIN_FAILED
+  LOGIN_FAILED,
+  LOGOUT_SUCCESS
 } from "../actions/LoginActions"
 
 const getInitialState = () => {
@@ -60,6 +61,19 @@ const loginReducer = (state = initialState, action) => {
       }
       saveToStorage(tempState);
       return tempState;
+
+    case LOGOUT_SUCCESS:
+      localStorage.removeItem("loginstate")
+      tempState = {
+        isLogged: false,
+        token: "",
+        admin: false,
+        loading: false,
+        error: ""
+      }
+      saveToStorage("loginstate")
+      return tempState
+
     default:
       return state;
   }
