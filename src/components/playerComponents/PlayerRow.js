@@ -33,7 +33,7 @@ const PlayerRow = (props) => {
 
     return(
  
-      <Card  sx={{ minWidth: 275, maxWidth: "md", margin: "auto", backgroundColor: "#A60201", color: "white"}}>
+      <Card  sx={{ minWidth: 275, maxWidth: "md", margin: "auto", backgroundColor: "#A60201", color: "#73c6b6"}}>
       <CardHeader
         action={
           <>
@@ -52,6 +52,9 @@ const PlayerRow = (props) => {
       <Avatar src={img} alt={props.player_name} variant="square"  sx={{ width: 70, height: 70, marginBottom:3 }}></Avatar>
         <Typography variant="h4" component="pre">
           {props.player_number}
+        </Typography>
+        <Typography variant="body1" component="pre">
+          {props.position}
         </Typography>
         <Typography variant="body1" component="pre" sx={{ marginTop:3 }} >
          {props.description}

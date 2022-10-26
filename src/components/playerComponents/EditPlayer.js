@@ -12,7 +12,8 @@ const EditPlayer = () => {
     const player = useSelector((state) =>
       state.player.players.players.find((player => player.id === id.id))
     );
-  
+
+    
     const login = useSelector((state) =>
       state.login
     );
@@ -24,6 +25,10 @@ const EditPlayer = () => {
         position: player.position,
 		description: player.description
       })
+      
+      const playerNumber = player.player_number
+
+      console.log("Pelaajan numero : " + playerNumber)
 
       const onChange = (event) => {
         setState((state) => {
@@ -37,6 +42,10 @@ const EditPlayer = () => {
 
       const onSubmit = (event) => {
         event.preventDefault();
+        if(player.player_number === state.player_number) {
+            console.log("Toisella pelaajalla on jo sama pelinumero");
+            return;
+        }  
         let player = {
           ...state,
           id: id.id
