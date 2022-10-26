@@ -5,14 +5,17 @@ import {
   Card,
   CardHeader,
   Fab,
+  Avatar,
 } from '@mui/material';
 import { red } from '@mui/material/colors';
 import { green } from '@mui/material/colors';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CardContent from '@mui/material/CardContent';
+import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { removePlayer } from "../../actions/PlayerActions";
+import { padding } from "@mui/system";
 
 const PlayerRow = (props) => {
  
@@ -25,16 +28,16 @@ const PlayerRow = (props) => {
 
   };
 
-  let imgSrc = "http:\\\\localhost:3000\\" + props.image
+  let img = "http:\\\\localhost:3000\\" + props.image
 
 
     return(
  
-      <Card sx={{ minWidth: 275, maxWidth: "md", margin: "auto" }}>
+      <Card  sx={{ minWidth: 275, maxWidth: "md", margin: "auto", backgroundColor: "#A60201", color: "white"}}>
       <CardHeader
         action={
           <>
-            <Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"players/editarticle/" + props.id} >
+            <Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"/players/editplayer" + props.id} >
               <EditIcon />
             </Fab>
 
@@ -45,10 +48,13 @@ const PlayerRow = (props) => {
         }
         title={props.player_name}
          />
-
       <CardContent>
-        <Typography variant="body2" component="pre">
-          {props.description}
+      <Avatar src={img} alt={props.player_name} variant="square"  sx={{ width: 70, height: 70, marginBottom:3 }}></Avatar>
+        <Typography variant="h4" component="pre">
+          {props.player_number}
+        </Typography>
+        <Typography variant="body1" component="pre" sx={{ marginTop:3 }} >
+         {props.description}
         </Typography>
       </CardContent>
     </Card>

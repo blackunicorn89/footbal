@@ -4,7 +4,9 @@ import {
   ADD_PLAYER_SUCCESS,
   ADD_PLAYER_FAILED,
   REMOVE_PLAYER_SUCCESS,
-  REMOVE_PLAYER_FAILED
+  REMOVE_PLAYER_FAILED,
+  EDIT_PLAYER_SUCCESS,
+  EDIT_PLAYER_FAILED
   
 
 } from '../actions/PlayerActions';
@@ -74,6 +76,21 @@ const playerReducer = (state = initialState, action) => {
     return tempState;
 
   case REMOVE_PLAYER_FAILED:
+    tempState = {
+      ...state,
+      error: action.error
+    }
+    saveToStorage(tempState)
+    return tempState;
+  case EDIT_PLAYER_SUCCESS:
+    tempState = {
+      ...state,
+      error: ""
+    }
+    saveToStorage(tempState);
+    return tempState;
+
+  case EDIT_PLAYER_FAILED:
     tempState = {
       ...state,
       error: action.error

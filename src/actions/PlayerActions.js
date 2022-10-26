@@ -10,6 +10,10 @@ export const ADD_PLAYER_FAILED = "ADD_PLAYER_FAILED";
 export const REMOVE_PLAYER_SUCCESS = "REMOVE_PLAYER_SUCCESS";
 export const REMOVE_PLAYER_FAILED = "REMOVE_PLAYER_FAILED";
 
+export const EDIT_PLAYER_SUCCESS = "EDIT_PLAYER_SUCCESS";
+export const EDIT_PLAYER_FAILED = "EDIT_PLAYER_FAILED";
+
+
 
 // GET PLAYERS
 
@@ -113,6 +117,40 @@ export const removePlayer = (token, id) => {
   };
 };
 
+//EDIT PLAYER
+export const editPlayer = (login, player) => {
+  return async (dispatch) => {
+    let request = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + login.token
+      },
+      body: JSON.stringify(player)
+    }
+    dispatch(loading());
+    let response = await fetch("/api/players/" + player.id, request);
+    dispatch(stopLoading());
+    if (!response) {
+      dispatch(editPlayerFailed("There was propblem with connection. Editing player failed"))
+      return
+    }
+    if (response.ok) {
+      let data = await response.json();
+      dispatch(editPlayerSuccess(data));
+      dispatch(getPlayers());
+    } else {
+      if (response.status === 403) {
+        dispatch(clearState());
+        dispatch(editPlayerFailed("Your session has expired. Logging you out!"));
+      } else {
+        dispatch(editPlayerFailed("Editing player failed. Server responded with status " + response.status + " " + response.statusText));
+
+      }
+    }
+  };
+};
+
 
 //Action Creators
 
@@ -153,6 +191,19 @@ const removePlayerSuccess = () => {
 const removePlayerFailed = (error) => {
   return {
       type:REMOVE_PLAYER_FAILED,
+      error:error
+  }
+}
+
+const editPlayerSuccess = () => {
+  return {
+      type:EDIT_PLAYER_SUCCESS
+  }
+}
+
+const editPlayerFailed = (error) => {
+  return {
+      type:EDIT_PLAYER_FAILED,
       error:error
   }
 }

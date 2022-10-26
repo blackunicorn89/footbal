@@ -1,7 +1,7 @@
 import  {useState, useRef} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addPlayer } from '../../actions/PlayerActions';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Box, Grid, Paper, TextField, Button } from "@mui/material"
 
 
@@ -26,6 +26,7 @@ const AddPlayerForm = () => {
 
 
     const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     const fileInput = useRef(null)
 
@@ -104,6 +105,7 @@ const AddPlayerForm = () => {
         setSelectedFile({
           image:""
       })
+      navigate("/players");
     }
 
     return (
