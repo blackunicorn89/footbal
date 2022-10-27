@@ -29,10 +29,13 @@ const NewsArticles = (props) => {
   return (
 
     <React.Fragment>
+
       <Grid align="center" >
         <h2> Ajankohtaista </h2>
-        <Button color="primary" variant="contained" margin="normal" component={Link} to={"/addarticle"} fullWidth sx={{ padding: 1, margin: 2 }} >Lisää uusi</Button>
 
+        {appState.login.admin &&
+          <Button color="primary" variant="contained" margin="normal" component={Link} to={"/addarticle"} fullWidth sx={{ padding: 1, margin: 2 }} >Lisää uusi</Button>
+        }
       </Grid>
 
 

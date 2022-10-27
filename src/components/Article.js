@@ -28,29 +28,45 @@ const Article = (props) => {
   let date = new Date(props.date)
   let localDate = date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();
 
-  return (
-    <Card sx={{ minWidth: 275, maxWidth: "md", margin: "auto" }}>
-      <CardHeader
-        action={
-          <>
-            <Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"/editarticle/" + props.id} >
-              <EditIcon />
-            </Fab>
+  if (appState.login.admin) {
 
-            <Fab sx={{ bgcolor: red[500] }} aria-label="delete" size="small" onClick={() => { removeArticle(props.id) }}>
-              <DeleteIcon />
-            </Fab>
-          </>
-        }
-        title={props.header}
-        subheader={localDate} />
+    return (
+      <Card sx={{ minWidth: 275, maxWidth: "md", margin: "auto" }}>
+        <CardHeader
+          action={
+            <>
+              <Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"/editarticle/" + props.id} >
+                <EditIcon />
+              </Fab>
 
-      <CardContent>
-        <Typography variant="body2" component="pre">
-          {props.content}
-        </Typography>
-      </CardContent>
-    </Card>
-  )
+              <Fab sx={{ bgcolor: red[500] }} aria-label="delete" size="small" onClick={() => { removeArticle(props.id) }}>
+                <DeleteIcon />
+              </Fab>
+            </>
+          }
+          title={props.header}
+          subheader={localDate} />
+
+        <CardContent>
+          <Typography variant="body2" component="pre">
+            {props.content}
+          </Typography>
+        </CardContent>
+      </Card>
+    )
+  } else {
+    return (
+      <Card sx={{ minWidth: 275, maxWidth: "md", margin: "auto" }}>
+        <CardHeader
+          title={props.header}
+          subheader={localDate} />
+        <CardContent>
+          <Typography variant="body2" component="pre">
+            {props.content}
+          </Typography>
+        </CardContent>
+      </Card>
+    )
+  }
 }
 export default Article;
