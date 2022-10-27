@@ -57,8 +57,8 @@ export const addPlayer = (login, player) => {
   return async (dispatch) => {
       let request = {
           method:"POST",
-          headers: {"Content-type":"application/json", "Authorization": "Bearer " + login.token},
-          body:JSON.stringify(player)
+          headers: {"Content-type":"multipart/form-data;boundary=boundary" ,  "Authorization": "Bearer " + login.token},
+          //body:JSON.stringify(player)
       }
       console.log("REQUEST", request)
       dispatch(loading())

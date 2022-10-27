@@ -91,7 +91,7 @@ const AddPlayerForm = () => {
           //...selectedFile,
           ...state
         }
-        //console.log("Mitä syntyy " + player)
+        console.log("Mitä syntyy " + player)
         dispatch (addPlayer(login, player));
         setState({
             
@@ -109,25 +109,39 @@ const AddPlayerForm = () => {
     }
 
     return (
-      <form encType="multipart/form-data">
-      <label>File</label>
-      <input type="file" name="image" />
-      <hr />
-      <label>Player Name</label>
-      <input type="text" name="player_name" />
-      <hr />
-      <label>Player Number</label>
-      <input type="text" name="player_number" />
-      <hr />
-      <label>Position</label>
-      <input type="text" name="position" />
-      <hr />
-      <hr />
-      <label>Description</label>
-      <input type="text" name="description" />
-      <hr />
-      <button type="submit" onSubmit={onSubmit}>Lähetä!</button>
-    </form> 
+      <form onSubmit={onSubmit} encType="multipart/form-data">
+            <label htmlFor="image">image</label>
+            <input type="file"
+                            name="image"
+                            id="image"
+                            value={state.image}
+                            onChange={onChange} />
+            <label htmlFor="player_name">Player name</label>
+            <input type="text"
+                            name="player_name"
+                            id="player_name"
+                            value={state.player_name}
+                            onChange={onChange} />
+            <label htmlFor="player_number">Player number</label>
+            <input type="number"
+                            name="player_number"
+                            id="player_number"
+                            value={state.player_number}
+                            onChange={onChange} />
+            <label htmlFor="position">Position</label>
+            <input type="text"
+                            name="position"
+                            id="position"
+                            value={state.position}
+                            onChange={onChange} />
+            <label htmlFor="description">Description</label>
+             <input type="text"
+                            name="description"
+                            id="description"
+                            value={state.description}
+                            onChange={onChange} />
+            <input type="submit" value="Add"/>
+        </form>
 
     ) 
 

@@ -10,7 +10,6 @@ import AddPlayer from "./components/playerComponents/AddPlayer";
 import EditPlayer from "./components/playerComponents/EditPlayer";
 import React from "react";
 import { Container } from "@mui/material";
-import AddPlayerImage from "./components/playerComponents/AddPlayerImage";
 
 function App() {
 
@@ -21,7 +20,6 @@ function App() {
     <Route exact path="/" element={<NewsArticles />} />
     <Route path="/editarticle/:id" element={<EditArticle />} />
     <Route exact path="/players/addplayer" element={<AddPlayer />} />
-    <Route exact path="/players/addplayer/addimage" element={<AddPlayerImage />} />
     <Route exact path="/players/editplayer:id" element={<EditPlayer />} />
     <Route path="/login" element={<LoginPage />} />
     <Route path="/players" element={<Players />} />
@@ -33,7 +31,6 @@ function App() {
     tempRender = <Routes>
       <Route exact path="/" element={<NewsArticles />} />
       <Route exact path="/players/addplayer" element={<AddPlayer />} />
-      <Route exact path="/players/addplayer/addimage" element={<AddPlayerImage />} />
       <Route exact path="/players/editplayer:id" element={<EditPlayer />} />
       <Route exact path="/addarticle" element={<AddArticle />} />
       <Route path="/editarticle/:id" element={<EditArticle />} />
