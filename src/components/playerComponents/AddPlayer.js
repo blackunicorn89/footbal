@@ -16,9 +16,9 @@ const AddPlayerForm = () => {
         description:""
     })
 
-    const [selectedFile, setSelectedFile] = useState({
+    /*const [selectedFile, setSelectedFile] = useState({
         image:""
-    })
+    })*/
 
     const login = useSelector((state) =>
         state.login
@@ -28,15 +28,15 @@ const AddPlayerForm = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
 
-    const fileInput = useRef(null)
+    //const fileInput = useRef(null)
 
 
-    const handleFileInput = (event) => {
+    /*const handleFileInput = (event) => {
      
-      setState((state) => {
+      setSelectedFile((selectedFile) => {
         return {
-            ...state,
-            [event.target.name]:event.target.files[0].name
+            ...selectedFile,
+            [event.target.name]:event.target.files[0]
         }
     })
     
@@ -88,59 +88,50 @@ const AddPlayerForm = () => {
     const onSubmit = (event) => {
         event.preventDefault();
         let player = {
-          ...selectedFile,
+          //...selectedFile,
           ...state
         }
-        console.log("Mitä syntyy " + player)
+        //console.log("Mitä syntyy " + player)
         dispatch (addPlayer(login, player));
         setState({
             
-            //image:null,
+            image:"",
             player_name:"",
             player_number:0,
             position:"",
             description:""
     
         })
-        setSelectedFile({
+        /*setSelectedFile({
           image:""
-      })
+      })*/
       navigate("/players");
     }
 
     return (
-    <Grid>
-      <Paper elevation={10}>
-        <Grid align="center">
-          <h1>Lisää uusi Pelaaja</h1>
-        </Grid>
-        <form>
+      <form encType="multipart/form-data">
+      <label>File</label>
+      <input type="file" name="image" />
+      <hr />
+      <label>Player Name</label>
+      <input type="text" name="player_name" />
+      <hr />
+      <label>Player Number</label>
+      <input type="text" name="player_number" />
+      <hr />
+      <label>Position</label>
+      <input type="text" name="position" />
+      <hr />
+      <hr />
+      <label>Description</label>
+      <input type="text" name="description" />
+      <hr />
+      <button type="submit" onSubmit={onSubmit}>Lähetä!</button>
+    </form> 
 
-          <TextField type="file" label="Kuva" name="image" value={state.image} onChange={handleFileInput} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
-          <TextField type="text" label="Pelaajan nimi" name="player_name" value={state.player_name} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
-          <TextField type="number" label="Pelaajan numero" name="player_number" value={state.player_number} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
-          <TextField type="text" label="Paikka" name="position" value={state.position} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
-          <TextField type="text" label="Kuvaus" name="description" value={state.description} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
+    ) 
 
-          <Grid container>
-            <Grid item xs={4}>
-              <Box display="flex" justifyContent="flex-start">
-                <Button color="secondary" variant="contained" margin="normal" component={Link} to={"/players"} fullWidth sx={{ padding: 1, margin: 2 }} >Peruuta</Button>
-              </Box>
-            </Grid>
-            <Grid item xs={4}>
 
-            </Grid>
-            <Grid item xs={4}>
-              <Box display="flex" justifyContent="flex-end">
-                <Button type="submit" color="primary" variant="contained" margin="normal" onClick={onSubmit} fullWidth sx={{ padding: 1, margin: 2 }} >Tallenna </Button>
-              </Box>
-            </Grid>
-          </Grid>
-        </form>
-      </Paper>
-    </Grid >
-    )
 
 }
 
