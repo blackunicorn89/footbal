@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getNews } from "../actions/NewsActions";
 import Article from "./Article";
@@ -9,10 +9,9 @@ const NewsArticles = (props) => {
 
   const dispatch = useDispatch();
 
-  //USE EFFECT ajetaan ennen renderöintiä. Se  hakee dispatchilla tiedot. Esim pelaajilla dispatch(getPlayers())
   useEffect(() => {
     dispatch(getNews())
-  }, []);
+  }, []); // [dispatch] Voiko laittaa?? 
 
   const appState = useSelector((state) => state);
   console.log("NewsArticles State ", appState)
@@ -27,9 +26,7 @@ const NewsArticles = (props) => {
   })
 
   return (
-
     <React.Fragment>
-
       <Grid align="center" >
         <h2> Ajankohtaista </h2>
 
@@ -37,16 +34,10 @@ const NewsArticles = (props) => {
           <Button color="primary" variant="contained" margin="normal" component={Link} to={"/addarticle"} fullWidth sx={{ padding: 1, margin: 2 }} >Lisää uusi</Button>
         }
       </Grid>
-
-
       <Grid container spacing={2} alignItems="center" justify="center">
         {articles}
       </Grid>
-
     </React.Fragment>
-
-
   )
 }
-
 export default NewsArticles;
