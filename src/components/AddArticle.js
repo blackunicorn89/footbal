@@ -9,10 +9,10 @@ import { Box, Grid, Paper, TextField, Button } from "@mui/material"
 const validationSchema = yup.object({
   header: yup
     .string("Pakollinen kenttä.")
-    .required('Otsikko on pakollinen tieto.'),
+    .required("Pakollinen kenttä"),
   date: yup
     .date("Kirjoita hyväkysyttävä päivämäärä.")
-    .required("Päivämäärä on pakollinen tieto."),
+    .required("Pakollinen kenttä."),
   content: yup
     .string("Uutinen on pakollinen kenttä.")
     .required("Pakollinen kenttä.")
