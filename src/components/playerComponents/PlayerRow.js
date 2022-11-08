@@ -35,7 +35,7 @@ const PlayerRow = (props) => {
         <CardHeader
           action={
             <>
-              <Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"/players/editplayer" + props.id} >
+              <Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"/players/editplayer/" + props.id} >
                 <EditIcon />
               </Fab>
               <Fab sx={{ bgcolor: red[500] }} aria-label="delete" size="small" onClick={() => { removeSinglePlayer(props.id) }}>

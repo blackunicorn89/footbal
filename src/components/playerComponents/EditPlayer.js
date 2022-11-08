@@ -55,7 +55,7 @@ const EditPlayer = () => {
             </Grid>
             <form>
     
-              <TextField type="file" label="Kuva" name="image" value={state.image} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} /> 
+              {/*<TextField type="file" label="Kuva" name="image" value={state.image} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />*/} 
               <TextField type="text" label="Pelaajan nimi" name="player_name" value={state.player_name} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
               <TextField type="number" label="Pelaajan numero" name="player_number" value={state.player_number} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
               <TextField type="text" label="Paikka" name="position" value={state.position} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
