@@ -1,37 +1,42 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../actions/LoginActions"
 
-import { Grid, Paper, Avatar, TextField, Button } from "@mui/material"
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+
+import { Grid, Paper, Avatar, TextField, Button, Box } from "@mui/material"
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+
+const validationSchema = yup.object({
+  email: yup
+    .string('Enter your email')
+    .email("Kirjoita hyväksyttävä sähköpostiosoite")
+    .required('Email is required'),
+  password: yup
+    .string('Enter your password')
+    .min(8, 'Password should be of minimum 8 characters length')
+    .required('Password is required'),
+});
 
 const LoginPage = () => {
 
-
   const dispatch = useDispatch();
 
-  const [state, setState] = useState({
-    email: "",
-    password: ""
-  })
+  const loginData = useSelector((state) =>
+    state.login
+  );
 
-  const onChange = (event) => {
-    setState((state) => {
-      return {
-        ...state,
-        [event.target.name]: event.target.value
-      }
-    })
-  }
-
-  const onSubmit = (event) => {
-    event.preventDefault();
-    let user = {
-      ...state
-    }
-
-    dispatch(login(user));
-  }
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      dispatch(login(values));
+    },
+  });
 
   const paperStyle = { padding: 20, height: "70vh", width: 280, margin: "20px auto" }
   const avatarStyle = { backgroundColor: "red" }
@@ -44,11 +49,33 @@ const LoginPage = () => {
           </Avatar>
           <h2>Sign in</h2>
         </Grid>
-        <form action="/api/users/login" method="post">
-          <TextField type="email" label="Email" name="email" value={state.email} onChange={onChange} placeholder="Enter email" margin="normal" fullWidth required />
-          <TextField label="Password" name="password" value={state.password} onChange={onChange} placeholder="Enter password" margin="normal" type="password" fullWidth required />
-          <Button type="submit" color="primary" variant="contained" margin="normal" onClick={onSubmit} fullWidth>Sign in</Button>
+        <form onSubmit={formik.handleSubmit}>
+
+          <TextField
+            id="email"
+            label="Email"
+            name="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+            margin="normal"
+            fullWidth required
+          />
+
+          <TextField
+            id="password"
+            label="Password"
+            name="password" value={formik.values.password}
+            onChange={formik.handleChange}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
+            margin="normal"
+            type="password" fullWidth required
+          />
+          <Button type="submit" color="primary" variant="contained" margin="normal" fullWidth>Sign in</Button>
         </form>
+        <Box item mt={3} sx={{ textAlign: "center" }}> {loginData.error} </Box>
       </Paper>
     </Grid>
   )
