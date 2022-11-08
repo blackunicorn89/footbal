@@ -9,11 +9,18 @@ import { Box, Grid, Paper, TextField, Button } from "@mui/material"
 
 const AddPlayerForm = () => {
   const [state, setState] = useState({
-    image: "",
-    player_name: "",
-    player_number: 0,
-    position: "",
-    description: ""
+    "season_name": "2022-2023",
+			"active": true,
+			"game": "ässät-tepsi",
+			"final_result": "4-3",
+			"players": [
+				"Testi 1",
+				"Testi 2"
+			],
+			"goal_makers": [
+				"Testi 1"
+			],
+			"description": "Testi peli2",
   })
 
   /*const [selectedFile, setSelectedFile] = useState({

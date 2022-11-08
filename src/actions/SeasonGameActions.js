@@ -51,39 +51,39 @@ export const getSeasonGames = () => {
   }
 };
 
-// ADD PLAYER
+// ADD SEASON'S GAME
 
-/*export const addPlayer = (login, player) => {
+export const addSeasonGame = (login, seasonGame) => {
   return async (dispatch) => {
       let request = {
           method:"POST",
-          headers: {"Content-type":"multipart/form-data;boundary=player" ,  "Authorization": "Bearer " + login.token},
-          //body:JSON.stringify(player)
+          headers: {"Content-type":"application/json" ,  "Authorization": "Bearer " + login.token},
+          body:JSON.stringify(seasonGame)
       }
       console.log("REQUEST", request)
       dispatch(loading())
-      let response = await fetch("/api/players", request);
+      let response = await fetch("/api/seasongames", request);
       dispatch(stopLoading())
       if (!response) {
-          dispatch(addPlayerFailed("There was an error with the connection. Adding new player failed"));
+          dispatch(addSeasonGameFailed("There was an error with the connection. Adding new game to season failed"));
           return;
       }
       if (response.ok) {
-          dispatch(addPlayerSuccess());
+          dispatch(addSeasonGameSuccess());
           dispatch(getPlayers());
       }
       else {
           if (response.status === 403) {
               dispatch(clearState());
-              dispatch(addPlayerFailed("Your session has expired. Logging you out!"));
+              dispatch(addSeasonGameFailed("Your session has expired. Logging you out!"));
           }
           else {
-              dispatch(addPlayerFailed("Adding new item failed. Server responded with a status " + response.status + " " + response.statusText));
+              dispatch(addSeasonGameFailed("Adding new game to season failed. Server responded with a status " + response.status + " " + response.statusText));
           }
       }
 
   }
-}*/
+}
 
 // REMOVE SEASON'S GAME
 
@@ -170,7 +170,7 @@ const fetchSeasonGameFailed = (error) => {
   }
 }
 
-/*const addSeasonGameSuccess = () => {
+const addSeasonGameSuccess = () => {
   return {
       type:ADD_SEASON_GAME_SUCCESS
   }
@@ -182,7 +182,6 @@ const addSeasonGameFailed = (error) => {
       error:error
   }
 }
-*/
 const removeSeasonGameSuccess = () => {
   return {
       type:REMOVE_SEASON_GAME_SUCCESS
