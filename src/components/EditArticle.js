@@ -1,8 +1,22 @@
 import { useState } from "react"
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
+import { useFormik } from "formik";
+import * as yup from "yup";
 import { editNews } from "../actions/NewsActions";
 import { Box, Grid, Paper, TextField, Button } from "@mui/material"
+
+const validationSchema = yup.object({
+  header: yup
+    .string("Pakollinen kenttä.")
+    .required('Pakollinen kenttä'),
+  date: yup
+    .string()
+    .required("Pakollinen kenttä."),
+  content: yup
+    .string("Uutinen on pakollinen kenttä.")
+    .required("Pakollinen kenttä.")
+});
 
 const EditArticle = () => {
 
@@ -35,30 +49,20 @@ const EditArticle = () => {
 
   // END MUI TEXTFIELD DEFAULT DATE
 
-  const [state, setState] = useState({
-    header: article.header,
-    content: article.content,
-    date: materialDateInput
-  })
-
-  const onChange = (event) => {
-    setState((state) => {
-      return {
-        ...state,
-        [event.target.name]: event.target.value
-      }
-    })
-  }
-
-  const onSubmit = (event) => {
-    event.preventDefault();
-    let article = {
-      ...state,
-      id: id.id
-    }
-    dispatch(editNews(login, article));
-    navigate("/");
-  };
+  const formik = useFormik({
+    initialValues: {
+      id: id.id,
+      header: article.header,
+      date: materialDateInput,
+      content: article.content,
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log(values)
+      dispatch(editNews(login, values));
+      navigate("/");
+    },
+  });
 
   return (
     <Grid>
@@ -66,11 +70,45 @@ const EditArticle = () => {
         <Grid align="center">
           <h2>Muokkaa</h2>
         </Grid>
-        <form action="/api/news" method="put">
+        <form onSubmit={formik.handleSubmit}>
 
-          <TextField type="text" label="Otsikko" name="header" value={state.header} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
-          <TextField type="date" label="Päivämäärä" name="date" value={state.date} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
-          <TextField type="text" multiline label="uutinen" name="content" value={state.content} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
+          <TextField
+            type="text"
+            label="Otsikko"
+            name="header"
+            value={formik.values.header}
+            onChange={formik.handleChange}
+            error={formik.touched.header && Boolean(formik.errors.header)}
+            helperText={formik.touched.header && formik.errors.header}
+            margin="normal"
+            fullWidth
+            InputLabelProps={{ shrink: true }}
+          />
+          <TextField
+            type="date"
+            label="Päivämäärä"
+            name="date"
+            value={formik.values.date}
+            onChange={formik.handleChange}
+            error={formik.touched.date && Boolean(formik.errors.date)}
+            helperText={formik.touched.date && formik.errors.date}
+            margin="normal"
+            fullWidth
+            InputLabelProps={{ shrink: true }}
+          />
+          <TextField
+            type="text"
+            multiline
+            label="Uutinen"
+            name="content"
+            value={formik.values.content}
+            onChange={formik.handleChange}
+            error={formik.touched.content && Boolean(formik.errors.content)}
+            helperText={formik.touched.content && formik.errors.content}
+            margin="normal"
+            fullWidth
+            InputLabelProps={{ shrink: true }}
+          />
 
           <Grid container>
             <Grid item xs={4}>
@@ -82,7 +120,7 @@ const EditArticle = () => {
             </Grid>
             <Grid item xs={4}>
               <Box display="flex" justifyContent="flex-end">
-                <Button type="submit" color="primary" variant="contained" margin="normal" onClick={onSubmit} fullWidth sx={{ padding: 1, margin: 2 }} >Tallenna </Button>
+                <Button type="submit" color="primary" variant="contained" margin="normal" fullWidth sx={{ padding: 1, margin: 2 }} >Tallenna </Button>
               </Box>
             </Grid>
           </Grid>
