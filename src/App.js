@@ -20,7 +20,7 @@ function App() {
     <Route exact path="/" element={<NewsArticles />} />
     <Route path="/editarticle/:id" element={<EditArticle />} />
     <Route exact path="/players/addplayer" element={<AddPlayer />} />
-    <Route exact path="/players/editplayer:id" element={<EditPlayer />} />
+    <Route exact path="/players/editplayer/:id" element={<EditPlayer />} />
     <Route path="/login" element={<LoginPage />} />
     <Route path="/players" element={<Players />} />
     <Route path="*" element={<Navigate to="/" />} />
@@ -31,7 +31,7 @@ function App() {
     tempRender = <Routes>
       <Route exact path="/" element={<NewsArticles />} />
       <Route exact path="/players/addplayer" element={<AddPlayer />} />
-      <Route exact path="/players/editplayer:id" element={<EditPlayer />} />
+      <Route exact path="/players/editplayer/:id" element={<EditPlayer />} />
       <Route exact path="/addarticle" element={<AddArticle />} />
       <Route path="/editarticle/:id" element={<EditArticle />} />
       <Route path="/players" element={<Players />} />

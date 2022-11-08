@@ -23,13 +23,10 @@ const EditPlayer = () => {
         player_name:player.player_name,
         player_number: player.player_number,
         position: player.position,
-		description: player.description
+		    description: player.description
       })
       
-      const playerNumber = player.player_number
-
-      console.log("Pelaajan numero : " + playerNumber)
-
+     
       const onChange = (event) => {
         setState((state) => {
           return {
@@ -42,10 +39,6 @@ const EditPlayer = () => {
 
       const onSubmit = (event) => {
         event.preventDefault();
-        if(player.player_number === state.player_number) {
-            console.log("Toisella pelaajalla on jo sama pelinumero");
-            return;
-        }  
         let player = {
           ...state,
           id: id.id
@@ -62,7 +55,7 @@ const EditPlayer = () => {
             </Grid>
             <form>
     
-              <TextField type="file" label="Kuva" name="image" value={state.image} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
+              <TextField type="file" label="Kuva" name="image" value={state.image} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} /> 
               <TextField type="text" label="Pelaajan nimi" name="player_name" value={state.player_name} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
               <TextField type="number" label="Pelaajan numero" name="player_number" value={state.player_number} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
               <TextField type="text" label="Paikka" name="position" value={state.position} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
