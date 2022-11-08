@@ -83,11 +83,11 @@ export const getSeasonGames = () => {
       }
 
   }
-}
+}*/
 
-// REMOVE PLAYER
+// REMOVE SEASON'S GAME
 
-export const removePlayer = (token, id) => {
+export const removeSeasonGame = (token, id) => {
   return async (dispatch) => {
     let request = {
       method: "DELETE",
@@ -97,27 +97,28 @@ export const removePlayer = (token, id) => {
       }
     }
     dispatch(loading());
-    let response = await fetch("/api/players/" + id, request);
+    let response = await fetch("/api/seasongames/" + id, request);
     dispatch(stopLoading());
     if (!response) {
-      dispatch(removePlayerFailed("There was an error with the connection. Removing player failed."))
+      dispatch(removeSeasonGameFailed("There was an error with the connection. Removing season's game failed."))
       return;
     }
     if (response.ok) {
-      dispatch(removePlayerSuccess());
-      dispatch(getPlayers())
+      dispatch(removeSeasonGameSuccess());
+      dispatch(getSeasonGames())
     } else {
       if (response.status === 403) {
         dispatch(clearState());
-        dispatch(removePlayerFailed("Your session has expired. Logging you out!"));
+        dispatch(removeSeasonGameFailed("Your session has expired. Logging you out!"));
       } else {
-        dispatch(removePlayerFailed("Removing player failed. Server responded with a status " + response.status + " " + response.statusText))
+        dispatch(removeSeasonGameFailed("Removing season's game failed. Server responded with a status " + response.status + " " + response.statusText))
       }
     }
   };
 };
 
 //EDIT PLAYER
+/*
 export const editPlayer = (login, player) => {
   return async (dispatch) => {
     let request = {
@@ -149,7 +150,7 @@ export const editPlayer = (login, player) => {
       }
     }
   };
-};*/
+}; */
 
 
 //Action Creators
@@ -181,7 +182,7 @@ const addSeasonGameFailed = (error) => {
       error:error
   }
 }
-
+*/
 const removeSeasonGameSuccess = () => {
   return {
       type:REMOVE_SEASON_GAME_SUCCESS
@@ -195,6 +196,7 @@ const removeSeasonGameFailed = (error) => {
   }
 }
 
+/*
 const editSeasonGameSuccess = () => {
   return {
       type:EDIT_SEASON_GAME_SUCCESS
