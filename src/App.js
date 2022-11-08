@@ -8,6 +8,7 @@ import EditArticle from "./components/EditArticle";
 import Players from "./components/playerComponents/Players";
 import AddPlayer from "./components/playerComponents/AddPlayer";
 import EditPlayer from "./components/playerComponents/EditPlayer";
+import SeasonGames from "./components/seasonGameComponents/SeasonGames";
 import React from "react";
 import { Container } from "@mui/material";
 
@@ -20,6 +21,7 @@ function App() {
     <Route path="/editarticle/:id" element={<EditArticle />} />
     <Route path="/login" element={<LoginPage />} />
     <Route path="/players" element={<Players />} />
+    <Route path="/seasongames" element={<SeasonGames />} />
     <Route path="*" element={<Navigate to="/" />} />
 
   </Routes>
@@ -32,6 +34,7 @@ function App() {
       <Route exact path="/addarticle" element={<AddArticle />} />
       <Route path="/editarticle/:id" element={<EditArticle />} />
       <Route path="/players" element={<Players />} />
+      <Route path="/seasongames" element={<SeasonGames />} />
       <Route path="*" element={<Navigate to="/" />} />
 
     </Routes>

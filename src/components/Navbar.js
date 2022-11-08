@@ -47,6 +47,7 @@ const Navbar = (props) => {
                 <Tabs indicatorColor="secondary" textColor="inherit" value={value} onChange={(e, val) => setValue(val)}>
                   <Tab label="Ajankohtaista" component={Link} to={"/news"} />
                   <Tab label="Pelaajat" component={Link} to={"/players"} />
+                  <Tab label="Kauden pelit" component={Link} to={"/seasongames"} />
                 </Tabs>
               </Grid>
             </Grid>
