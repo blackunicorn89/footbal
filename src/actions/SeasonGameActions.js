@@ -70,7 +70,7 @@ export const addSeasonGame = (login, seasonGame) => {
       }
       if (response.ok) {
           dispatch(addSeasonGameSuccess());
-          dispatch(getPlayers());
+          dispatch(getSeasonGames());
       }
       else {
           if (response.status === 403) {

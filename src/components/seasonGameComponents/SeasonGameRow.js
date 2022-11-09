@@ -51,7 +51,7 @@ const SeasonGameRow = (props) => {
           </Fab>
             </>
           }
-          title={props.season}
+          title={props.season} 
         />
         <CardContent>
           <Typography variant="h4" component="pre">
