@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addSeasonGame } from '../../actions/SeasonGameActions';
 import { Link, useNavigate } from "react-router-dom";
-import { Box, Grid, Paper, TextField, Button } from "@mui/material"
+import { Box, Grid, Paper, TextField, Button, getCircularProgressUtilityClass } from "@mui/material"
 import SeasonGamePlayerRow from './SeasonGamePlayerRow';
 import SeasonGameGoalMakerRow from './SeasonGameGoalMakerRow';
 
@@ -14,12 +14,54 @@ const AddPSeasonGameForm = () => {
 		"active": "",
 		"game": "",
 		"final_result": "",
-		"players": [],
-		"goal_makers": [],
-		"description": "",
+		"description": ""
   })
 
-  const login = useSelector((state) =>
+  const [playerState, setPlayerState] = useState({
+
+    "players": []
+
+  });
+
+  const [goalMakerState, setGoalMakerState] = useState({
+
+    "goal_makers": []
+
+  });
+
+  const onPlayerChange = (e) => {
+
+    let updatedList =goalMakerState.goal_makers;
+      if (e.target.checked) {
+        playerState.players.push(e.target.value);
+      } else {
+        playerState.players.splice(playerState.players.indexOf(e.target.value), 1);
+      }
+  
+      setPlayerState((playerState) => {
+        return {
+          ...playerState,
+        }
+      })
+  }
+
+    const onGoalMakerChange = (e) => {
+
+      let updatedList =goalMakerState.goal_makers;
+      if (e.target.checked) {
+        goalMakerState.goal_makers.push(e.target.value);
+      } else {
+        goalMakerState.goal_makers.splice(goalMakerState.goal_makers.indexOf(e.target.value), 1);
+      }
+  
+      setGoalMakerState((goalMakerState) => {
+        return {
+          ...goalMakerState,
+        }
+      })
+    }
+   
+    const login = useSelector((state) =>
     state.login
   );
   
@@ -28,7 +70,7 @@ const AddPSeasonGameForm = () => {
 
   const appState = useSelector((state) => state);
 
-  /*const onChange = (event) => {
+  const onChange = (event) => {
   
     setState((state) => {
       return {
@@ -37,55 +79,50 @@ const AddPSeasonGameForm = () => {
       }
     })
 
-  }*/
-
-  const onChange = (event) => {
-
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-  
-    setState((state) => {
-      return {
-        ...state,
-        [name]: value
-      }
-    })
-
   }
 
-    const onSubmit = (event) => {
-        event.preventDefault();
-        let seasonGame = {
-          ...state
-        }
-        console.log(seasonGame)
-       // dispatch (addSeasonGame(login, seasonGame));
-        setState({
-            
-          "season_name": "",
-          "active": "",
-          "game": " ",
-          "final_result": "",
-          "players": [],
-          "goal_makers": [],
-          "description": "",
-    
-        })
-      navigate("/seasongames");
+  const onSubmit = (event) => {
+    event.preventDefault();
+    let seasonGame = {
+      ...state,
+      ...playerState,
+      ...goalMakerState
     }
+    console.log(state.season_name)
+    console.log( seasonGame)
+    dispatch (addSeasonGame(login, seasonGame));
+    setState({
+        
+      "season_name": "",
+      "active": "",
+      "game": " ",
+      "final_result": "",
+      "description": "",
+
+    })
+    
+    setGoalMakerState({
+      "goal_makers": []
+    })
+
+    setPlayerState({
+      "players": []
+    })
+    
+  navigate("/seasongames");
+}
 
   let gamePlayers = appState.player.players.players.map((player) => {
 
   return (
-     <SeasonGamePlayerRow key={player.id} onChange={onChange} players={player.player_name} />
+     <SeasonGamePlayerRow key={player.id} onChange={onPlayerChange} players={player.player_name} />
   )
 })
 
 let gameGoalMakers = appState.player.players.players.map((goalMaker) => {
 
   return (
-     <SeasonGameGoalMakerRow key={goalMaker.id} onChange={onChange} goalMakers={goalMaker.player_name} />
+     <SeasonGameGoalMakerRow key={goalMaker.id} onChange={onGoalMakerChange} goalMakers={goalMaker.player_name} />
   )
 })
 
@@ -108,6 +145,14 @@ let gameGoalMakers = appState.player.players.players.map((goalMaker) => {
                 <input type="radio" id="active" name="active" value="false" onChange={onChange} />
                 <label htmlFor="html">Ei</label>
                 <hr />  
+              <label htmlFor="final_result">Peli</label>
+              <input type="text"
+                    name="game"
+                    id="game"
+                    value={state.value}
+                    onChange={onChange} />
+                    <br />
+                    <hr />              
               <label htmlFor="final_result">Tulos:</label>
               <input type="text"
                     name="final_result"
@@ -117,17 +162,9 @@ let gameGoalMakers = appState.player.players.players.map((goalMaker) => {
                     <br />
                     <hr />            
               <p>Pelaajat:</p>
-              <input type="checkbox" id="vehicle1" name="players" value="Bike" onChange={onChange} />
-              <label htmlFor="vehicle1"> I have a bike</label><br />
-              <input type="checkbox" id="vehicle2" name="players" value="Car" onChange={onChange} />
-              <label htmlFor="vehicle2"> I have a car</label><br />
-              <input type="checkbox" id="vehicle3" name="players" value="Boat" />
-              <label htmlFor="vehicle3"> I have a boat</label><br />     
-              <br />
-              <hr />
+              {gamePlayers}
               <p>Maalintekijät</p>
-              <br />
-              <hr />
+              {gameGoalMakers}
               <p><label htmlFor="description">Lisätietoa</label></p>
               <textarea rows="4" cols="50"
                     name="description"

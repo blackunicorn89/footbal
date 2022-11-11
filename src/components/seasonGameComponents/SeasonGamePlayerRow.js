@@ -20,6 +20,8 @@ const SeasonGamePlayerRow = (props) => {
 
   const dispatch = useDispatch();
   const appState = useSelector((state) => state);
+
+  
   
   return (
     <><input type="checkbox"
