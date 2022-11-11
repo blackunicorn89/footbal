@@ -130,51 +130,61 @@ let gameGoalMakers = appState.player.players.players.map((goalMaker) => {
  
 
     return (
-      <form onSubmit={onSubmit}>
-              <label htmlFor="season_name">Kausi:</label>
-              <input type="text"
-                    name="season_name"
-                    id="season_name"
-                    value={state.value}
-                    onChange={onChange} />
-                    <br />
-                    <hr />
-              <p>Aktiivinen kausi</p>
-                <input type="radio" id="active" name="active" value="true" onChange={onChange} />
-                <label htmlFor="html">Kyllä</label>
-                <input type="radio" id="active" name="active" value="false" onChange={onChange} />
-                <label htmlFor="html">Ei</label>
-                <hr />  
-              <label htmlFor="final_result">Peli</label>
-              <input type="text"
-                    name="game"
-                    id="game"
-                    value={state.value}
-                    onChange={onChange} />
-                    <br />
-                    <hr />              
-              <label htmlFor="final_result">Tulos:</label>
-              <input type="text"
-                    name="final_result"
-                    id="final_result"
-                    value={state.value}
-                    onChange={onChange} />
-                    <br />
-                    <hr />            
-              <p>Pelaajat:</p>
-              {gamePlayers}
-              <p>Maalintekijät</p>
-              {gameGoalMakers}
-              <p><label htmlFor="description">Lisätietoa</label></p>
-              <textarea rows="4" cols="50"
-                    name="description"
-                    id="description"
-                    value={state.value}
-                    onChange={onChange} />
-                    <br />
-                    <hr />            
-            <input type="submit" value="Add"/>
-        </form>
+      <Grid>
+        <Paper elevation={10}>
+            <Grid align="center">
+              <h1>Lisää uusi kausi</h1>
+            </Grid> 
+            <TextField type="text" label="Kausi" name="season_name" value={state.value} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} /> 
+            <form>
+                  {/*<label htmlFor="season_name">Kausi:</label>
+                  <input type="text"
+                        name="season_name"
+                        id="season_name"
+                        value={state.value}
+                        onChange={onChange} />
+                        <br />
+                        <hr /> */}
+                  <p>Aktiivinen kausi</p>
+                    <input type="radio" id="active" name="active" value="true" onChange={onChange} />
+                      <label htmlFor="html">Kyllä</label>
+                    <input type="radio" id="active" name="active" value="false" onChange={onChange} />
+                      <label htmlFor="html">Ei</label>
+                    <hr />  
+            <TextField type="text" label="Peli" name="game" value={state.value} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />   
+                  {/*<label htmlFor="final_result">Peli</label>
+                  <input type="text"
+                        name="game"
+                        id="game"
+                        value={state.value}
+                        onChange={onChange} />
+                        <br />
+                      <hr /> / */}
+            <TextField type="text" label="Tulos" name="final_result" value={state.value} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />              
+                  {/*<label htmlFor="final_result">Tulos:</label>
+                  <input type="text"
+                        name="final_result"
+                        id="final_result"
+                        value={state.value}
+                        onChange={onChange} />
+                        <br />
+                    <hr />  */}          
+                  <p>Pelaajat:</p>
+                  {gamePlayers}
+                  <p>Maalintekijät</p>
+                  {gameGoalMakers}
+                  <p><label htmlFor="description">Lisätietoa</label></p>
+                  <textarea rows="4" cols="50"
+                        name="description"
+                        id="description"
+                        value={state.value}
+                        onChange={onChange} />
+                        <br />
+                        <hr />            
+                <input type="submit" value="Add"/>
+            </form>
+          </Paper>
+        </Grid>
   )
 }
 
