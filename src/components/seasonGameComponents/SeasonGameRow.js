@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from 'react-redux';
+import DeleteConfirmation from "./DeleteConfirmation";
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -46,9 +47,7 @@ const SeasonGameRow = (props) => {
               {/*<Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"/seasongames/editSeasonGame/" + props.id} >
                 <EditIcon />
           </Fab>*/}
-              <Fab sx={{ bgcolor: red[500] }} aria-label="delete" size="small" onClick={() => { removeSingleSeasonGame(props.id) }}>
-                <DeleteIcon />
-          </Fab>
+              <DeleteConfirmation id={props.id} game={props.game} token={appState.login.token} />
             </>
           }
           title={props.season} 
@@ -61,19 +60,19 @@ const SeasonGameRow = (props) => {
             {props.finalresult}
           </Typography>
           <Typography variant="h5" component="pre" sx={{ marginTop: 3 }} >
-            Pelaajat:        
+            Pelaajat:
           </Typography>
           <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
-            {props.players}        
+            {props.players}
           </Typography>
           <Typography variant="h5" component="pre" sx={{ marginTop: 3 }} >
-            Maalintekijät:        
+            Maalintekijät:
           </Typography>
           <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
-            {props.goalmakers}        
+            {props.goalmakers}
           </Typography>
           <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
-           Lisätietoa pelistä: {props.description}        
+            Lisätietoa pelistä: {props.description}
           </Typography>
         </CardContent>
       </Card>
@@ -86,7 +85,7 @@ const SeasonGameRow = (props) => {
         />
         <CardContent>
           <Typography variant="h4" component="pre">
-              
+
           </Typography>
           <Typography variant="body1" component="pre">
             {props.finalresult}

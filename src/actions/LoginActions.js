@@ -31,7 +31,7 @@ export const login = (user) => {
       dispatch(loginSuccess(data));
       dispatch(getNews());
     } else {
-      dispatch(loginFailed("Login failed. Server responded with a status " + response.status + " " + response.statusText));
+      dispatch(loginFailed("Virheellinen sähköposti tai salasana"));
     }
   }
 }
