@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addSeasonGame } from '../../actions/SeasonGameActions';
 import { Link, useNavigate } from "react-router-dom";
-import { Box, Grid, Paper, TextField, Button, getCircularProgressUtilityClass } from "@mui/material"
+import {Radio, RadioGroup, FormLabel, FormControlLabel, Box, Grid, Paper, TextField, Button, getCircularProgressUtilityClass } from "@mui/material"
 import SeasonGamePlayerRow from './SeasonGamePlayerRow';
 import SeasonGameGoalMakerRow from './SeasonGameGoalMakerRow';
 
@@ -135,8 +135,8 @@ let gameGoalMakers = appState.player.players.players.map((goalMaker) => {
             <Grid align="center">
               <h1>Lisää uusi kausi</h1>
             </Grid> 
-            <TextField type="text" label="Kausi" name="season_name" value={state.value} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} /> 
             <form>
+            <TextField type="text" label="Kausi" name="season_name" value={state.value} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} /> 
                   {/*<label htmlFor="season_name">Kausi:</label>
                   <input type="text"
                         name="season_name"
@@ -145,12 +145,23 @@ let gameGoalMakers = appState.player.players.players.map((goalMaker) => {
                         onChange={onChange} />
                         <br />
                         <hr /> */}
-                  <p>Aktiivinen kausi</p>
+                  <FormLabel id="active_form">Aktiivinen kausi:</FormLabel>
+                  <RadioGroup
+                    row
+                    aria-labelledby="active_form"
+                    defaultValue="true"
+                    name="radio-buttons-group"
+                    onChange={onChange}
+                    >
+                  <FormControlLabel name="active" value="true"  control={<Radio size="small" />} label="Kyllä" />
+                  <FormControlLabel name="active" value="false" control={<Radio size="small" />} label="Ei" />
+              </RadioGroup>
+                  {/*<p>Aktiivinen kausi</p>
                     <input type="radio" id="active" name="active" value="true" onChange={onChange} />
                       <label htmlFor="html">Kyllä</label>
                     <input type="radio" id="active" name="active" value="false" onChange={onChange} />
                       <label htmlFor="html">Ei</label>
-                    <hr />  
+                      <hr />*/}  
             <TextField type="text" label="Peli" name="game" value={state.value} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />   
                   {/*<label htmlFor="final_result">Peli</label>
                   <input type="text"
@@ -173,15 +184,30 @@ let gameGoalMakers = appState.player.players.players.map((goalMaker) => {
                   {gamePlayers}
                   <p>Maalintekijät</p>
                   {gameGoalMakers}
-                  <p><label htmlFor="description">Lisätietoa</label></p>
+                  <TextField type="text" label="Lisätietoa" name="final_result" value={state.value} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
+                  {/*<p><label htmlFor="description">Lisätietoa</label></p>
                   <textarea rows="4" cols="50"
                         name="description"
                         id="description"
                         value={state.value}
                         onChange={onChange} />
                         <br />
-                        <hr />            
-                <input type="submit" value="Add"/>
+                  <hr />*/}            
+             <Grid container>
+                <Grid item xs={4}>
+                  <Box display="flex" justifyContent="flex-start">
+                    <Button color="secondary" variant="contained" margin="normal" component={Link} to={"/seasongames"} fullWidth sx={{ padding: 1, margin: 2 }} >Peruuta</Button>
+                  </Box>
+                </Grid>
+                <Grid item xs={4}>
+    
+                </Grid>
+                <Grid item xs={4}>
+                  <Box display="flex" justifyContent="flex-end">
+                    <Button type="submit" color="primary" variant="contained" margin="normal" onClick={onSubmit} fullWidth sx={{ padding: 1, margin: 2 }} >Tallenna </Button>
+                  </Box>
+                </Grid>
+              </Grid>    
             </form>
           </Paper>
         </Grid>
