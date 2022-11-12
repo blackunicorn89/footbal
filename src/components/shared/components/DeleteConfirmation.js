@@ -1,6 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { removeNews } from "../actions/NewsActions";
+import { removeNews } from "../../../actions/NewsActions";
+import { removePlayer } from '../../../actions/PlayerActions';
+import { removeSeasonGame } from '../../../actions/SeasonGameActions';
 
 // MATERIAL UI
 import {
@@ -29,9 +31,26 @@ const DeleteConfirmation = (props) => {
     setOpen(false);
   };
 
-  const removeArticle = () => {
-    dispatch(removeNews(props.token, props.id))
-    handleClose()
+  const remove = (removeType) => {
+    if (removeType === "article") {
+      dispatch(removeNews(props.token, props.id))
+      handleClose()
+    }
+
+    if (removeType === "player") {
+      dispatch(removePlayer(props.token, props.id))
+      handleClose()
+    }
+
+
+    if (removeType === "game") {
+      dispatch(removeSeasonGame(props.token, props.id))
+      handleClose()
+    }
+
+    else {
+      return;
+    }
   };
 
   return (
@@ -47,7 +66,7 @@ const DeleteConfirmation = (props) => {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {"Haluatko varmasti poistaa seuraavan uutisen?"}
+            {props.title}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
@@ -57,7 +76,7 @@ const DeleteConfirmation = (props) => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Peruuta</Button>
-            <Button color="error" onClick={removeArticle} autoFocus>
+            <Button color="error" onClick={() => remove(props.removeType)} autoFocus>
               Poista
             </Button>
           </DialogActions>

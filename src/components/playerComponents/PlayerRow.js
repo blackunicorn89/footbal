@@ -14,16 +14,19 @@ import EditIcon from '@mui/icons-material/Edit';
 import CardContent from '@mui/material/CardContent';
 import Typography from "@mui/material/Typography";
 import { removePlayer } from "../../actions/PlayerActions";
+import DeleteConfirmation from "../shared/components/DeleteConfirmation";
 
 
 const PlayerRow = (props) => {
 
   const dispatch = useDispatch();
   const appState = useSelector((state) => state);
-  const removeSinglePlayer = (id) => {
-    dispatch(removePlayer(appState.login.token, id))
 
-  };
+
+  //ALLA OLEVA SIIRRETTY SHARED/COMPONENTS/DELETECONFIRMATION.JS:SSÄÄÄN VOI EHKÄ POISTAA???
+  // const removeSinglePlayer = (id) => {
+  //   dispatch(removePlayer(appState.login.token, id))
+  // };
 
   let img = "http:\\\\localhost:3000\\" + props.image
 
@@ -38,9 +41,7 @@ const PlayerRow = (props) => {
               <Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"/players/editplayer/" + props.id} >
                 <EditIcon />
               </Fab>
-              <Fab sx={{ bgcolor: red[500] }} aria-label="delete" size="small" onClick={() => { removeSinglePlayer(props.id) }}>
-                <DeleteIcon />
-              </Fab>
+              <DeleteConfirmation removeType="player" id={props.id} header={props.player_name} title="Haluatko varmasti poistaa seuraavan pelaajan?" token={appState.login.token} />
             </>
           }
           title={props.player_name}

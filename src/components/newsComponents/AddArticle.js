@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { addNews } from "../actions/NewsActions";
+import { addNews } from "../../actions/NewsActions";
 import { Box, Grid, Paper, TextField, Button } from "@mui/material"
 
 const validationSchema = yup.object({

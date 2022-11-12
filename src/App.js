@@ -1,10 +1,10 @@
 import { Routes, Route, Navigate } from "react-router-dom"
 import { useSelector } from 'react-redux';
-import Navbar from "./components/Navbar";
-import LoginPage from "./components/LoginPage"
-import NewsArticles from "./components/NewsArticles";
-import AddArticle from "./components/AddArticle";
-import EditArticle from "./components/EditArticle";
+import Navbar from "./components/shared/components/Navbar";
+import LoginPage from "./components/shared/components/LoginPage"
+import NewsArticles from "./components/newsComponents/NewsArticles";
+import AddArticle from "./components/newsComponents/AddArticle";
+import EditArticle from "./components/newsComponents/EditArticle";
 import Players from "./components/playerComponents/Players";
 import AddPlayer from "./components/playerComponents/AddPlayer";
 import EditPlayer from "./components/playerComponents/EditPlayer";

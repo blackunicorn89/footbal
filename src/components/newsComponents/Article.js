@@ -10,7 +10,7 @@ import { green } from '@mui/material/colors';
 import EditIcon from '@mui/icons-material/Edit';
 import CardContent from '@mui/material/CardContent';
 import Typography from "@mui/material/Typography";
-import DeleteConfirmation from "./DeleteConfirmation";
+import DeleteConfirmation from "../shared/components/DeleteConfirmation";
 
 const Article = (props) => {
 
@@ -27,7 +27,7 @@ const Article = (props) => {
               <Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"/editarticle/" + props.id} >
                 <EditIcon />
               </Fab>
-              <DeleteConfirmation id={props.id} header={props.header} token={appState.login.token} />
+              <DeleteConfirmation removeType="article" id={props.id} header={props.header} title="Haluatko varmasti poistaa seuraavan uutisen?" token={appState.login.token} />
             </>
           }
           title={props.header}

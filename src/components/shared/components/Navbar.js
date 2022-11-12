@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
-import { login, logout } from "../actions/LoginActions"
+import { login, logout } from "../../../actions/LoginActions"
 
 // MUI IMPORTS
 import DrawerComp from "./DrawerComp";

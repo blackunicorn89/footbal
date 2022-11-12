@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../actions/LoginActions"
+import { login } from "../../../actions/LoginActions";
 
 import { useFormik } from 'formik';
 import * as yup from 'yup';

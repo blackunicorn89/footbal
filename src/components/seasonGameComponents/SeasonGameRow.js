@@ -1,6 +1,5 @@
 import React from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import DeleteConfirmation from "./DeleteConfirmation";
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -15,16 +14,20 @@ import EditIcon from '@mui/icons-material/Edit';
 import CardContent from '@mui/material/CardContent';
 import Typography from "@mui/material/Typography";
 import { removeSeasonGame } from "../../actions/SeasonGameActions";
+import DeleteConfirmation from "../shared/components/DeleteConfirmation";
 
 
 const SeasonGameRow = (props) => {
 
   const dispatch = useDispatch();
   const appState = useSelector((state) => state);
-  const removeSingleSeasonGame = (id) => {
-    dispatch(removeSeasonGame(appState.login.token, id))
 
-  };
+
+  //ALLA OLEVA SIIRRETTY SHARED/COMPONENTS/DELETECONFIRMATION.JS:SSÄÄÄN VOI EHKÄ POISTAA???
+  // const removeSingleSeasonGame = (id) => {
+  //   dispatch(removeSeasonGame(appState.login.token, id))
+
+  // };
 
   const seasonGames = [props.seasonGames]
   /*let playerList;
@@ -47,10 +50,10 @@ const SeasonGameRow = (props) => {
               {/*<Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"/seasongames/editSeasonGame/" + props.id} >
                 <EditIcon />
           </Fab>*/}
-              <DeleteConfirmation id={props.id} game={props.game} token={appState.login.token} />
+              <DeleteConfirmation removeType="game" id={props.id} header={props.game} title="Haluatko varmasti poistaa seuraavan tuloksen?" token={appState.login.token} />
             </>
           }
-          title={props.season} 
+          title={props.season}
         />
         <CardContent>
           <Typography variant="h4" component="pre">

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getNews } from "../actions/NewsActions";
+import { getNews } from "../../actions/NewsActions";
 import Article from "./Article";
 import { Grid, Button } from "@mui/material"
 
