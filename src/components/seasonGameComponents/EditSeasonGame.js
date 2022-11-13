@@ -1,16 +1,17 @@
 import { useState } from "react"
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { editPlayer } from "../../actions/PlayerActions"; 
+import { editSeasonGame } from "../../actions/SeasonGameActions";
 import { Box, Grid, Paper, TextField, Button } from "@mui/material"
 
-const EditPlayer = () => {
+const EditSeasonGame = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const id = useParams()
   
-    const player = useSelector((state) =>
-      state.player.players.players.find((player => player.id === id.id))
+    const seasonGame = useSelector((state) =>
+      //state.player.players.players.find((player => player.id === id.id))
+      state.seasonGame.seasonGames.seasonGames.find(seasonGame => seasonGame.id === id.id)
     );
 
     
@@ -19,11 +20,12 @@ const EditPlayer = () => {
     );
 
     const [state, setState] = useState({
-        image: player.image,
-        player_name:player.player_name,
-        player_number: player.player_number,
-        position: player.position,
-		    description: player.description
+        
+      season_name: seasonGame.season_name,
+      active: seasonGame.active,
+      game: seasonGame.game,
+      final_result:seasonGame.final_result,
+      description:seasonGame.description 
       })
       
      
@@ -39,32 +41,32 @@ const EditPlayer = () => {
 
       const onSubmit = (event) => {
         event.preventDefault();
-        let player = {
+        let seasonGame = {
           ...state,
           id: id.id
         }
-        dispatch(editPlayer(login, player));
-        navigate("/players");
+        dispatch(editSeasonGame(login, seasonGame));
+        navigate("/seasongames");
       };
 
       return (
         <Grid>
           <Paper elevation={10}>
             <Grid align="center">
-              <h1>Muokkaa Pelaajaa</h1>
+              <h1>Muokkaa kauden tietoja</h1>
             </Grid>
             <form>
     
               {/*<TextField type="file" label="Kuva" name="image" value={state.image} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />*/} 
-              <TextField type="text" label="Pelaajan nimi" name="player_name" value={state.player_name} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
-              <TextField type="number" label="Pelaajan numero" name="player_number" value={state.player_number} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
-              <TextField type="text" label="Paikka" name="position" value={state.position} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
-              <TextField type="text" label="Kuvaus" name="description" value={state.description} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
+              <TextField type="text" label="Kausi" name="season_name" value={state.value} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
+              <TextField type="text" label="Peli" name="game" value={state.value} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} /> 
+              <TextField type="text" label="Tulos" name="final_result" value={state.value} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} /> 
+              {/*<TextField type="text" label="Kuvaus" name="description" value={state.description} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />*/}
     
               <Grid container>
                 <Grid item xs={4}>
                   <Box display="flex" justifyContent="flex-start">
-                    <Button color="secondary" variant="contained" margin="normal" component={Link} to={"/players"} fullWidth sx={{ padding: 1, margin: 2 }} >Peruuta</Button>
+                    <Button color="secondary" variant="contained" margin="normal" component={Link} to={"/seasongames"} fullWidth sx={{ padding: 1, margin: 2 }} >Peruuta</Button>
                   </Box>
                 </Grid>
                 <Grid item xs={4}>
@@ -83,4 +85,4 @@ const EditPlayer = () => {
     
 }
 
-export default EditPlayer;
+export default EditSeasonGame;

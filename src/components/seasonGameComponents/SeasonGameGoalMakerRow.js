@@ -2,10 +2,8 @@ import React from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import {
-  Card,
-  CardHeader,
-  Fab,
-  Avatar,
+ FormControlLabel,
+ Checkbox
 } from '@mui/material';
 import { red } from '@mui/material/colors';
 import { green } from '@mui/material/colors';
@@ -22,12 +20,10 @@ const SeasonGameGoalMakerRow = (props) => {
   const appState = useSelector((state) => state);
   
   return (
-    <><input type="checkbox"
-      name="goal_makers"
-      id="goal_makers"
-      value={props.goalMakers}
-      onChange={props.onChange}
-      /><label htmlFor="players">{props.goalMakers}</label><br /></>
+    <>
+    <FormControlLabel  control={<Checkbox name="players" size="small" value={props.goalMakers} onChange={props.onChange} />} label={props.goalMakers}  /> 
+    <br />
+    </>
   )
 };
 
