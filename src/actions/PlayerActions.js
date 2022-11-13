@@ -58,7 +58,7 @@ export const addPlayer = (login, player) => {
       let request = {
           method:"POST",
           headers: {"Content-type":"multipart/form-data;boundary=player" ,  "Authorization": "Bearer " + login.token},
-          //body:JSON.stringify(player)
+          body:JSON.stringify(player)
       }
       console.log("REQUEST", request)
       dispatch(loading())

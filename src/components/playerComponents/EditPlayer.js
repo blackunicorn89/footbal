@@ -40,10 +40,7 @@ const EditPlayer = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    if (player.player_number === state.player_number) {
-      console.log("Toisella pelaajalla on jo sama pelinumero");
-      return;
-    }
+    
     let player = {
       ...state,
       id: id.id
