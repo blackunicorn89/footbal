@@ -1,152 +1,145 @@
-import { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useFormik } from 'formik';
+import * as yup from "yup";
 import { addPlayer } from '../../actions/PlayerActions';
 import { Link, useNavigate } from "react-router-dom";
-import { Box, Grid, Paper, TextField, Button } from "@mui/material"
+import { Box, Grid, TextField, Button } from "@mui/material"
 
-
-
+const validationSchema = yup.object({
+  player_name: yup
+    .string()
+    .required("Pakollinen kenttä"),
+  player_number: yup
+    .number("Kirjoita kelvollinen luku")
+    .required("Pakollinen kenttä."),
+  position: yup
+    .string()
+    .required("Pakollinen kenttä"),
+  description: yup
+    .string()
+    .required("Pakollinen kenttä.")
+});
 
 const AddPlayerForm = () => {
-  const [state, setState] = useState({
-    image: "",
-    player_name: "",
-    player_number: 0,
-    position: "",
-    description: ""
-  })
 
-  /*const [selectedFile, setSelectedFile] = useState({
-      image:""
-  })*/
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const login = useSelector((state) =>
     state.login
   );
 
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate()
-
-  //const fileInput = useRef(null)
-
-
-  /*const handleFileInput = (event) => {
-   
-    setSelectedFile((selectedFile) => {
-      return {
-          ...selectedFile,
-          [event.target.name]:event.target.files[0]
+  const formik = useFormik({
+    initialValues: {
+      image: "",
+      player_name: "",
+      player_number: "",
+      position: "",
+      description: ""
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log("VALUES!", values);
+      const formData = new FormData();
+      for (let value in values) {
+        formData.append(value, values[value]);
       }
-  })
-  
-  }
-
-  /*const FileUploader = ({onFileSelect}) => {
-
-    const fileInput = useRef(null)
- 
- 
-    const handleFileInput = (e) => {
- 
-        // handle validations
- 
-        onFileSelect(e.target.files[0])
- 
-    }
-  }*/
-
-  const onChange = (event) => {
-    //console.log(event.value)
-
-    //const file = event.target.files[0];		
-    //const fileReader = new FileReader();
-    //console.log("testataa kuvaa " + fileReader.readAsDataURL(file));
-
-
-
-
-    setState((state) => {
-      return {
-        ...state,
-        [event.target.name]: event.target.value
-      }
-    })
-
-  }
-
-  /*const onInput = (event) => {
-    setState((state) => {
-        return {
-            ...state,
-            readFile(event),
-            [event.target.name]:event.target.value
-        }
-    })
-}*/
-
-    const onSubmit = (event) => {
-        event.preventDefault();
-        let player = {
-          //...selectedFile,
-          ...state
-        }
-        console.log("Mitä syntyy " + player)
-        dispatch (addPlayer(login, player));
-        setState({
-            
-            image:"",
-            player_name:"",
-            player_number:0,
-            position:"",
-            description:""
-    
-        })
-        /*setSelectedFile({
-          image:""
-      })*/
+      console.log("FORMDATA!!!", formData)
+      dispatch(addPlayer(login, formData));
       navigate("/players");
     }
+  })
 
-    return (
-      <form onSubmit={onSubmit} encType="multipart/form-data">
-            <label htmlFor="image">image</label>
-            <input type="file"
-                            name="image"
-                            id="image"
-                            value={state.image}
-                            onChange={onChange} />
-            <label htmlFor="player_name">Player name</label>
-            <input type="text"
-                            name="player_name"
-                            id="player_name"
-                            value={state.player_name}
-                            onChange={onChange} />
-            <label htmlFor="player_number">Player number</label>
-            <input type="number"
-                            name="player_number"
-                            id="player_number"
-                            value={state.player_number}
-                            onChange={onChange} />
-            <label htmlFor="position">Position</label>
-            <input type="text"
-                            name="position"
-                            id="position"
-                            value={state.position}
-                            onChange={onChange} />
-            <label htmlFor="description">Description</label>
-             <input type="text"
-                            name="description"
-                            id="description"
-                            value={state.description}
-                            onChange={onChange} />
-            <input type="submit" value="Add"/>
-        </form>
+  return (
+
+    <Grid align="center">
+      <h2>Lisää Pelaaja</h2>
+
+      <form onSubmit={formik.handleSubmit} encType="multipart/form-data">
+
+        <TextField
+          id="image"
+          type="file"
+          label="Kuva"
+          name="image"
+          onChange={(e) => formik.setFieldValue("image", e.currentTarget.files[0])}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+        />
+
+        <TextField
+          id="player_name"
+          type="text"
+          label="Pelaajan nimi"
+          name="player_name"
+          onChange={formik.handleChange}
+          error={formik.touched.player_name && Boolean(formik.errors.player_name)}
+          helperText={formik.touched.player_name && formik.errors.player_name}
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+        />
+
+        <TextField
+          id="player_number"
+          type="number"
+          label="Pelinumero"
+          name="player_number"
+          onChange={formik.handleChange}
+          error={formik.touched.player_number && Boolean(formik.errors.player_number)}
+          helperText={formik.touched.player_number && formik.errors.player_number}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+        />
+
+        <TextField
+          id="position"
+          type="text"
+          label="Pelipaikka"
+          name="position"
+          onChange={formik.handleChange}
+          error={formik.touched.position && Boolean(formik.errors.position)}
+          helperText={formik.touched.position && formik.errors.position}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+        />
+
+        <TextField
+          id="description"
+          type="text"
+          label="Kuvaus"
+          name="description"
+          onChange={formik.handleChange}
+          error={formik.touched.description && Boolean(formik.errors.description)}
+          helperText={formik.touched.description && formik.errors.description}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+        />
+
+        <Grid container>
+          <Grid item xs={4}>
+            <Box display="flex" justifyContent="flex-start">
+              <Button color="secondary" variant="contained" margin="normal" component={Link} to={"/"} fullWidth sx={{ padding: 1, margin: 2 }} >Peruuta</Button>
+            </Box>
+          </Grid>
+          <Grid item xs={4}>
+
+          </Grid>
+          <Grid item xs={4}>
+            <Box display="flex" justifyContent="flex-end">
+              <Button type="submit" color="primary" variant="contained" margin="normal" fullWidth sx={{ padding: 1, margin: 2 }} >Tallenna </Button>
+            </Box>
+          </Grid>
+        </Grid>
+
+      </form>
+
+    </Grid>
 
   )
-
-
-
 }
 
 

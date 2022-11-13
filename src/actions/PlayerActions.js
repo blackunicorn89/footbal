@@ -22,9 +22,9 @@ export const getPlayers = () => {
 
 
     let request = {
-    method: "GET",
-    headers: { "Content-Type": "application/json"}
-    //   body: ""
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
+      //   body: ""
 
     }
     dispatch(loading());
@@ -53,34 +53,34 @@ export const getPlayers = () => {
 
 // ADD PLAYER
 
-export const addPlayer = (login, player) => {
+export const addPlayer = (login, formData) => {
   return async (dispatch) => {
-      let request = {
-          method:"POST",
-          headers: {"Content-type":"multipart/form-data;boundary=player" ,  "Authorization": "Bearer " + login.token},
-          //body:JSON.stringify(player)
-      }
-      console.log("REQUEST", request)
-      dispatch(loading())
-      let response = await fetch("/api/players", request);
-      dispatch(stopLoading())
-      if (!response) {
-          dispatch(addPlayerFailed("There was an error with the connection. Adding new player failed"));
-          return;
-      }
-      if (response.ok) {
-          dispatch(addPlayerSuccess());
-          dispatch(getPlayers());
+    let request = {
+      method: "POST",
+      headers: { "Authorization": "Bearer " + login.token },
+      body: formData
+    }
+    console.log("REQUEST", request)
+    dispatch(loading())
+    let response = await fetch("/api/players", request);
+    dispatch(stopLoading())
+    if (!response) {
+      dispatch(addPlayerFailed("There was an error with the connection. Adding new player failed"));
+      return;
+    }
+    if (response.ok) {
+      dispatch(addPlayerSuccess());
+      dispatch(getPlayers());
+    }
+    else {
+      if (response.status === 403) {
+        dispatch(clearState());
+        dispatch(addPlayerFailed("Your session has expired. Logging you out!"));
       }
       else {
-          if (response.status === 403) {
-              dispatch(clearState());
-              dispatch(addPlayerFailed("Your session has expired. Logging you out!"));
-          }
-          else {
-              dispatch(addPlayerFailed("Adding new item failed. Server responded with a status " + response.status + " " + response.statusText));
-          }
+        dispatch(addPlayerFailed("Adding new item failed. Server responded with a status " + response.status + " " + response.statusText));
       }
+    }
 
   }
 }
@@ -171,39 +171,39 @@ const fetchPlayersFailed = (error) => {
 
 const addPlayerSuccess = () => {
   return {
-      type:ADD_PLAYER_SUCCESS
+    type: ADD_PLAYER_SUCCESS
   }
 }
 
 const addPlayerFailed = (error) => {
   return {
-      type:ADD_PLAYER_FAILED,
-      error:error
+    type: ADD_PLAYER_FAILED,
+    error: error
   }
 }
 
 const removePlayerSuccess = () => {
   return {
-      type:REMOVE_PLAYER_SUCCESS
+    type: REMOVE_PLAYER_SUCCESS
   }
 }
 
 const removePlayerFailed = (error) => {
   return {
-      type:REMOVE_PLAYER_FAILED,
-      error:error
+    type: REMOVE_PLAYER_FAILED,
+    error: error
   }
 }
 
 const editPlayerSuccess = () => {
   return {
-      type:EDIT_PLAYER_SUCCESS
+    type: EDIT_PLAYER_SUCCESS
   }
 }
 
 const editPlayerFailed = (error) => {
   return {
-      type:EDIT_PLAYER_FAILED,
-      error:error
+    type: EDIT_PLAYER_FAILED,
+    error: error
   }
 }
