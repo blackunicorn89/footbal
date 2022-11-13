@@ -50,7 +50,7 @@ const Navbar = (props) => {
                   <Tab label="Kauden pelit" component={Link} to={"/seasongames"} />
                   {loginStatus.admin ?
                     <Tab label="Lisää käyttäjä" component={Link} to={"/register"} />
-                    : <h1>Joo</h1>
+                    : <></>
                   }
                 </Tabs>
               </Grid>

@@ -15,10 +15,12 @@ const validationSchema = yup.object({
     .required("Pakollinen kenttä"),
   email: yup
     .string()
-    .email("Tarkista sähköpostiosoite").required("Pakollinen kenttä"),
+    .email("Tarkista sähköpostiosoite")
+    .required("Pakollinen kenttä"),
   password: yup
     .string()
-    .min(6, "Salanan on oltava vähintään 6 merkkiä pitkä"),
+    .min(6, "Salanan on oltava vähintään 6 merkkiä pitkä")
+    .required("Pakollinen kenttä."),
 });
 
 const Register = () => {
