@@ -8,9 +8,11 @@ const EditPlayer = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const id = useParams()
+ 
   
     const player = useSelector((state) =>
       state.player.players.players.find((player => player.id === id.id))
+    
     );
 
     
@@ -25,6 +27,9 @@ const EditPlayer = () => {
         position: player.position,
 		    description: player.description
       })
+
+      const appState = useSelector((state) => state);
+      
       
      
       const onChange = (event) => {

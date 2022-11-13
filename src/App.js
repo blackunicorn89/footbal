@@ -39,11 +39,7 @@ function App() {
       <Route path="/players" element={<Players />} />
       <Route path="/seasongames" element={<SeasonGames />} />
       <Route path="/seasongames/addseasongame" element={<AddPSeasonGame />} />
-<<<<<<< HEAD
-      <Route path="/register" element={<Register />} />
-=======
       <Route path="/seasongames/editseasongame/:id" element={<EditSeasonGame />} />
->>>>>>> 44b6d669e923bafcc9b62259eedb59d850600ba6
       <Route path="*" element={<Navigate to="/" />} />
 
     </Routes>

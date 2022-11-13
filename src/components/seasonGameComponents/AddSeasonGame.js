@@ -11,7 +11,7 @@ const AddPSeasonGameForm = () => {
   
   const [state, setState] = useState({
     "season_name": "",
-		"active": "",
+		"active": "active",
 		"game": "",
 		"final_result": "",
 		"description": ""
@@ -30,8 +30,6 @@ const AddPSeasonGameForm = () => {
   });
 
   const onPlayerChange = (e) => {
-
-    let updatedList =goalMakerState.goal_makers;
       if (e.target.checked) {
         playerState.players.push(e.target.value);
       } else {
@@ -47,7 +45,6 @@ const AddPSeasonGameForm = () => {
 
     const onGoalMakerChange = (e) => {
 
-      let updatedList =goalMakerState.goal_makers;
       if (e.target.checked) {
         goalMakerState.goal_makers.push(e.target.value);
       } else {
@@ -133,7 +130,7 @@ let gameGoalMakers = appState.player.players.players.map((goalMaker) => {
       <Grid>
         <Paper elevation={10}>
             <Grid align="center">
-              <h1>Lisää uusi kausi</h1>
+              <h1>Lisää uusi peli kauteen</h1>
             </Grid> 
             <form>
             <TextField type="text" label="Kausi" name="season_name" value={state.value} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} /> 
@@ -184,7 +181,7 @@ let gameGoalMakers = appState.player.players.players.map((goalMaker) => {
                   {gamePlayers}
                   <p>Maalintekijät</p>
                   {gameGoalMakers}
-                  <TextField type="text" label="Lisätietoa" name="final_result" value={state.value} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
+                  <TextField type="text" label="Lisätietoa pelistä:" name="description" value={state.value} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
                   {/*<p><label htmlFor="description">Lisätietoa</label></p>
                   <textarea rows="4" cols="50"
                         name="description"

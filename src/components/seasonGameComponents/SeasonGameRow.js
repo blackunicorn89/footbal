@@ -51,9 +51,7 @@ const SeasonGameRow = (props) => {
               <Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"/seasongames/editSeasonGame/" + props.id} >
                 <EditIcon />
               </Fab>
-              <Fab sx={{ bgcolor: red[500] }} aria-label="delete" size="small" onClick={() => { removeSingleSeasonGame(props.id) }}>
-                <DeleteIcon />
-          </Fab>
+              <DeleteConfirmation removeType="game" id={props.id} header={props.game} title="Haluatko varmasti poistaa seuraavan pelin?" token={appState.login.token} />
             </>
           }
           title={props.season}
