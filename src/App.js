@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom"
 import { useSelector } from 'react-redux';
 import Navbar from "./components/shared/components/Navbar";
 import LoginPage from "./components/shared/components/LoginPage"
+import Register from "./components/Register";
 import NewsArticles from "./components/newsComponents/NewsArticles";
 import AddArticle from "./components/newsComponents/AddArticle";
 import EditArticle from "./components/newsComponents/EditArticle";
@@ -37,6 +38,7 @@ function App() {
       <Route path="/players" element={<Players />} />
       <Route path="/seasongames" element={<SeasonGames />} />
       <Route path="/seasongames/addseasongame" element={<AddPSeasonGame />} />
+      <Route path="/register" element={<Register />} />
       <Route path="*" element={<Navigate to="/" />} />
 
     </Routes>
