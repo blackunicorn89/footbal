@@ -1,6 +1,8 @@
 import {
   LOADING,
   STOP_LOADING,
+  REGISTER_SUCCESS,
+  REGISTER_FAILED,
   LOGIN_SUCCESS,
   LOGIN_FAILED,
   LOGOUT_SUCCESS
@@ -17,7 +19,6 @@ const getInitialState = () => {
       admin: false,
       loading: false,
       error: ""
-
     }
   }
 }
@@ -54,6 +55,23 @@ const loginReducer = (state = initialState, action) => {
       saveToStorage(tempState);
       return tempState;
     case LOGIN_FAILED:
+      tempState = {
+        ...state,
+        loading: false,
+        error: action.error
+      }
+      return tempState;
+
+    case REGISTER_SUCCESS:
+      tempState = {
+        ...state,
+        loading: false,
+        error: "You successfully registered!"
+      }
+      saveToStorage(tempState);
+      return tempState;
+
+    case REGISTER_FAILED:
       tempState = {
         ...state,
         loading: false,

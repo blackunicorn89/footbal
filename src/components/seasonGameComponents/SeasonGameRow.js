@@ -13,49 +13,69 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CardContent from '@mui/material/CardContent';
 import Typography from "@mui/material/Typography";
-import { removePlayer } from "../../actions/PlayerActions";
+import { removeSeasonGame } from "../../actions/SeasonGameActions";
 import DeleteConfirmation from "../shared/components/DeleteConfirmation";
 
 
-const PlayerRow = (props) => {
+const SeasonGameRow = (props) => {
 
   const dispatch = useDispatch();
   const appState = useSelector((state) => state);
 
 
   //ALLA OLEVA SIIRRETTY SHARED/COMPONENTS/DELETECONFIRMATION.JS:SSÄÄÄN VOI EHKÄ POISTAA???
-  // const removeSinglePlayer = (id) => {
-  //   dispatch(removePlayer(appState.login.token, id))
+  // const removeSingleSeasonGame = (id) => {
+  //   dispatch(removeSeasonGame(appState.login.token, id))
+
   // };
 
-  let img = "http:\\\\localhost:3000\\" + props.image
+  const seasonGames = [props.seasonGames]
+  /*let playerList;
+  for (let i = 0; i < players.length; i++) {
+      playerList = players[i]
+  }
+  console.log(playerList)
+
+  let img = "http:\\\\localhost:3000\\" + props.image*/
 
   if (appState.login.admin) {
 
     return (
 
+
       <Card sx={{ minWidth: 275, maxWidth: "md", margin: "auto", backgroundColor: "#A60201", color: "#73c6b6" }}>
         <CardHeader
           action={
             <>
-              <Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"/players/editplayer/" + props.id} >
+              {/*<Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"/seasongames/editSeasonGame/" + props.id} >
                 <EditIcon />
-              </Fab>
-              <DeleteConfirmation removeType="player" id={props.id} header={props.player_name} title="Haluatko varmasti poistaa seuraavan pelaajan?" token={appState.login.token} />
+          </Fab>*/}
+              <DeleteConfirmation removeType="game" id={props.id} header={props.game} title="Haluatko varmasti poistaa seuraavan tuloksen?" token={appState.login.token} />
             </>
           }
-          title={props.player_name}
+          title={props.season}
         />
         <CardContent>
-          <Avatar src={img} alt={props.player_name} variant="square" sx={{ width: 70, height: 70, marginBottom: 3 }}></Avatar>
           <Typography variant="h4" component="pre">
-            {props.player_number}
+            {props.game}
           </Typography>
           <Typography variant="body1" component="pre">
-            {props.position}
+            {props.finalresult}
+          </Typography>
+          <Typography variant="h5" component="pre" sx={{ marginTop: 3 }} >
+            Pelaajat:
           </Typography>
           <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
-            {props.description}
+            {props.players}
+          </Typography>
+          <Typography variant="h5" component="pre" sx={{ marginTop: 3 }} >
+            Maalintekijät:
+          </Typography>
+          <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
+            {props.goalmakers}
+          </Typography>
+          <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
+            Lisätietoa pelistä: {props.description}
           </Typography>
         </CardContent>
       </Card>
@@ -64,18 +84,17 @@ const PlayerRow = (props) => {
     return (
       <Card sx={{ minWidth: 275, maxWidth: "md", margin: "auto", backgroundColor: "#A60201", color: "#73c6b6" }}>
         <CardHeader
-          title={props.player_name}
+          title={props.season}
         />
         <CardContent>
-          <Avatar src={img} alt={props.player_name} variant="square" sx={{ width: 70, height: 70, marginBottom: 3 }}></Avatar>
           <Typography variant="h4" component="pre">
-            {props.player_number}
+
           </Typography>
           <Typography variant="body1" component="pre">
-            {props.position}
+            {props.finalresult}
           </Typography>
           <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
-            {props.description}
+            {props.players}
           </Typography>
         </CardContent>
       </Card>
@@ -83,4 +102,4 @@ const PlayerRow = (props) => {
   }
 };
 
-export default PlayerRow;
+export default SeasonGameRow;

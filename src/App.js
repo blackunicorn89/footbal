@@ -1,13 +1,16 @@
 import { Routes, Route, Navigate } from "react-router-dom"
 import { useSelector } from 'react-redux';
-import Navbar from "./components/Navbar";
-import LoginPage from "./components/LoginPage"
-import NewsArticles from "./components/NewsArticles";
-import AddArticle from "./components/AddArticle";
-import EditArticle from "./components/EditArticle";
+import Navbar from "./components/shared/components/Navbar";
+import LoginPage from "./components/shared/components/LoginPage"
+import Register from "./components/Register";
+import NewsArticles from "./components/newsComponents/NewsArticles";
+import AddArticle from "./components/newsComponents/AddArticle";
+import EditArticle from "./components/newsComponents/EditArticle";
 import Players from "./components/playerComponents/Players";
 import AddPlayer from "./components/playerComponents/AddPlayer";
 import EditPlayer from "./components/playerComponents/EditPlayer";
+import SeasonGames from "./components/seasonGameComponents/SeasonGames";
+import AddPSeasonGame from "./components/seasonGameComponents/AddSeasonGame";
 import React from "react";
 import { Container } from "@mui/material";
 
@@ -20,6 +23,7 @@ function App() {
     <Route path="/editarticle/:id" element={<EditArticle />} />
     <Route path="/login" element={<LoginPage />} />
     <Route path="/players" element={<Players />} />
+    <Route path="/seasongames" element={<SeasonGames />} />
     <Route path="*" element={<Navigate to="/" />} />
 
   </Routes>
@@ -28,10 +32,13 @@ function App() {
     tempRender = <Routes>
       <Route exact path="/" element={<NewsArticles />} />
       <Route exact path="/players/addplayer" element={<AddPlayer />} />
-      <Route exact path="/players/editplayer:id" element={<EditPlayer />} />
+      <Route exact path="/players/editplayer/:id" element={<EditPlayer />} />
       <Route exact path="/addarticle" element={<AddArticle />} />
       <Route path="/editarticle/:id" element={<EditArticle />} />
       <Route path="/players" element={<Players />} />
+      <Route path="/seasongames" element={<SeasonGames />} />
+      <Route path="/seasongames/addseasongame" element={<AddPSeasonGame />} />
+      <Route path="/register" element={<Register />} />
       <Route path="*" element={<Navigate to="/" />} />
 
     </Routes>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../actions/LoginActions"
+import { login } from "../../../actions/LoginActions";
 
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -10,13 +10,13 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 const validationSchema = yup.object({
   email: yup
-    .string('Enter your email')
+    .string("")
     .email("Kirjoita hyväksyttävä sähköpostiosoite")
-    .required('Email is required'),
+    .required("Pakollinen kenttö"),
   password: yup
-    .string('Enter your password')
-    .min(8, 'Password should be of minimum 8 characters length')
-    .required('Password is required'),
+    .string("")
+    .min(8, "Tarkista salasana")
+    .required("Pakollinen kenttä."),
 });
 
 const LoginPage = () => {
@@ -37,6 +37,7 @@ const LoginPage = () => {
       dispatch(login(values));
     },
   });
+
 
   const paperStyle = { padding: 20, height: "70vh", width: 280, margin: "20px auto" }
   const avatarStyle = { backgroundColor: "red" }
@@ -75,7 +76,7 @@ const LoginPage = () => {
           />
           <Button type="submit" color="primary" variant="contained" margin="normal" fullWidth>Sign in</Button>
         </form>
-        <Box item mt={3} sx={{ textAlign: "center" }}> {loginData.error} </Box>
+        <Box item mt={3} sx={{ textAlign: "center", color: "red" }}>{loginData.error}</Box>
       </Paper>
     </Grid>
   )

@@ -9,12 +9,14 @@ import thunk from 'redux-thunk';
 import loginReducer from './reducers/LoginReducer';
 import newsReducer from './reducers/NewsReducer';
 import playerReducer from './reducers/PlayerReducer';
+import seasonGameReducer from './reducers/SeasonGameReducer';
 
 
 const rootReducer = combineReducers({
   login: loginReducer,
   news: newsReducer,
-  player: playerReducer
+  player: playerReducer,
+  seasonGame: seasonGameReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

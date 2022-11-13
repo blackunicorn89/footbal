@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
-import { login, logout } from "../actions/LoginActions"
+import { login, logout } from "../../../actions/LoginActions"
 
 // MUI IMPORTS
 import DrawerComp from "./DrawerComp";
@@ -43,10 +43,15 @@ const Navbar = (props) => {
                   <SportsSoccerIcon />
                 </Typography>
               </Grid>
-              <Grid item xs={5}>
+              <Grid item xs={8}>
                 <Tabs indicatorColor="secondary" textColor="inherit" value={value} onChange={(e, val) => setValue(val)}>
                   <Tab label="Ajankohtaista" component={Link} to={"/news"} />
                   <Tab label="Pelaajat" component={Link} to={"/players"} />
+                  <Tab label="Kauden pelit" component={Link} to={"/seasongames"} />
+                  {loginStatus.admin ?
+                    <Tab label="Lisää käyttäjä" component={Link} to={"/register"} />
+                    : <></>
+                  }
                 </Tabs>
               </Grid>
             </Grid>
