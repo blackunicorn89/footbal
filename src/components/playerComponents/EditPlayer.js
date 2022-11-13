@@ -1,86 +1,131 @@
-import { useState } from "react"
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { editPlayer } from "../../actions/PlayerActions"; 
-import { Box, Grid, Paper, TextField, Button } from "@mui/material"
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { editPlayer } from "../../actions/PlayerActions";
+import { Box, Grid, TextField, Button } from "@mui/material"
+
+const validationSchema = yup.object({
+  player_name: yup
+    .string()
+    .required('Pakollinen kenttä'),
+  player_number: yup
+    .number()
+    .required("Pakollinen kenttä."),
+  position: yup
+    .string()
+    .required("Pakollinen kenttä."),
+  description: yup
+    .string()
+    .required("Pakollinen kenttä.")
+});
 
 const EditPlayer = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate()
-    const id = useParams()
-  
-    const player = useSelector((state) =>
-      state.player.players.players.find((player => player.id === id.id))
-    );
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const id = useParams()
 
-    
-    const login = useSelector((state) =>
-      state.login
-    );
+  const player = useSelector((state) =>
+    state.player.players.players.find((player => player.id === id.id))
+  );
 
-    const [state, setState] = useState({
-        image: player.image,
-        player_name:player.player_name,
-        player_number: player.player_number,
-        position: player.position,
-		    description: player.description
-      })
-      
-     
-      const onChange = (event) => {
-        setState((state) => {
-          return {
-            ...state,
-            [event.target.name]: event.target.value
-          }
-        })
-      }
-    
+  const login = useSelector((state) =>
+    state.login
+  );
 
-      const onSubmit = (event) => {
-        event.preventDefault();
-        let player = {
-          ...state,
-          id: id.id
-        }
-        dispatch(editPlayer(login, player));
-        navigate("/players");
-      };
+  const formik = useFormik({
+    initialValues: {
+      id: id.id,
+      player_name: player.player_name,
+      player_number: player.player_number,
+      position: player.position,
+      description: player.description
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log(values)
+      dispatch(editPlayer(login, player));
+      navigate("/players");
+    }
+  })
 
-      return (
-        <Grid>
-          <Paper elevation={10}>
-            <Grid align="center">
-              <h1>Muokkaa Pelaajaa</h1>
-            </Grid>
-            <form>
-    
-              {/*<TextField type="file" label="Kuva" name="image" value={state.image} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />*/} 
-              <TextField type="text" label="Pelaajan nimi" name="player_name" value={state.player_name} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
-              <TextField type="number" label="Pelaajan numero" name="player_number" value={state.player_number} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
-              <TextField type="text" label="Paikka" name="position" value={state.position} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
-              <TextField type="text" label="Kuvaus" name="description" value={state.description} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
-    
-              <Grid container>
-                <Grid item xs={4}>
-                  <Box display="flex" justifyContent="flex-start">
-                    <Button color="secondary" variant="contained" margin="normal" component={Link} to={"/players"} fullWidth sx={{ padding: 1, margin: 2 }} >Peruuta</Button>
-                  </Box>
-                </Grid>
-                <Grid item xs={4}>
-    
-                </Grid>
-                <Grid item xs={4}>
-                  <Box display="flex" justifyContent="flex-end">
-                    <Button type="submit" color="primary" variant="contained" margin="normal" onClick={onSubmit} fullWidth sx={{ padding: 1, margin: 2 }} >Tallenna </Button>
-                  </Box>
-                </Grid>
-              </Grid>
-            </form>
-          </Paper>
-        </Grid >
-        )
-    
+  return (
+
+    <Grid align="center">
+      <h2>Muokkaa Pelaajaa</h2>
+
+      <form onSubmit={formik.handleSubmit}>
+        {/*<TextField type="file" label="Kuva" name="image" value={state.image} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />*/}
+        <TextField
+          type="text"
+          label="Pelaajan nimi"
+          name="player_name"
+          value={formik.values.player_name}
+          onChange={formik.handleChange}
+          error={formik.touched.player_name && Boolean(formik.errors.player_name)}
+          helperText={formik.touched.player_name && formik.errors.player_name}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+        />
+
+        <TextField
+          type="number"
+          label="Pelaajan numero"
+          name="player_number"
+          value={formik.values.player_number}
+          onChange={formik.handleChange}
+          error={formik.touched.player_number && Boolean(formik.errors.player_number)}
+          helperText={formik.touched.player_number && formik.errors.player_number}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+        />
+        <TextField
+          type="text"
+          label="Paikka"
+          name="position"
+          value={formik.values.position}
+          onChange={formik.handleChange}
+          error={formik.touched.position && Boolean(formik.errors.position)}
+          helperText={formik.touched.position && formik.errors.position}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+        />
+
+        <TextField
+          type="text"
+          label="Kuvaus"
+          name="description"
+          value={formik.values.description}
+          onChange={formik.handleChange}
+          error={formik.touched.description && Boolean(formik.errors.description)}
+          helperText={formik.touched.description && formik.errors.description}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+        />
+
+        <Grid container>
+          <Grid item xs={4}>
+            <Box display="flex" justifyContent="flex-start">
+              <Button color="secondary" variant="contained" margin="normal" component={Link} to={"/players"} fullWidth sx={{ padding: 1, margin: 2 }} >Peruuta</Button>
+            </Box>
+          </Grid>
+          <Grid item xs={4}>
+
+          </Grid>
+          <Grid item xs={4}>
+            <Box display="flex" justifyContent="flex-end">
+              <Button type="submit" color="primary" variant="contained" margin="normal" fullWidth sx={{ padding: 1, margin: 2 }} >Tallenna </Button>
+            </Box>
+          </Grid>
+        </Grid>
+      </form>
+    </Grid >
+  )
+
 }
 
 export default EditPlayer;

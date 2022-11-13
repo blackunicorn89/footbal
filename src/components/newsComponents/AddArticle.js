@@ -59,72 +59,71 @@ const AddArticle = () => {
   });
 
   return (
-    <Grid>
-      <Paper elevation={10}>
-        <Grid align="center">
-          <h2>Lisää uusi artikkeli</h2>
-        </Grid>
-        <form onSubmit={formik.handleSubmit}>
 
-          <TextField
-            id="header"
-            label="Otsikko"
-            name="header"
-            value={formik.values.header}
-            onChange={formik.handleChange}
-            error={formik.touched.header && Boolean(formik.errors.header)}
-            helperText={formik.touched.header && formik.errors.header}
-            margin="normal"
-            fullWidth
-            InputLabelProps={{ shrink: true }}
+    <Grid align="center">
+      <h2>Lisää uusi artikkeli</h2>
 
-          />
-          <TextField
-            id="date"
-            type="date"
-            label="Päivämäärä"
-            name="date"
-            value={formik.values.date}
-            onChange={formik.handleChange}
-            error={formik.touched.date && Boolean(formik.errors.date)}
-            helperText={formik.touched.date && formik.errors.date}
-            margin="normal"
-            fullWidth
-            InputLabelProps={{ shrink: true }}
-          />
+      <form onSubmit={formik.handleSubmit}>
 
-          <TextField
-            multiline
-            id="content"
-            label="Uutinen"
-            name="content"
-            value={formik.values.content}
-            onChange={formik.handleChange}
-            error={formik.touched.content && Boolean(formik.errors.content)}
-            helperText={formik.touched.content && formik.errors.content}
-            margin="normal"
-            fullWidth
+        <TextField
+          id="header"
+          label="Otsikko"
+          name="header"
+          value={formik.values.header}
+          onChange={formik.handleChange}
+          error={formik.touched.header && Boolean(formik.errors.header)}
+          helperText={formik.touched.header && formik.errors.header}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
 
-            InputLabelProps={{ shrink: true }}
-          />
+        />
+        <TextField
+          id="date"
+          type="date"
+          label="Päivämäärä"
+          name="date"
+          value={formik.values.date}
+          onChange={formik.handleChange}
+          error={formik.touched.date && Boolean(formik.errors.date)}
+          helperText={formik.touched.date && formik.errors.date}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+        />
 
-          <Grid container>
-            <Grid item xs={4}>
-              <Box display="flex" justifyContent="flex-start">
-                <Button color="secondary" variant="contained" margin="normal" component={Link} to={"/"} fullWidth sx={{ padding: 1, margin: 2 }} >Peruuta</Button>
-              </Box>
-            </Grid>
-            <Grid item xs={4}>
+        <TextField
+          multiline
+          id="content"
+          label="Uutinen"
+          name="content"
+          value={formik.values.content}
+          onChange={formik.handleChange}
+          error={formik.touched.content && Boolean(formik.errors.content)}
+          helperText={formik.touched.content && formik.errors.content}
+          margin="normal"
+          fullWidth
 
-            </Grid>
-            <Grid item xs={4}>
-              <Box display="flex" justifyContent="flex-end">
-                <Button type="submit" color="primary" variant="contained" margin="normal" fullWidth sx={{ padding: 1, margin: 2 }} >Tallenna </Button>
-              </Box>
-            </Grid>
+          InputLabelProps={{ shrink: true }}
+        />
+
+        <Grid container>
+          <Grid item xs={4}>
+            <Box display="flex" justifyContent="flex-start">
+              <Button color="secondary" variant="contained" margin="normal" component={Link} to={"/"} fullWidth sx={{ padding: 1, margin: 2 }} >Peruuta</Button>
+            </Box>
           </Grid>
-        </form>
-      </Paper>
+          <Grid item xs={4}>
+
+          </Grid>
+          <Grid item xs={4}>
+            <Box display="flex" justifyContent="flex-end">
+              <Button type="submit" color="primary" variant="contained" margin="normal" fullWidth sx={{ padding: 1, margin: 2 }} >Tallenna </Button>
+            </Box>
+          </Grid>
+        </Grid>
+      </form>
+
     </Grid >
   )
 };
