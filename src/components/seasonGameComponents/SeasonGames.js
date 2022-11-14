@@ -23,7 +23,7 @@ const SeasonGames = (props) => {
 
     return (
       <Grid item xs={12} sm={6} md={4} lg={12} key={seasonGame.id}>
-        <SeasonGameRow id={seasonGame.id} season = {seasonGame.season_name} game={seasonGame.game} finalresult={seasonGame.final_result}
+        <SeasonGameRow id={seasonGame.id} season = {seasonGame.season_name} game={seasonGame.game} finalresult={seasonGame.final_result} date = {seasonGame.date}
          players={seasonGame.players} goalmakers={seasonGame.goal_makers} description={seasonGame.description} />
       </Grid >
     )

@@ -21,12 +21,30 @@ const EditSeasonGame = () => {
       state.login
     );
 
+    // MUI TEXTFIELD DEFAULT DATE 
+
+  const dateNow = new Date(seasonGame.date); // Creating a new date object with the current date and time
+  const year = dateNow.getFullYear(); // Getting current year from the created Date object
+  const monthWithOffset = dateNow.getUTCMonth() + 1; // January is 0 by default in JS. Offsetting +1 to fix date for calendar.
+  const month = // Setting current Month number from current Date object
+    monthWithOffset.toString().length < 2 // Checking if month is < 10 and pre-prending 0 if not to adjust for date input.
+      ? `0${monthWithOffset}`
+      : monthWithOffset;
+  const date =
+    dateNow.getUTCDate().toString().length < 2 // Checking if date is < 10 and pre-prending 0 if not to adjust for date input.
+      ? `0${dateNow.getUTCDate()}`
+      : dateNow.getUTCDate();
+  const materialDateInput = `${year}-${month}-${date}`; // combining to format for defaultValue or value attribute of material <TextField>
+
+  // END MUI TEXTFIELD DEFAULT DATE
+
     const [state, setState] = useState({
         
       season_name: seasonGame.season_name,
       active: "true",
       game: seasonGame.game,
       final_result:seasonGame.final_result,
+      date: materialDateInput,
       description:seasonGame.description,
     
       })
@@ -151,6 +169,18 @@ const EditSeasonGame = () => {
               </RadioGroup>
               <TextField type="text" label="Peli" name="game" value={state.game} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} /> 
               <TextField type="text" label="Tulos" name="final_result" value={state.final_result} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} /> 
+              <TextField
+                type="date"
+                label="Päivämäärä"
+                name="date"
+                value={state.date}
+                onChange={onChange}
+                //error={formik.touched.date && Boolean(formik.errors.date)}
+                //helperText={formik.touched.date && formik.errors.date}
+                margin="normal"
+                fullWidth
+                InputLabelProps={{ shrink: true }}
+            />
               <p>Nykyinen joukkuekokoonpano</p>
               <ul>
                 {listOfCurrentPlayers}

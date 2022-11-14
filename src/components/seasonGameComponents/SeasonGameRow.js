@@ -24,6 +24,8 @@ const SeasonGameRow = (props) => {
 
   const dispatch = useDispatch();
   const appState = useSelector((state) => state);
+  let date = new Date(props.date)
+  let localDate = date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();
 
 
   //ALLA OLEVA SIIRRETTY SHARED/COMPONENTS/DELETECONFIRMATION.JS:SSÄÄÄN VOI EHKÄ POISTAA???
@@ -62,6 +64,9 @@ const SeasonGameRow = (props) => {
           </Typography>
           <Typography variant="body1" component="pre">
             {props.finalresult}
+          </Typography>
+          <Typography variant="body1" component="pre">
+            {localDate}
           </Typography>
           <Typography variant="h5" component="pre" sx={{ marginTop: 3 }} >
             Pelaajat:
