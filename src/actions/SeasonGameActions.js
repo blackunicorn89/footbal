@@ -133,7 +133,7 @@ export const editSeasonGame = (login, seasonGame) => {
     let response = await fetch("/api/seasongames/" + seasonGame.id, request);
     dispatch(stopLoading());
     if (!response) {
-      dispatch(editSeasonGameFailed("There was propblem with connection. Editing season's game failed"))
+      dispatch(editSeasonGameFailed("There was problem with connection. Editing season's game failed"))
       return
     }
     if (response.ok) {
@@ -145,7 +145,7 @@ export const editSeasonGame = (login, seasonGame) => {
         dispatch(clearState());
         dispatch(editSeasonGameFailed("Your session has expired. Logging you out!"));
       } else {
-        dispatch(editSeasonGameFailed("Editing editing season's game failed. Server responded with status " + response.status + " " + response.statusText));
+        dispatch(editSeasonGameFailed("Editing season's game failed. Server responded with status " + response.status + " " + response.statusText));
 
       }
     }
