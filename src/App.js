@@ -40,6 +40,7 @@ function App() {
       <Route path="/seasongames" element={<SeasonGames />} />
       <Route path="/seasongames/addseasongame" element={<AddPSeasonGame />} />
       <Route path="/seasongames/editseasongame/:id" element={<EditSeasonGame />} />
+      <Route path="/register" element={<Register />} />
       <Route path="*" element={<Navigate to="/" />} />
 
     </Routes>
