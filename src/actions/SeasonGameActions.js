@@ -117,9 +117,9 @@ export const removeSeasonGame = (token, id) => {
   };
 };
 
-//EDIT PLAYER
-/*
-export const editPlayer = (login, player) => {
+//EDIT Season's game
+
+export const editSeasonGame = (login, seasonGame) => {
   return async (dispatch) => {
     let request = {
       method: "PUT",
@@ -127,30 +127,30 @@ export const editPlayer = (login, player) => {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + login.token
       },
-      body: JSON.stringify(player)
+      body: JSON.stringify(seasonGame)
     }
     dispatch(loading());
-    let response = await fetch("/api/players/" + player.id, request);
+    let response = await fetch("/api/seasongames/" + seasonGame.id, request);
     dispatch(stopLoading());
     if (!response) {
-      dispatch(editPlayerFailed("There was propblem with connection. Editing player failed"))
+      dispatch(editSeasonGameFailed("There was problem with connection. Editing season's game failed"))
       return
     }
     if (response.ok) {
       let data = await response.json();
-      dispatch(editPlayerSuccess(data));
-      dispatch(getPlayers());
+      dispatch(editSeasonGameSuccess(data));
+      dispatch(getSeasonGames());
     } else {
       if (response.status === 403) {
         dispatch(clearState());
-        dispatch(editPlayerFailed("Your session has expired. Logging you out!"));
+        dispatch(editSeasonGameFailed("Your session has expired. Logging you out!"));
       } else {
-        dispatch(editPlayerFailed("Editing player failed. Server responded with status " + response.status + " " + response.statusText));
+        dispatch(editSeasonGameFailed("Editing season's game failed. Server responded with status " + response.status + " " + response.statusText));
 
       }
     }
   };
-}; */
+}; 
 
 
 //Action Creators
@@ -195,7 +195,7 @@ const removeSeasonGameFailed = (error) => {
   }
 }
 
-/*
+
 const editSeasonGameSuccess = () => {
   return {
       type:EDIT_SEASON_GAME_SUCCESS
@@ -207,4 +207,4 @@ const editSeasonGameFailed = (error) => {
       type:EDIT_SEASON_GAME_FAILED,
       error:error
   }
-}*/
+}

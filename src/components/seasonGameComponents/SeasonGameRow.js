@@ -5,6 +5,9 @@ import {
   Card,
   CardHeader,
   Fab,
+  List,
+  ListItem,
+  ListItemText,
   Avatar,
 } from '@mui/material';
 import { red } from '@mui/material/colors';
@@ -29,14 +32,12 @@ const SeasonGameRow = (props) => {
 
   // };
 
-  const seasonGames = [props.seasonGames]
-  /*let playerList;
-  for (let i = 0; i < players.length; i++) {
-      playerList = players[i]
-  }
-  console.log(playerList)
 
-  let img = "http:\\\\localhost:3000\\" + props.image*/
+  const players = props.players
+  const listOfPlayers = players.map((player) =>  <li>{player}</li>);
+
+  const goalMakers = props.goalmakers
+  const listOfGoalMakers = goalMakers.map((goalMaker) =>  <li>{goalMaker}</li>);
 
   if (appState.login.admin) {
 
@@ -47,10 +48,10 @@ const SeasonGameRow = (props) => {
         <CardHeader
           action={
             <>
-              {/*<Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"/seasongames/editSeasonGame/" + props.id} >
+              <Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"/seasongames/editSeasonGame/" + props.id} >
                 <EditIcon />
-          </Fab>*/}
-              <DeleteConfirmation removeType="game" id={props.id} header={props.game} title="Haluatko varmasti poistaa seuraavan tuloksen?" token={appState.login.token} />
+              </Fab>
+              <DeleteConfirmation removeType="game" id={props.id} header={props.game} title="Haluatko varmasti poistaa seuraavan pelin?" token={appState.login.token} />
             </>
           }
           title={props.season}
@@ -66,13 +67,17 @@ const SeasonGameRow = (props) => {
             Pelaajat:
           </Typography>
           <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
-            {props.players}
+            <ul>
+              {listOfPlayers}
+            </ul>        
           </Typography>
           <Typography variant="h5" component="pre" sx={{ marginTop: 3 }} >
             Maalintekijät:
           </Typography>
           <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
-            {props.goalmakers}
+            <ul>
+            {listOfGoalMakers}  
+            </ul>      
           </Typography>
           <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
             Lisätietoa pelistä: {props.description}
