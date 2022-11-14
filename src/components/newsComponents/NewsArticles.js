@@ -14,7 +14,6 @@ const NewsArticles = (props) => {
   }, []); // [dispatch] Voiko laittaa?? 
 
   const appState = useSelector((state) => state);
-  console.log("NewsArticles State ", appState)
 
   let articles = appState.news.news.newsArticles.map((article) => {
     return (
@@ -29,7 +28,6 @@ const NewsArticles = (props) => {
     <React.Fragment>
       <Grid align="center" >
         <h2> Ajankohtaista </h2>
-
         {appState.login.admin &&
           <Button color="primary" variant="contained" margin="normal" component={Link} to={"/addarticle"} fullWidth sx={{ padding: 1, margin: 2 }} >Lisää uusi</Button>
         }

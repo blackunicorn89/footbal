@@ -118,18 +118,15 @@ export const removePlayer = (token, id) => {
 };
 
 //EDIT PLAYER
-export const editPlayer = (login, player) => {
+export const editPlayer = (login, formData, id) => {
   return async (dispatch) => {
     let request = {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + login.token
-      },
-      body: JSON.stringify(player)
+      headers: { "Authorization": "Bearer " + login.token },
+      body: formData
     }
     dispatch(loading());
-    let response = await fetch("/api/players/" + player.id, request);
+    let response = await fetch("/api/players/" + id, request);
     dispatch(stopLoading());
     if (!response) {
       dispatch(editPlayerFailed("There was propblem with connection. Editing player failed"))

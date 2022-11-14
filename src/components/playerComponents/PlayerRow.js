@@ -16,25 +16,17 @@ import Typography from "@mui/material/Typography";
 import { removePlayer } from "../../actions/PlayerActions";
 import DeleteConfirmation from "../shared/components/DeleteConfirmation";
 
-
 const PlayerRow = (props) => {
 
   const dispatch = useDispatch();
   const appState = useSelector((state) => state);
-
-
-  //ALLA OLEVA SIIRRETTY SHARED/COMPONENTS/DELETECONFIRMATION.JS:SSÄÄÄN VOI EHKÄ POISTAA???
-  // const removeSinglePlayer = (id) => {
-  //   dispatch(removePlayer(appState.login.token, id))
-  // };
-
   let img = "http:\\\\localhost:3000\\" + props.image
 
   if (appState.login.admin) {
 
     return (
 
-      <Card sx={{ minWidth: 275, maxWidth: "md", margin: "auto", backgroundColor: "#A60201", color: "#73c6b6" }}>
+      <Card sx={{ minWidth: 275, maxWidth: "md", margin: "auto" }}>
         <CardHeader
           action={
             <>
@@ -82,5 +74,4 @@ const PlayerRow = (props) => {
     )
   }
 };
-
 export default PlayerRow;

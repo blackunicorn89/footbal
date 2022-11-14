@@ -29,7 +29,7 @@ const Players = (props) => {
   return (
     <React.Fragment>
       <Grid align="center" >
-        <h1>Pelaajat</h1>
+        <h2>Pelaajat</h2>
         {appState.login.admin &&
           <Button color="primary" variant="contained" margin="normal" component={Link} to={"/players/addplayer"} fullWidth sx={{ padding: 1, margin: 2 }} >Lisää uusi</Button>
         }
