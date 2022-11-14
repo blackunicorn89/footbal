@@ -10,7 +10,7 @@ const validationSchema = yup.object({
     .string()
     .required('Pakollinen kenttä'),
   player_number: yup
-    .number()
+    .number("Kirjoita kelvollinen luku")
     .required("Pakollinen kenttä."),
   position: yup
     .string()
@@ -35,7 +35,7 @@ const EditPlayer = () => {
 
   const formik = useFormik({
     initialValues: {
-      id: id.id,
+      image: player.image,
       player_name: player.player_name,
       player_number: player.player_number,
       position: player.position,
@@ -43,8 +43,11 @@ const EditPlayer = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values)
-      dispatch(editPlayer(login, player));
+      const formData = new FormData();
+      for (let value in values) {
+        formData.append(value, values[value]);
+      }
+      dispatch(editPlayer(login, formData, player.id));
       navigate("/players");
     }
   })
@@ -55,7 +58,20 @@ const EditPlayer = () => {
       <h2>Muokkaa Pelaajaa</h2>
 
       <form onSubmit={formik.handleSubmit}>
-        {/*<TextField type="file" label="Kuva" name="image" value={state.image} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />*/}
+
+        <input name="id" defaultValue={formik.values.id} />
+
+        <TextField
+          id="image"
+          type="file"
+          label="Kuva"
+          name="image"
+          onChange={(e) => formik.setFieldValue("image", e.currentTarget.files[0])}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+        />
+
         <TextField
           type="text"
           label="Pelaajan nimi"
@@ -125,7 +141,5 @@ const EditPlayer = () => {
       </form>
     </Grid >
   )
-
 }
-
 export default EditPlayer;
