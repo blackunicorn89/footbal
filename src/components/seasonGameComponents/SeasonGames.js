@@ -17,14 +17,14 @@ const SeasonGames = (props) => {
   const appState = useSelector((state) => state);
   console.log(appState)
 
-  
+
   let singleGame = appState.seasonGame.seasonGames.seasonGames.map((seasonGame) => {
 
 
     return (
       <Grid item xs={12} sm={6} md={4} lg={12} key={seasonGame.id}>
-        <SeasonGameRow id={seasonGame.id} season = {seasonGame.season_name} game={seasonGame.game} finalresult={seasonGame.final_result}
-         players={seasonGame.players} goalmakers={seasonGame.goal_makers} description={seasonGame.description} />
+        <SeasonGameRow id={seasonGame.id} season={seasonGame.season_name} game={seasonGame.game} finalresult={seasonGame.final_result}
+          players={seasonGame.players} goalmakers={seasonGame.goal_makers} description={seasonGame.description} />
       </Grid >
     )
   })
@@ -32,7 +32,7 @@ const SeasonGames = (props) => {
   return (
     <React.Fragment>
       <Grid align="center" >
-        <h1>Kaude pelit</h1>
+        <h2>Kauden pelit</h2>
         {appState.login.admin &&
           <Button color="primary" variant="contained" margin="normal" component={Link} to={"/seasongames/addseasongame"} fullWidth sx={{ padding: 1, margin: 2 }} >Lisää uusi</Button>
         }
