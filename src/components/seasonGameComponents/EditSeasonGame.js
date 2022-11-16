@@ -1,10 +1,11 @@
-import { useState } from "react"
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { editSeasonGame } from "../../actions/SeasonGameActions";
 import { Box, Grid, Paper, TextField, Button, RadioGroup, Radio, FormLabel, FormControlLabel } from "@mui/material"
 import SeasonGameGoalMakerRow from "./SeasonGameGoalMakerRow";
 import SeasonGamePlayerRow from "./SeasonGamePlayerRow";
+import {  useFormik } from "formik";
+import * as yup from "yup";
 
 const EditSeasonGame = () => {
     const dispatch = useDispatch();
@@ -16,10 +17,26 @@ const EditSeasonGame = () => {
       state.seasonGame.seasonGames.seasonGames.find((seasonGame => seasonGame.id === id.id))
     );
 
-    
-    const login = useSelector((state) =>
+    const login = useSelector((state) => 
       state.login
     );
+
+    const validationSchema = yup.object({
+      season_name: yup
+        .string("Pakollinen kenttä.")
+        .required("Pakollinen kenttä"),
+      game: yup
+        .string("Pakollinen kenttä.")
+        .required("Pakollinen kenttä"),
+      final_result: yup
+        .string("Pakollinen kenttä.")
+        .required("Pakollinen kenttä"),
+      date: yup
+        .date("Kirjoita hyväkysyttävä päivämäärä.")
+        .required("Pakollinen kenttä."),
+      players: yup
+        .array().min(1, "Vähintään yksi pelaaja on lisättävä")
+    });
 
     // MUI TEXTFIELD DEFAULT DATE 
 
@@ -38,101 +55,48 @@ const EditSeasonGame = () => {
 
   // END MUI TEXTFIELD DEFAULT DATE
 
-    const [state, setState] = useState({
-        
+    const formik = useFormik({
+      initialValues: {
+      id: id.id,   
       season_name: seasonGame.season_name,
       active: "true",
       game: seasonGame.game,
       final_result:seasonGame.final_result,
       date: materialDateInput,
       description:seasonGame.description,
-    
+      currentPlayers: seasonGame.players,
+      currentGoalMakers: seasonGame.goal_makers,
+      players: [],
+      goal_makers: []
+      },
+      validationSchema: validationSchema,
+        onSubmit: (values) => {
+        dispatch(editSeasonGame(login, values));
+        navigate("/seasongames");
+    },
+
       })
-
-      const [currentPlayerState, setPlayerState] = useState({
-
-        currentPlayers: seasonGame.players,
-
-    
-      });
-    
-      const [currenGoalMakerState, setGoalMakerState] = useState({
-    
-        currentGoalMakers: seasonGame.goal_makers,
-    
-      });
-
-      const [editedPlayerState, setEditedPlayerState] = useState({
-
-        "players": []
-
-    
-      });
-    
-      const [editedGoalMakerState, setEditedGoalMakerState] = useState({
-    
-        "goal_makers": []
-    
-      });
       
-      const listOfCurrentPlayers = currentPlayerState.currentPlayers.map((currentPlayer) =>  <li>{currentPlayer}</li>);
-      const listOfCurrentGoalMakers = currenGoalMakerState.currentGoalMakers.map((currentGoalMaker) =>  <li>{currentGoalMaker}</li>);
+      const listOfCurrentPlayers = formik.values.currentPlayers.map((currentPlayer) =>  <li>{currentPlayer}</li>);
+      const listOfCurrentGoalMakers = formik.values.currentGoalMakers.map((currentGoalMaker) =>  <li>{currentGoalMaker}</li>);
 
-      
-
-
-     
-      const onChange = (event) => {
-        setState((state) => {
-          return {
-            ...state,
-            [event.target.name]: event.target.value
-          }
-        })
-      }
       const onPlayerChange = (e) => {
         if (e.target.checked) {
-          editedPlayerState.players.push(e.target.value);
+          formik.values.players.push(e.target.value);
         } else {
-          editedPlayerState.players.splice(editedPlayerState.players.indexOf(e.target.value), 1);
+          formik.values.players.splice(formik.values.players.indexOf(e.target.value), 1);
         }
     
-        setEditedPlayerState((editedPlayerState) => {
-          return {
-            ...editedPlayerState,
-          }
-        })
     }
   
       const onGoalMakerChange = (e) => {
   
         if (e.target.checked) {
-          editedGoalMakerState.goal_makers.push(e.target.value);
+          formik.values.goal_makers.push(e.target.value);
         } else {
-          editedGoalMakerState.goal_makers.splice(editedGoalMakerState.goal_makers.indexOf(e.target.value), 1);
+          formik.values.goal_makers.splice(formik.values.goal_makers.indexOf(e.target.value), 1);
         }
-    
-        setEditedGoalMakerState((editedGoalMakerState) => {
-          return {
-            ...editedGoalMakerState,
-          }
-        })
       }
-    
-
-      const onSubmit = (event) => {
-        event.preventDefault();
-        let seasonGame = {
-          ...state,
-          ...editedPlayerState,
-          ...editedGoalMakerState,
-             id: id.id
-        }
-        console.log(seasonGame)
-        dispatch(editSeasonGame(login, seasonGame));
-        navigate("/seasongames");
-      };
-
 
       let gamePlayers = appState.player.players.players.map((player) => {
 
@@ -154,29 +118,59 @@ const EditSeasonGame = () => {
             <Grid align="center">
               <h1>Muokkaa kauden pelin tietoja</h1>
             </Grid>
-            <form> 
-              <TextField type="text" label="Kausi" name="season_name" value={state.season_name} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
+            <form onSubmit={formik.handleSubmit}> 
+            <TextField
+             type="text"
+             label="Kausi"
+             name="season_name"
+             value={formik.values.season_name}
+             onChange={formik.handleChange}
+             error={formik.touched.season_name&& Boolean(formik.errors.season_name)}
+             helperText={formik.touched.season_name && formik.errors.season_name}
+             margin="normal"
+             fullWidth required
+             InputLabelProps={{ shrink: true }} /> 
               <FormLabel id="active_form">Aktiivinen kausi:</FormLabel>
               <RadioGroup
                     row
                     aria-labelledby="active_form"
                     defaultValue="true"
                     name="radio-buttons-group"
-                    onChange={onChange}
+                    onChange={formik.handleChange}
                     >
                   <FormControlLabel name="active" value="true"  control={<Radio size="small" />} label="Kyllä" />
                   <FormControlLabel name="active" value="false" control={<Radio size="small" />} label="Ei" />
               </RadioGroup>
-              <TextField type="text" label="Peli" name="game" value={state.game} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} /> 
-              <TextField type="text" label="Tulos" name="final_result" value={state.final_result} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} /> 
+              <TextField type="text"
+                label="Peli"
+                name="game"
+                value={formik.values.game}
+                onChange={formik.handleChange}
+                error={formik.touched.game&& Boolean(formik.errors.game)}
+                helperText={formik.touched.game && formik.errors.game}
+                margin="normal"
+                fullWidth required
+                InputLabelProps={{ shrink: true }}
+              />
+              <TextField type="text"
+                label="Tulos"
+                name="final_result"
+                value={formik.values.final_result}
+                onChange={formik.handleChange}
+                error={formik.touched.final_result&& Boolean(formik.errors.final_result)}
+                helperText={formik.touched.final_result && formik.final_result}
+                margin="normal"
+                fullWidth required
+                InputLabelProps={{ shrink: true }}
+            />                 
               <TextField
                 type="date"
                 label="Päivämäärä"
                 name="date"
-                value={state.date}
-                onChange={onChange}
-                //error={formik.touched.date && Boolean(formik.errors.date)}
-                //helperText={formik.touched.date && formik.errors.date}
+                value={formik.values.date}
+                onChange={formik.handleChange}
+                error={formik.touched.date && Boolean(formik.errors.date)}
+                helperText={formik.touched.date && formik.errors.date}
                 margin="normal"
                 fullWidth
                 InputLabelProps={{ shrink: true }}
@@ -193,7 +187,15 @@ const EditSeasonGame = () => {
               </ul>
               <p>Lisää poistaa maalintekijöitä</p>
               {gameGoalMakers}
-              <TextField type="text" label="Lisätietoa pelistä" name="description" value={state.description} onChange={onChange} margin="normal" fullWidth required InputLabelProps={{ shrink: true }} />
+              <TextField
+                type="text"
+                label="Lisätietoa pelistä:"
+                name="description"
+                value={formik.values.description}
+                onChange={formik.handleChange}
+                margin="normal"
+                fullWidth required InputLabelProps={{ shrink: true }}
+            />
               <Grid container>
                 <Grid item xs={4}>
                   <Box display="flex" justifyContent="flex-start">
@@ -205,7 +207,7 @@ const EditSeasonGame = () => {
                 </Grid>
                 <Grid item xs={4}>
                   <Box display="flex" justifyContent="flex-end">
-                    <Button type="submit" color="primary" variant="contained" margin="normal" onClick={onSubmit} fullWidth sx={{ padding: 1, margin: 2 }} >Tallenna </Button>
+                    <Button type="submit" color="primary" variant="contained" margin="normal" fullWidth sx={{ padding: 1, margin: 2 }} >Tallenna </Button>
                   </Box>
                 </Grid>
               </Grid>

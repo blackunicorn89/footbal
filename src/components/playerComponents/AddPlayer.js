@@ -48,7 +48,7 @@ const AddPlayerForm = () => {
       dispatch(addPlayer(login, formData));
       navigate("/players");
     }
-  })
+  });
 
   return (
 
@@ -83,7 +83,7 @@ const AddPlayerForm = () => {
         <TextField
           id="player_number"
           type="number"
-          label="Pelinumero"
+          label="Pelinumero" 
           name="player_number"
           onChange={formik.handleChange}
           error={formik.touched.player_number && Boolean(formik.errors.player_number)}

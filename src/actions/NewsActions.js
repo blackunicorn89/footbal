@@ -46,7 +46,7 @@ export const getNews = () => {
 
 export const addNews = (login, article) => {
   return async (dispatch) => {
-    let request = {
+    let request = { 
       method: "POST",
       headers: {
         "Content-Type": "application/json",

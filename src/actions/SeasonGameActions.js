@@ -53,7 +53,7 @@ export const getSeasonGames = () => {
 
 // ADD SEASON'S GAME
 
-export const addSeasonGame = (login, seasonGame) => {
+export const addSeasonGame = (login, seasonGame) => { 
   return async (dispatch) => {
       let request = {
           method:"POST",
