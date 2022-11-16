@@ -7,6 +7,7 @@ import { login, logout } from "../../../actions/LoginActions"
 import DrawerComp from "./DrawerComp";
 import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import LoginIcon from '@mui/icons-material/Login';
 import IconButton from '@mui/material/IconButton';
 import { Grid, Tabs, Tab, useTheme, Menu, MenuItem, Toolbar, Typography, useMediaQuery } from "@mui/material";
 
@@ -67,7 +68,7 @@ const Navbar = (props) => {
               </Grid>
             </Grid>
 
-            {loginStatus.admin && (
+            {loginStatus.admin ?
               <Grid justifyContent={"end"}>
                 <IconButton
                   size="large"
@@ -99,7 +100,19 @@ const Navbar = (props) => {
                   <MenuItem onClick={logOut}>Kirjaudu ulos</MenuItem>
                 </Menu>
               </Grid>
-            )}
+              :
+              <Grid justifyContent={"end"}>
+                <IconButton component={Link} to={"/login"} color="inherit">
+                  <LoginIcon
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleAvatar}
+                  ></LoginIcon>
+                </IconButton>
+              </Grid>
+            }
           </>
         }
       </Toolbar>
