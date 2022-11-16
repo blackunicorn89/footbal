@@ -34,7 +34,7 @@ const PlayerRow = (props) => {
 
     return (
 
-      <Card sx={{ minWidth: 275, maxWidth: "md", margin: "auto", backgroundColor: "#A60201", color: "#73c6b6" }}>
+      <Card sx={{ minWidth: 275, maxWidth: "md", margin: "auto"}}>
         <CardHeader
           action={
             <>
