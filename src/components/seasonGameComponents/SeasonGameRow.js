@@ -28,19 +28,11 @@ const SeasonGameRow = (props) => {
   let date = new Date(props.date)
   let localDate = date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();
 
-
-  //ALLA OLEVA SIIRRETTY SHARED/COMPONENTS/DELETECONFIRMATION.JS:SSÄÄÄN VOI EHKÄ POISTAA???
-  // const removeSingleSeasonGame = (id) => {
-  //   dispatch(removeSeasonGame(appState.login.token, id))
-
-  // };
-
-
   const players = props.players
-  const listOfPlayers = players.map((player) =>  <li>{player}</li>);
+  const listOfPlayers = players.map((player) => <li>{player}</li>);
 
   const goalMakers = props.goalmakers
-  const listOfGoalMakers = goalMakers.map((goalMaker) =>  <li>{goalMaker}</li>);
+  const listOfGoalMakers = goalMakers.map((goalMaker) => <li>{goalMaker}</li>);
 
   let title = "Kausi: " + props.season 
 
@@ -80,8 +72,8 @@ const SeasonGameRow = (props) => {
           <Typography variant="body1" component="pre">
             Maalintekijät:
             <ul>
-            {listOfGoalMakers}  
-            </ul>      
+              {listOfGoalMakers}
+            </ul>
           </Typography>
           <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
            
@@ -94,7 +86,7 @@ const SeasonGameRow = (props) => {
     )
   } else {
     return (
-      <Card sx={{ minWidth: 275, maxWidth: "md", margin: "auto", backgroundColor: "#A60201", color: "#73c6b6" }}>
+      <Card sx={{ minWidth: 275, maxWidth: "md", margin: "auto" }}>
         <CardHeader
           title={props.season}
         />

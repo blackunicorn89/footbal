@@ -108,7 +108,7 @@ const Navbar = (props) => {
                     aria-label="account of current user"
                     aria-controls="menu-appbar"
                     aria-haspopup="true"
-                    onClick={handleAvatar}
+                    onClick={handleClose}
                   ></LoginIcon>
                 </IconButton>
               </Grid>
