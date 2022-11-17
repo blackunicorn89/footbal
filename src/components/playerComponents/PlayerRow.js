@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -7,18 +7,14 @@ import {
   Fab,
   Avatar,
 } from '@mui/material';
-import { red } from '@mui/material/colors';
 import { green } from '@mui/material/colors';
-import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CardContent from '@mui/material/CardContent';
 import Typography from "@mui/material/Typography";
-import { removePlayer } from "../../actions/PlayerActions";
 import DeleteConfirmation from "../shared/components/DeleteConfirmation";
 
 const PlayerRow = (props) => {
 
-  const dispatch = useDispatch();
   const appState = useSelector((state) => state);
   let img = "http:\\\\localhost:3000\\" + props.image
 

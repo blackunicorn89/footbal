@@ -99,14 +99,12 @@ const EditSeasonGame = () => {
       }
 
       let gamePlayers = appState.player.players.players.map((player) => {
-
         return (
            <SeasonGamePlayerRow key={player.id} onChange={onPlayerChange} players={player.player_name} />
         )
       })
       
       let gameGoalMakers = appState.player.players.players.map((goalMaker) => {
-      
         return (
            <SeasonGameGoalMakerRow key={goalMaker.id} onChange={onGoalMakerChange} goalMakers={goalMaker.player_name} />
         )

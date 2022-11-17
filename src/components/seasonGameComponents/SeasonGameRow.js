@@ -5,25 +5,17 @@ import {
   Card,
   CardHeader,
   Fab,
-  List,
-  ListItem,
-  ListItemText,
-  Avatar,
 } from '@mui/material';
-import { red } from '@mui/material/colors';
 import { green } from '@mui/material/colors';
-import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import CardContent from '@mui/material/CardContent';
 import Typography from "@mui/material/Typography";
-import { removeSeasonGame } from "../../actions/SeasonGameActions";
 import DeleteConfirmation from "../shared/components/DeleteConfirmation";
 import "../../stylsesheets/seasongame.css"
 
 
 const SeasonGameRow = (props) => {
 
-  const dispatch = useDispatch();
   const appState = useSelector((state) => state);
   let date = new Date(props.date)
   let localDate = date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();

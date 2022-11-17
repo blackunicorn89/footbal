@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSeasonGames } from "../../actions/SeasonGameActions";
 import SeasonGameRow from "./SeasonGameRow";
 import { Grid, Button } from "@mui/material"
 import { Link } from "react-router-dom";
 
-const SeasonGames = (props) => {
+const SeasonGames = () => {
 
   const dispatch = useDispatch();
 
@@ -17,7 +17,6 @@ const SeasonGames = (props) => {
   const appState = useSelector((state) => state);
   console.log(appState)
 
-  let season = appState.seasonGame.seasonGames.seasonGames.season_name
   console.log("kausi :" + season)
   let singleGame = appState.seasonGame.seasonGames.seasonGames.map((seasonGame) => {
 
@@ -29,8 +28,6 @@ const SeasonGames = (props) => {
       </Grid >
     )
   })
-
-  
 
   return (
     <React.Fragment>
