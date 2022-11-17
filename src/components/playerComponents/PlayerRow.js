@@ -26,11 +26,7 @@ const PlayerRow = (props) => {
 
     return (
 
-<<<<<<< HEAD
       <Card sx={{ minWidth: 275, maxWidth: "md", margin: "auto" }}>
-=======
-      <Card sx={{ minWidth: 275, maxWidth: "md", margin: "auto"}}>
->>>>>>> seasonGames
         <CardHeader
           action={
             <>

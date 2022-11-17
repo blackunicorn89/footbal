@@ -18,6 +18,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from "@mui/material/Typography";
 import { removeSeasonGame } from "../../actions/SeasonGameActions";
 import DeleteConfirmation from "../shared/components/DeleteConfirmation";
+import "../../stylsesheets/seasongame.css"
 
 
 const SeasonGameRow = (props) => {
@@ -41,6 +42,8 @@ const SeasonGameRow = (props) => {
   const goalMakers = props.goalmakers
   const listOfGoalMakers = goalMakers.map((goalMaker) =>  <li>{goalMaker}</li>);
 
+  let title = "Kausi: " + props.season 
+
   if (appState.login.admin) {
 
     return (
@@ -56,33 +59,32 @@ const SeasonGameRow = (props) => {
               <DeleteConfirmation removeType="game" id={props.id} header={props.game} title="Haluatko varmasti poistaa seuraavan pelin?" token={appState.login.token} />
             </>
           }
-          title={props.season}
+          title={title}
         />
         <CardContent>
-          <Typography variant="h4" component="pre">
-            {props.game}
+        <Typography variant="h5" component="pre">
+            Peli: {props.game}
+          </Typography>  
+        <Typography variant="body1" component="pre">
+            Pelattu: {localDate}
           </Typography>
           <Typography variant="body1" component="pre">
-            {props.finalresult}
+           Tulos: {props.finalresult}
           </Typography>
           <Typography variant="body1" component="pre">
-            {localDate}
-          </Typography>
-          <Typography variant="h5" component="pre" sx={{ marginTop: 3 }} >
             Pelaajat:
-          </Typography>
-          <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
             <ul>
               {listOfPlayers}
-            </ul>        
+            </ul>     
           </Typography>
-          <Typography variant="h5" component="pre" sx={{ marginTop: 3 }} >
+          <Typography variant="body1" component="pre">
             Maalintekijät:
-          </Typography>
-          <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
             <ul>
             {listOfGoalMakers}  
             </ul>      
+          </Typography>
+          <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
+           
           </Typography>
           <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
             Lisätietoa pelistä: {props.description}
