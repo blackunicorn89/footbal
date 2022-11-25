@@ -1,5 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom"
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import AuthVerify from "./components/shared/components/AuthVerify";
+import { logout } from "./actions/LoginActions"
 import Navbar from "./components/shared/components/Navbar";
 import LoginPage from "./components/shared/components/LoginPage"
 import Register from "./components/Register";
@@ -12,12 +14,20 @@ import EditPlayer from "./components/playerComponents/EditPlayer";
 import SeasonGames from "./components/seasonGameComponents/SeasonGames";
 import AddPSeasonGame from "./components/seasonGameComponents/AddSeasonGame";
 import EditSeasonGame from "./components/seasonGameComponents/EditSeasonGame";
-import React from "react";
+import React, { useEffect } from "react";
 import { Container } from "@mui/material";
+
+
+let logoutTimer;
 
 function App() {
 
   const appState = useSelector(state => state);
+  const dispatch = useDispatch();
+
+  const sessionLogout = () => {
+    dispatch(logout());
+  }
 
   let tempRender = <Routes>
     <Route exact path="/" element={<NewsArticles />} />
@@ -30,20 +40,26 @@ function App() {
   </Routes>
 
   if (appState.login.isLogged) {
-    tempRender = <Routes>
-      <Route exact path="/" element={<NewsArticles />} />
-      <Route exact path="/players/addplayer" element={<AddPlayer />} />
-      <Route exact path="/players/editplayer/:id" element={<EditPlayer />} />
-      <Route exact path="/addarticle" element={<AddArticle />} />
-      <Route path="/editarticle/:id" element={<EditArticle />} />
-      <Route path="/players" element={<Players />} />
-      <Route path="/seasongames" element={<SeasonGames />} />
-      <Route path="/seasongames/addseasongame" element={<AddPSeasonGame />} />
-      <Route path="/seasongames/editseasongame/:id" element={<EditSeasonGame />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="*" element={<Navigate to="/" />} />
+    tempRender =
+      <React.Fragment>
+        <React.Fragment>
+          <Routes>
+            <Route exact path="/" element={<NewsArticles />} />
+            <Route exact path="/players/addplayer" element={<AddPlayer />} />
+            <Route exact path="/players/editplayer/:id" element={<EditPlayer />} />
+            <Route exact path="/addarticle" element={<AddArticle />} />
+            <Route path="/editarticle/:id" element={<EditArticle />} />
+            <Route path="/players" element={<Players />} />
+            <Route path="/seasongames" element={<SeasonGames />} />
+            <Route path="/seasongames/addseasongame" element={<AddPSeasonGame />} />
+            <Route path="/seasongames/editseasongame/:id" element={<EditSeasonGame />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="*" element={<Navigate to="/" />} />
 
-    </Routes>
+          </Routes>
+        </React.Fragment>
+        <AuthVerify logOut={sessionLogout} />
+      </React.Fragment>
   }
   return (
 
