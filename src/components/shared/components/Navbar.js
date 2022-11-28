@@ -64,6 +64,9 @@ const Navbar = (props) => {
                   {loginStatus.admin && (
                     <Tab label="Lisää käyttäjä" component={Link} to={"/register"} />
                   )}
+                  {loginStatus.admin && (
+                    <Tab label="Lisää Kausi" component={Link} to={"/seasons"} />
+                  )}
                 </Tabs>
               </Grid>
             </Grid>
