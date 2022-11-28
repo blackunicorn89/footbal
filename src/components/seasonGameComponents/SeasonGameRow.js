@@ -80,17 +80,35 @@ const SeasonGameRow = (props) => {
     return (
       <Card sx={{ minWidth: 275, maxWidth: "md", margin: "auto" }}>
         <CardHeader
-          title={props.season}
+          title={title}
         />
         <CardContent>
-          <Typography variant="h4" component="pre">
-
+        <Typography variant="h5" component="pre">
+            Peli: {props.game}
+          </Typography>  
+        <Typography variant="body1" component="pre">
+            Pelattu: {localDate}
           </Typography>
           <Typography variant="body1" component="pre">
-            {props.finalresult}
+           Tulos: {props.finalresult}
+          </Typography>
+          <Typography variant="body1" component="pre">
+            Pelaajat:
+            <ul>
+              {listOfPlayers}
+            </ul>     
+          </Typography>
+          <Typography variant="body1" component="pre">
+            Maalintekijät:
+            <ul>
+              {listOfGoalMakers}
+            </ul>
           </Typography>
           <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
-            {props.players}
+           
+          </Typography>
+          <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
+            Lisätietoa pelistä: {props.description}
           </Typography>
         </CardContent>
       </Card>
