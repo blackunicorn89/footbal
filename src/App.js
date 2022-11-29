@@ -9,10 +9,12 @@ import EditArticle from "./components/newsComponents/EditArticle";
 import Players from "./components/playerComponents/Players";
 import AddPlayer from "./components/playerComponents/AddPlayer";
 import EditPlayer from "./components/playerComponents/EditPlayer";
+import Season from "./components/seasonComponents/Seasons";
+import AddSeason from "./components/seasonComponents/AddSeason";
+import EditSeason from "./components/seasonComponents/EditSeason";
 import SeasonGames from "./components/seasonGameComponents/SeasonGames";
 import AddPSeasonGame from "./components/seasonGameComponents/AddSeasonGame";
 import EditSeasonGame from "./components/seasonGameComponents/EditSeasonGame";
-import Season from "./components/seasonComponents/Seasons"
 import React from "react";
 import { Container } from "@mui/material";
 
@@ -39,6 +41,8 @@ function App() {
       <Route path="/editarticle/:id" element={<EditArticle />} />
       <Route path="/players" element={<Players />} />
       <Route path="/seasons" element={<Season />} />
+      <Route path="/seasons/addseason" element={<AddSeason />} />
+      <Route path="/seasons/editseason/:id" element={<EditSeason />} />
       <Route path="/seasongames" element={<SeasonGames />} />
       <Route path="/seasongames/addseasongame" element={<AddPSeasonGame />} />
       <Route path="/seasongames/editseasongame/:id" element={<EditSeasonGame />} />

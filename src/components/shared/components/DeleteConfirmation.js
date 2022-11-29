@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { removeNews } from "../../../actions/NewsActions";
 import { removePlayer } from '../../../actions/PlayerActions';
 import { removeSeasonGame } from '../../../actions/SeasonGameActions';
+import { removeSeason } from '../../../actions/SeasonActions';
 
 // MATERIAL UI
 import {
@@ -42,6 +43,10 @@ const DeleteConfirmation = (props) => {
       handleClose()
     }
 
+    if (removeType === "season") {
+      dispatch(removeSeason(props.token, props.id))
+      handleClose()
+    }
 
     if (removeType === "game") {
       dispatch(removeSeasonGame(props.token, props.id))

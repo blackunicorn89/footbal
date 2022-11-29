@@ -53,41 +53,40 @@ export const getSeasons = () => {
 
 // ADD SEASON'S GAME
 
-/*export const addSeasonGame = (login, seasonGame) => { 
+export const addSeason = (login, season) => { 
   return async (dispatch) => {
       let request = {
           method:"POST",
           headers: {"Content-type":"application/json" ,  "Authorization": "Bearer " + login.token},
-          body:JSON.stringify(seasonGame)
+          body:JSON.stringify(season)
       }
       console.log("REQUEST", request)
       dispatch(loading())
-      let response = await fetch("/api/seasongames", request);
+      let response = await fetch("/api/seasons", request);
       dispatch(stopLoading())
       if (!response) {
-          dispatch(addSeasonGameFailed("There was an error with the connection. Adding new game to season failed"));
+          dispatch(addSeasonFailed("There was an error with the connection. Adding new season failed"));
           return;
       }
       if (response.ok) {
-          dispatch(addSeasonGameSuccess());
-          dispatch(getSeasonGames());
+          dispatch(addSeasonSuccess());
+          dispatch(getSeasons());
       }
       else {
           if (response.status === 403) {
               dispatch(clearState());
-              dispatch(addSeasonGameFailed("Your session has expired. Logging you out!"));
+              dispatch(addSeasonFailed("Your session has expired. Logging you out!"));
           }
           else {
-              dispatch(addSeasonGameFailed("Adding new game to season failed. Server responded with a status " + response.status + " " + response.statusText));
+              dispatch(addSeasonFailed("Adding new season failed. Server responded with a status " + response.status + " " + response.statusText));
           }
       }
 
   }
 }
 
-// REMOVE SEASON'S GAME
-
-export const removeSeasonGame = (token, id) => {
+//REMOVE SEASON
+export const removeSeason = (token, id) => {
   return async (dispatch) => {
     let request = {
       method: "DELETE",
@@ -97,21 +96,21 @@ export const removeSeasonGame = (token, id) => {
       }
     }
     dispatch(loading());
-    let response = await fetch("/api/seasongames/" + id, request);
+    let response = await fetch("/api/seasons/" + id, request);
     dispatch(stopLoading());
     if (!response) {
-      dispatch(removeSeasonGameFailed("There was an error with the connection. Removing season's game failed."))
+      dispatch(removeSeasonFailed("There was an error with the connection. Removing season failed."))
       return;
     }
     if (response.ok) {
-      dispatch(removeSeasonGameSuccess());
-      dispatch(getSeasonGames())
+      dispatch(removeSeasonSuccess());
+      dispatch(getSeasons())
     } else {
       if (response.status === 403) {
         dispatch(clearState());
-        dispatch(removeSeasonGameFailed("Your session has expired. Logging you out!"));
+        dispatch(removeSeasonFailed("Your session has expired. Logging you out!"));
       } else {
-        dispatch(removeSeasonGameFailed("Removing season's game failed. Server responded with a status " + response.status + " " + response.statusText))
+        dispatch(removeSeasonFailed("Removing season's game failed. Server responded with a status " + response.status + " " + response.statusText))
       }
     }
   };
@@ -119,7 +118,7 @@ export const removeSeasonGame = (token, id) => {
 
 //EDIT Season's game
 
-export const editSeasonGame = (login, seasonGame) => {
+export const editSeason = (login, season) => {
   return async (dispatch) => {
     let request = {
       method: "PUT",
@@ -127,30 +126,30 @@ export const editSeasonGame = (login, seasonGame) => {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + login.token
       },
-      body: JSON.stringify(seasonGame)
+      body: JSON.stringify(season)
     }
     dispatch(loading());
-    let response = await fetch("/api/seasongames/" + seasonGame.id, request);
+    let response = await fetch("/api/seasons/" + season.id, request);
     dispatch(stopLoading());
     if (!response) {
-      dispatch(editSeasonGameFailed("There was problem with connection. Editing season's game failed"))
+      dispatch(editSeasonFailed("There was problem with connection. Editing season failed"))
       return
     }
     if (response.ok) {
       let data = await response.json();
-      dispatch(editSeasonGameSuccess(data));
-      dispatch(getSeasonGames());
+      dispatch(editSeasonSuccess(data));
+      dispatch(getSeasons());
     } else {
       if (response.status === 403) {
         dispatch(clearState());
-        dispatch(editSeasonGameFailed("Your session has expired. Logging you out!"));
+        dispatch(editSeasonFailed("Your session has expired. Logging you out!"));
       } else {
-        dispatch(editSeasonGameFailed("Editing season's game failed. Server responded with status " + response.status + " " + response.statusText));
+        dispatch(editSeasonFailed("Editing season failed. Server responded with status " + response.status + " " + response.statusText));
 
       }
     }
   };
-}; */
+}; 
 
 
 //Action Creators
@@ -170,41 +169,41 @@ const fetchSeasonsFailed = (error) => {
   }
 }
 
-/*const addSeasonGameSuccess = () => {
+const addSeasonSuccess = () => {
   return {
-      type:ADD_SEASON_GAME_SUCCESS
+      type:ADD_SEASON_SUCCESS
   }
 }
 
-const addSeasonGameFailed = (error) => {
+const addSeasonFailed = (error) => {
   return {
-      type:ADD_SEASON_GAME_FAILED,
+      type:ADD_SEASON_FAILED,
       error:error
   }
 }
-const removeSeasonGameSuccess = () => {
+const removeSeasonSuccess = () => {
   return {
-      type:REMOVE_SEASON_GAME_SUCCESS
+      type:REMOVE_SEASON_SUCCESS
   }
 }
 
-const removeSeasonGameFailed = (error) => {
+const removeSeasonFailed = (error) => {
   return {
-      type:REMOVE_SEASON_GAME_FAILED,
+      type:REMOVE_SEASON_FAILED,
       error:error
   }
 }
 
 
-const editSeasonGameSuccess = () => {
+const editSeasonSuccess = () => {
   return {
-      type:EDIT_SEASON_GAME_SUCCESS
+      type:EDIT_SEASON_SUCCESS
   }
 }
 
-const editSeasonGameFailed = (error) => {
+const editSeasonFailed = (error) => {
   return {
-      type:EDIT_SEASON_GAME_FAILED,
+      type:EDIT_SEASON_FAILED,
       error:error
   }
-}*/
+}

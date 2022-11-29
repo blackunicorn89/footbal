@@ -62,10 +62,10 @@ const Navbar = (props) => {
                   <Tab label="Pelaajat" component={Link} to={"/players"} />
                   <Tab label="Kauden pelit" component={Link} to={"/seasongames"} />
                   {loginStatus.admin && (
-                    <Tab label="Lisää käyttäjä" component={Link} to={"/register"} />
+                    <Tab label="Lisää Kausi" component={Link} to={"/seasons"} />
                   )}
                   {loginStatus.admin && (
-                    <Tab label="Lisää Kausi" component={Link} to={"/seasons"} />
+                    <Tab label="Lisää käyttäjä" component={Link} to={"/register"} />
                   )}
                 </Tabs>
               </Grid>

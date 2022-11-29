@@ -15,19 +15,13 @@ import DeleteConfirmation from "../shared/components/DeleteConfirmation";
 
 const SeasonGameRow = (props) => {
 
-  let activeSeason = "false"
-  const appState = useSelector((state) => state);
-  const SeasonStatus = () => {
-    let activeSeason = ""  
-    if (props.active) {
-      activeSeason = "Kyllä"
-    }
-    else {
-      activeSeason = "Ei"
-    }
-    
+  //Tarkistetaan kauden tila. Jos Kauden tila on true, vaihdetaan activeSeasonin tilaksi kyllä. Muuten oletuksena ei.
+  let activeSeason = "Ei"
+  if (props.active) {
+      activeSeason = "Kyllä"  
   }
-  console.log(SeasonStatus)
+  const appState = useSelector((state) => state);
+  
   let title = "Kausi: " + props.season
   
   
@@ -41,38 +35,22 @@ const SeasonGameRow = (props) => {
         <CardHeader
           action={
             <>
-              <Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"/seasons/editSeason/" + props.id} >
+              <Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"/seasons/editseason/" + props.id} >
                 <EditIcon />
               </Fab>
-              <DeleteConfirmation removeType="game" id={props.id} header={props.game} title="Haluatko varmasti poistaa kauden?" token={appState.login.token} />
+              <DeleteConfirmation removeType="season" id={props.id} header={props.season} title="Haluatko varmasti poistaa kauden?" token={appState.login.token} />
             </>
           }
           title={title}
         />
         <CardContent>
         <Typography variant="body1" component="pre">
-            Aktiivinen: {props.active}
+            Aktiivinen: {activeSeason}
           </Typography>
         </CardContent>
       </Card>
     )
-  } else {
-    return (
-      <Card sx={{ minWidth: 275, maxWidth: "md", margin: "auto" }}>
-        <CardHeader
-          title={title}
-        />
-        <CardContent>
-        <Typography variant="h5" component="pre">
-            Kausi: {SeasonStatus}
-        </Typography>  
-        <Typography variant="body1" component="pre">
-            Aktiivinen: {props.active}
-        </Typography>
-        </CardContent>
-      </Card>
-    )
-  }
+  } 
 };
 
 export default SeasonGameRow;
