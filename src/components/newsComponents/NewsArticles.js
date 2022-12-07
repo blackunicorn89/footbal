@@ -15,11 +15,11 @@ const NewsArticles = (props) => {
 
   const appState = useSelector((state) => state);
 
-  let articles = appState.news.news.newsArticles.map((article) => {
+  let articles = appState.news.news.map((article) => {
     return (
 
       <Grid item xs={12} sm={6} md={4} lg={12} key={article.id}>
-        <Article id={article.id} header={article.header} date={article.date} content={article.content} />
+        <Article id={article.id} header={article.header} date={article.published} content={article.content} />
       </Grid >
     )
   })

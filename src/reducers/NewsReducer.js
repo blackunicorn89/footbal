@@ -16,7 +16,7 @@ const getInitialState = () => {
     return state;
   } else {
     return {
-      news: { newsArticles: [] },
+      news:[],
       error: ""
     }
   }

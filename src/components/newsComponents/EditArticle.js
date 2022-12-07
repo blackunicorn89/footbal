@@ -9,7 +9,7 @@ const validationSchema = yup.object({
   header: yup
     .string("Pakollinen kenttä.")
     .required('Pakollinen kenttä'),
-  date: yup
+  published: yup
     .string()
     .required("Pakollinen kenttä."),
   content: yup
@@ -21,11 +21,15 @@ const EditArticle = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate()
-  const id = useParams()
+  const arcticleid = useParams()
+
+  //Parsetaan numeroksi, koska id:n arvo on numero. Parametrinä tuleva acticledid on stringi, jonka vuoksi articlen haku kaatuu
+  const id = parseInt(arcticleid.id)
 
   const article = useSelector((state) =>
-    state.news.news.newsArticles.find((article => article.id === id.id))
+    state.news.news.find((article => article.id === id))
   );
+
 
   const login = useSelector((state) =>
     state.login
@@ -33,26 +37,26 @@ const EditArticle = () => {
 
   // MUI TEXTFIELD DEFAULT DATE 
 
-  const dateNow = new Date(article.date); // Creating a new date object with the current date and time
+  const dateNow = new Date(article.published); // Creating a new date object with the current date and time
   const year = dateNow.getFullYear(); // Getting current year from the created Date object
   const monthWithOffset = dateNow.getUTCMonth() + 1; // January is 0 by default in JS. Offsetting +1 to fix date for calendar.
   const month = // Setting current Month number from current Date object
     monthWithOffset.toString().length < 2 // Checking if month is < 10 and pre-prending 0 if not to adjust for date input.
       ? `0${monthWithOffset}`
       : monthWithOffset;
-  const date =
+  const published =
     dateNow.getUTCDate().toString().length < 2 // Checking if date is < 10 and pre-prending 0 if not to adjust for date input.
       ? `0${dateNow.getUTCDate()}`
       : dateNow.getUTCDate();
-  const materialDateInput = `${year}-${month}-${date}`; // combining to format for defaultValue or value attribute of material <TextField>
+  const materialDateInput = `${year}-${month}-${published}`; // combining to format for defaultValue or value attribute of material <TextField>
 
   // END MUI TEXTFIELD DEFAULT DATE
 
   const formik = useFormik({
     initialValues: {
-      id: id.id,
+      id: id,
       header: article.header,
-      date: materialDateInput,
+      published: materialDateInput,
       content: article.content,
     },
     validationSchema: validationSchema,
@@ -86,11 +90,11 @@ const EditArticle = () => {
         <TextField
           type="date"
           label="Päivämäärä"
-          name="date"
-          value={formik.values.date}
+          name="published"
+          value={formik.values.published}
           onChange={formik.handleChange}
-          error={formik.touched.date && Boolean(formik.errors.date)}
-          helperText={formik.touched.date && formik.errors.date}
+          error={formik.touched.published && Boolean(formik.errors.published)}
+          helperText={formik.touched.published && formik.errors.published}
           margin="normal"
           fullWidth
           InputLabelProps={{ shrink: true }}

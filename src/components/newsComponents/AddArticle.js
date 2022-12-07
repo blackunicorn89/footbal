@@ -9,7 +9,7 @@ const validationSchema = yup.object({
   header: yup
     .string("Pakollinen kenttä.")
     .required("Pakollinen kenttä"),
-  date: yup
+  published: yup
     .date("Kirjoita hyväkysyttävä päivämäärä.")
     .required("Pakollinen kenttä."),
   content: yup
@@ -47,7 +47,7 @@ const AddArticle = () => {
   const formik = useFormik({
     initialValues: {
       header: "",
-      date: materialDateInput,
+      published: materialDateInput,
       content: "",
     },
     validationSchema: validationSchema,
@@ -78,14 +78,14 @@ const AddArticle = () => {
 
         />
         <TextField
-          id="date"
+          id="published"
           type="date"
           label="Päivämäärä"
-          name="date"
-          value={formik.values.date}
+          name="published"
+          value={formik.values.published}
           onChange={formik.handleChange}
-          error={formik.touched.date && Boolean(formik.errors.date)}
-          helperText={formik.touched.date && formik.errors.date}
+          error={formik.touched.published && Boolean(formik.errors.published)}
+          helperText={formik.touched.published && formik.errors.published}
           margin="normal"
           fullWidth
           InputLabelProps={{ shrink: true }}
