@@ -18,7 +18,7 @@ const getInitialState = () => {
     return state;
   } else {
     return {
-      players: {players: []},
+      players:[],
       error: ""
     }
   }

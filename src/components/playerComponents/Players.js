@@ -5,7 +5,7 @@ import PlayerRow from "./PlayerRow";
 import { Grid, Button } from "@mui/material"
 import { Link } from "react-router-dom";
 
-const Players = (props) => {
+const Players = () => {
 
   const dispatch = useDispatch();
 
@@ -17,7 +17,7 @@ const Players = (props) => {
   const appState = useSelector((state) => state);
   console.log(appState)
 
-  let singlePlayer = appState.player.players.players.map((player) => {
+  let singlePlayer = appState.player.players.map((player) => {
 
     return (
       <Grid item xs={12} sm={6} md={4} lg={12} key={player.id}>

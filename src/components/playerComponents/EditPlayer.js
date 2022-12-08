@@ -23,10 +23,13 @@ const validationSchema = yup.object({
 const EditPlayer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
-  const id = useParams()
+  const playerid = useParams()
+
+  //Parsetaan numeroksi, koska id:n arvo on numero. Parametrinä tuleva playerid on stringi, jonka vuoksi articlen haku kaatuu
+  const id = parseInt(playerid.id)
 
   const player = useSelector((state) =>
-    state.player.players.players.find((player => player.id === id.id))
+    state.player.players.find((player => player.id === id))
   );
 
   const login = useSelector((state) =>
@@ -47,7 +50,7 @@ const EditPlayer = () => {
       for (let value in values) {
         formData.append(value, values[value]);
       }
-      dispatch(editPlayer(login, formData, player.id));
+      dispatch(editPlayer(login, formData, id));
       navigate("/players");
     }
   })
@@ -57,9 +60,7 @@ const EditPlayer = () => {
     <Grid align="center">
       <h2>Muokkaa Pelaajaa</h2>
 
-      <form onSubmit={formik.handleSubmit}>
-
-        <input name="id" defaultValue={formik.values.id} />
+      <form onSubmit={formik.handleSubmit} encType="multipart/form-data">
 
         <TextField
           id="image"
