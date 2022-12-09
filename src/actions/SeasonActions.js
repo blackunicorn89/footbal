@@ -17,13 +17,13 @@ export const EDIT_SEASON_FAILED = "EDIT_SEASON_FAILED";
 
 // GET Season's games
 
-export const getSeasons = () => {
+export const getSeasons = (token) => {
   return async (dispatch) => {
 
 
     let request = {
     method: "GET",
-    headers: { "Content-Type": "application/json"}
+    headers: { "Content-Type": "application/json",  "Authorization": "Bearer " + token }
     //   body: ""
 
     }
@@ -70,7 +70,7 @@ export const addSeason = (login, season) => {
       }
       if (response.ok) {
           dispatch(addSeasonSuccess());
-          dispatch(getSeasons());
+          dispatch(getSeasons(login.token));
       }
       else {
           if (response.status === 403) {
@@ -104,7 +104,7 @@ export const removeSeason = (token, id) => {
     }
     if (response.ok) {
       dispatch(removeSeasonSuccess());
-      dispatch(getSeasons())
+      dispatch(getSeasons(token))
     } else {
       if (response.status === 403) {
         dispatch(clearState());
@@ -138,7 +138,7 @@ export const editSeason = (login, season) => {
     if (response.ok) {
       let data = await response.json();
       dispatch(editSeasonSuccess(data));
-      dispatch(getSeasons());
+      dispatch(getSeasons(login.token));
     } else {
       if (response.status === 403) {
         dispatch(clearState());

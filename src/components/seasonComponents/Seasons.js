@@ -7,17 +7,16 @@ import { Link } from "react-router-dom";
 
 const Seasons = () => {
 
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getSeasons())
-  }, []);
-
-
   const appState = useSelector((state) => state);
   console.log(appState)
 
-  let singleSeason = appState.season.season.seasons.map((season) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getSeasons(appState.login.token))
+  }, []);
+
+  let singleSeason = appState.season.season.map((season) => {
 
 
     return (

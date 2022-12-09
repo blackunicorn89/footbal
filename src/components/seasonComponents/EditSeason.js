@@ -8,10 +8,13 @@ import * as yup from "yup";
 const EditSeason = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
-    const id = useParams()
+    const seasonid = useParams()
+
+    //Parsetaan numeroksi, koska id:n arvo on numero. Parametrinä tuleva seasonid on stringi, jonka vuoksi kauden haku kaatuu
+    const id = parseInt(seasonid.id)
   
     const season = useSelector((state) =>
-      state.season.season.seasons.find((season => season.id === id.id))
+      state.season.season.find((season => season.id === id))
     );
 
     const login = useSelector((state) => 
@@ -26,9 +29,9 @@ const EditSeason = () => {
 
     const formik = useFormik({
       initialValues: {
-      id: id.id,   
+      id: id,   
       season_name: season.season_name,
-      active: season.active
+      active: true
       },
       validationSchema: validationSchema,
         onSubmit: (values) => {

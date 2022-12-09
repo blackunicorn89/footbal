@@ -18,7 +18,7 @@ const getInitialState = () => {
     return state;
   } else {
     return {
-      season: {season: []},
+      season: [],
       error: ""
     }
   }

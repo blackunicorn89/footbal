@@ -6,7 +6,15 @@ import {  useFormik } from "formik";
 import * as yup from "yup";
 
 
+
 const AddPSeasonForm = () => { 
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+
+  const login = useSelector((state) =>
+    state.login
+  );
   
   const validationSchema = yup.object({
     season_name: yup
@@ -23,17 +31,12 @@ const AddPSeasonForm = () => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       dispatch(addSeason(login, values));
-      navigate("/seasons");
+      navigate("/seasons", );
     },
   })
 
   
-  const dispatch = useDispatch();
-  const navigate = useNavigate()
-
-  const login = useSelector((state) =>
-    state.login
-  );
+  
 
     return (
       <Grid>

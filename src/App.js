@@ -28,6 +28,7 @@ function App() {
     <Route path="/login" element={<LoginPage />} />
     <Route path="/players" element={<Players />} />
     <Route path="/seasongames" element={<SeasonGames />} />
+    <Route path="/seasons" element={<Season />} />
     <Route path="*" element={<Navigate to="/" />} />
 
   </Routes>
