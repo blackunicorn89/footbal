@@ -15,19 +15,18 @@ const SeasonGames = () => {
 
 
   const appState = useSelector((state) => state);
+  console.log("Mikä on appstate")
   console.log(appState)
 
-  let singleGame = appState.seasonGame.seasonGames.seasonGames.map((seasonGame) => {
+  let singleGame = appState.seasonGame.seasonGames.map((seasonGame) => {
 
-
+  
     return (
       <Grid item xs={12} sm={6} md={4} lg={12} key={seasonGame.id}>
-        <SeasonGameRow id={seasonGame.id} season = {seasonGame.season_name} game={seasonGame.game} finalresult={seasonGame.final_result} date = {seasonGame.date}
-         players={seasonGame.players} goalmakers={seasonGame.goal_makers} description={seasonGame.description} />
+        <SeasonGameRow game={seasonGame.games}></SeasonGameRow>
       </Grid >
     )
   })
-
   return (
     <React.Fragment>
       <Grid align="center" >

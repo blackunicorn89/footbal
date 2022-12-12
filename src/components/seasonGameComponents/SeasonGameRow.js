@@ -20,13 +20,16 @@ const SeasonGameRow = (props) => {
   let date = new Date(props.date)
   let localDate = date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();
 
-  const players = props.players
+  
+  const game = props.game[0].game
+  const finalresult = props.game[0].final_result
+  const players = props.game[0].players
   const listOfPlayers = players.map((player) => <li>{player}</li>);
 
-  const goalMakers = props.goalmakers
+  const goalMakers = props.game[0].goal_makers
   const listOfGoalMakers = goalMakers.map((goalMaker) => <li>{goalMaker}</li>);
 
-  let title = "Kausi: " + props.season 
+  let title = "Kausi: " 
 
   if (appState.login.admin) {
 
@@ -47,13 +50,13 @@ const SeasonGameRow = (props) => {
         />
         <CardContent>
         <Typography variant="h5" component="pre">
-            Peli: {props.game}
+            Peli: {game}
           </Typography>  
         <Typography variant="body1" component="pre">
             Pelattu: {localDate}
           </Typography>
           <Typography variant="body1" component="pre">
-           Tulos: {props.finalresult}
+           Tulos: {finalresult}
           </Typography>
           <Typography variant="body1" component="pre">
             Pelaajat:

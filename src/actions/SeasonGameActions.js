@@ -62,7 +62,7 @@ export const addSeasonGame = (login, seasonGame) => {
       }
       console.log("REQUEST", request)
       dispatch(loading())
-      let response = await fetch("/api/seasongames", request);
+      let response = await fetch("/api/games", request);
       dispatch(stopLoading())
       if (!response) {
           dispatch(addSeasonGameFailed("There was an error with the connection. Adding new game to season failed"));
@@ -97,7 +97,7 @@ export const removeSeasonGame = (token, id) => {
       }
     }
     dispatch(loading());
-    let response = await fetch("/api/seasongames/" + id, request);
+    let response = await fetch("/api/games/" + id, request);
     dispatch(stopLoading());
     if (!response) {
       dispatch(removeSeasonGameFailed("There was an error with the connection. Removing season's game failed."))
@@ -130,7 +130,7 @@ export const editSeasonGame = (login, seasonGame) => {
       body: JSON.stringify(seasonGame)
     }
     dispatch(loading());
-    let response = await fetch("/api/seasongames/" + seasonGame.id, request);
+    let response = await fetch("/api/games/" + seasonGame.id, request);
     dispatch(stopLoading());
     if (!response) {
       dispatch(editSeasonGameFailed("There was problem with connection. Editing season's game failed"))
