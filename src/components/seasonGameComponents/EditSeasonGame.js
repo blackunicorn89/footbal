@@ -10,12 +10,28 @@ import * as yup from "yup";
 const EditSeasonGame = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
-    const id = useParams()
+    const seasonGameId = useParams()
+    
+    //Parsetaan numeroksi, koska id:n arvo on numero. Parametrinä tuleva seasonGameId on stringi, jonka vuoksi kauden pelin haku kaatuu
+    const id = parseInt(seasonGameId.id)
+
     const appState = useSelector((state) => state);
   
-    const seasonGame = useSelector((state) =>
-      state.seasonGame.seasonGames.seasonGames.find((seasonGame => seasonGame.id === id.id))
-    );
+    const season = useSelector((state) =>
+      state.seasonGame
+    )
+
+    console.log( typeof season)
+    
+    /*const seasonGame = useSelector((state) =>
+      state.seasonGame.seasonGames.find((seasonGame => seasonGame.id === id.id))
+    );*/
+
+    const seasonGame = season.find((seasonGames => seasonGames.id === id.id))
+    
+
+    console.log(seasonGame)
+
 
     const login = useSelector((state) => 
       state.login
@@ -31,7 +47,7 @@ const EditSeasonGame = () => {
       final_result: yup
         .string("Pakollinen kenttä.")
         .required("Pakollinen kenttä"),
-      date: yup
+      played: yup
         .date("Kirjoita hyväkysyttävä päivämäärä.")
         .required("Pakollinen kenttä."),
       players: yup

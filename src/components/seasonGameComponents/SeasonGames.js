@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSeasonGames } from "../../actions/SeasonGameActions";
 import SeasonGameRow from "./SeasonGameRow";
-import { Grid, Button } from "@mui/material"
+import { Grid, Button, Typography } from "@mui/material"
 import { Link } from "react-router-dom";
+
 
 const SeasonGames = () => {
 
@@ -15,28 +16,52 @@ const SeasonGames = () => {
 
 
   const appState = useSelector((state) => state);
-  console.log("Mikä on appstate")
-  console.log(appState)
+  let games = []
+  let seasonGame
 
-  let singleGame = appState.seasonGame.seasonGames.map((seasonGame) => {
+  let season = appState.seasonGame.seasonGames.map((season) => {
 
+
+    if (season.active) {
+    games = season.games
+  
+    return (
+      <Grid item xs={12} sm={6} md={4} lg={12} key={season.id}>
+        <h1>Kauden {season.season_name} pelit</h1>
+      </Grid >
+    )
+    }
+    
+  })
+
+  if (games.length === 0) {
+    return (
+      <Typography variant="body1" component="pre">
+        Ei aktiivista kautta valittuna. Ole yhteydessä adminiin.
+    </Typography>
+    )
+  } 
+  else {
+  seasonGame = games.map((seasonGame) => {
   
     return (
       <Grid item xs={12} sm={6} md={4} lg={12} key={seasonGame.id}>
-        <SeasonGameRow game={seasonGame.games}></SeasonGameRow>
+        <SeasonGameRow id={seasonGame.id} game={seasonGame.game} played={seasonGame.played} finalresult={seasonGame.final_result}
+         players={seasonGame.players} goalmakers = {seasonGame.goal_makers} description={seasonGame.description}></SeasonGameRow>
       </Grid >
     )
-  })
+    })
+  }
   return (
     <React.Fragment>
       <Grid align="center" >
-        <h2>Kauden pelit</h2>
+      {season}
         {appState.login.admin &&
           <Button color="primary" variant="contained" margin="normal" component={Link} to={"/seasongames/addseasongame"} fullWidth sx={{ padding: 1, margin: 2 }} >Lisää uusi</Button>
         }
       </Grid>
       <Grid container spacing={2} alignItems="center" justify="center">
-        {singleGame}
+        {seasonGame}
       </Grid>
     </React.Fragment>
   )

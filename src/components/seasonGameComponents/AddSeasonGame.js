@@ -36,21 +36,37 @@ const AddPSeasonGameForm = () => {
     final_result: yup
       .string("Pakollinen kenttä.")
       .required("Pakollinen kenttä"),
-    date: yup
+    played: yup
       .date("Kirjoita hyväkysyttävä päivämäärä.")
       .required("Pakollinen kenttä."),
     players: yup
       .array().min(1, "Vähintään yksi pelaaja on lisättävä")
   });
 
+  const appState = useSelector((state) => state);
+
+  const login = useSelector((state) =>
+    state.login
+  );
+
+  const season = useSelector((state) =>
+    state.season
+  )
+  
+  let seasonname=""
+  season.season.map((season) => {
+    if (season.active) {
+        seasonname = season.season_name
+    }
+    
+  })
 
   const formik = useFormik({
     initialValues:{
-    season_name: "2022-2023",
-		active: "true",
+    season_name: seasonname,
 		game: "",
 		final_result: "",
-    date: materialDateInput,
+    played: materialDateInput,
 		description: "",
     players: [],
     goal_makers: []
@@ -81,35 +97,25 @@ const AddPSeasonGameForm = () => {
       }
   
     }
-   
-    const login = useSelector((state) =>
-    state.login
-  );
-  
+
   const dispatch = useDispatch();
   const navigate = useNavigate()
 
-  const appState = useSelector((state) => state);
+ 
 
-  
-
-  let gamePlayers = appState.player.players.players.map((player) => {
+  let gamePlayers = appState.player.players.map((player) => {
 
   return (
      <SeasonGamePlayerRow key={player.id} onChange={onPlayerChange} players={player.player_name} />
   )
 })
 
-let gameGoalMakers = appState.player.players.players.map((goalMaker) => {
+let gameGoalMakers = appState.player.players.map((goalMaker) => {
 
   return (
      <SeasonGameGoalMakerRow key={goalMaker.id} onChange={onGoalMakerChange} goalMakers={goalMaker.player_name} />
   )
 })
-
-
- 
-
     return (
       <Grid>
         <Paper elevation={10}>
@@ -120,6 +126,7 @@ let gameGoalMakers = appState.player.players.players.map((goalMaker) => {
             <TextField
              type="text"
              label="Kausi"
+             disabled = {true}
              name="season_name"
              value={formik.values.season_name}
              onChange={formik.handleChange}
@@ -128,25 +135,6 @@ let gameGoalMakers = appState.player.players.players.map((goalMaker) => {
              margin="normal"
              fullWidth required
              InputLabelProps={{ shrink: true }} /> 
-            <FormLabel id="active_form">Aktiivinen kausi:</FormLabel>
-            <RadioGroup
-              row
-              aria-labelledby="active_form"
-              defaultValue="true"
-              name="radio-buttons-group"
-              onChange={formik.handleChange}
-              >
-              <FormControlLabel
-                name="active"
-                value="true"
-                control={<Radio size="small" />}
-                label="Kyllä" />
-              <FormControlLabel
-                name="active"
-                value="false"
-                control={<Radio size="small" />}
-                label="Ei" />
-           </RadioGroup>
             <TextField type="text"
               label="Peli"
               name="game"
@@ -173,11 +161,11 @@ let gameGoalMakers = appState.player.players.players.map((goalMaker) => {
               id="date"
               type="date"
               label="Päivämäärä"
-              name="date"
-              value={formik.values.date}
+              name="played"
+              value={formik.values.played}
               onChange={formik.handleChange}
-              error={formik.touched.date && Boolean(formik.errors.date)}
-              helperText={formik.touched.date && formik.errors.date}
+              error={formik.touched.played && Boolean(formik.errors.played)}
+              helperText={formik.touched.played && formik.errors.played}
               margin="normal"
               fullWidth
               InputLabelProps={{ shrink: true }}
