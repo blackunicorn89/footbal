@@ -14,16 +14,15 @@ export const EDIT_SEASON_SUCCESS = "EDIT_SEASON_SUCCESS";
 export const EDIT_SEASON_FAILED = "EDIT_SEASON_FAILED";
 
 
-
 // GET Season's games
 
-export const getSeasons = (token) => {
+export const getSeasons = () => {
   return async (dispatch) => {
 
 
     let request = {
     method: "GET",
-    headers: { "Content-Type": "application/json",  "Authorization": "Bearer " + token }
+    headers: { "Content-Type": "application/json"}
     //   body: ""
 
     }
@@ -70,7 +69,7 @@ export const addSeason = (login, season) => {
       }
       if (response.ok) {
           dispatch(addSeasonSuccess());
-          dispatch(getSeasons(login.token));
+          dispatch(getSeasons);
       }
       else {
           if (response.status === 403) {
@@ -104,7 +103,7 @@ export const removeSeason = (token, id) => {
     }
     if (response.ok) {
       dispatch(removeSeasonSuccess());
-      dispatch(getSeasons(token))
+      dispatch(getSeasons)
     } else {
       if (response.status === 403) {
         dispatch(clearState());
@@ -138,7 +137,7 @@ export const editSeason = (login, season) => {
     if (response.ok) {
       let data = await response.json();
       dispatch(editSeasonSuccess(data));
-      dispatch(getSeasons(login.token));
+      dispatch(getSeasons);
     } else {
       if (response.status === 403) {
         dispatch(clearState());
@@ -150,8 +149,6 @@ export const editSeason = (login, season) => {
     }
   };
 }; 
-
-
 //Action Creators
 
 const fetchSeasonsSuccess = (season) => {

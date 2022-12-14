@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -13,9 +13,9 @@ import Typography from "@mui/material/Typography";
 import DeleteConfirmation from "../shared/components/DeleteConfirmation";
 
 
-const SeasonGameRow = (props) => {
+const SeasonRow = (props) => {
 
-  //Tarkistetaan kauden tila. Jos Kauden tila on true, vaihdetaan activeSeasonin tilaksi kyllä. Muuten oletuksena ei.
+  //Tarkistetaan kauden tila. Jos kauden tila on true, vaihdetaan activeSeasonin tilaksi kyllä. Muuten oletuksena ei.
   let activeSeason = "Ei"
   if (props.active) {
       activeSeason = "Kyllä"  
@@ -24,8 +24,6 @@ const SeasonGameRow = (props) => {
   
   let title = "Kausi: " + props.season
   
-  
-
   if (appState.login.admin) {
 
     return (
@@ -53,4 +51,4 @@ const SeasonGameRow = (props) => {
   } 
 };
 
-export default SeasonGameRow;
+export default SeasonRow;

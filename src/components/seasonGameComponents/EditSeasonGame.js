@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { editSeasonGame } from "../../actions/SeasonGameActions";
-import { Box, Grid, Paper, TextField, Button, RadioGroup, Radio, FormLabel, FormControlLabel } from "@mui/material"
+import { Box, Grid, Paper, TextField, Button} from "@mui/material"
 import SeasonGameGoalMakerRow from "./SeasonGameGoalMakerRow";
 import SeasonGamePlayerRow from "./SeasonGamePlayerRow";
 import {  useFormik } from "formik";
@@ -16,47 +16,48 @@ const EditSeasonGame = () => {
     const id = parseInt(seasonGameId.id)
 
     const appState = useSelector((state) => state);
-  
-    const season = useSelector((state) =>
-      state.seasonGame
-    )
-
-    console.log( typeof season)
-    
-    /*const seasonGame = useSelector((state) =>
-      state.seasonGame.seasonGames.find((seasonGame => seasonGame.id === id.id))
-    );*/
-
-    const seasonGame = season.find((seasonGames => seasonGames.id === id.id))
-    
-
-    console.log(seasonGame)
-
 
     const login = useSelector((state) => 
       state.login
     );
+  
+    const seasonGames = useSelector((state) =>
+      state.seasonGame
+    )
+  
+    console.log("kauden pelit")
+    console.log(seasonGames)
 
-    const validationSchema = yup.object({
-      season_name: yup
-        .string("Pakollinen kenttä.")
-        .required("Pakollinen kenttä"),
-      game: yup
-        .string("Pakollinen kenttä.")
-        .required("Pakollinen kenttä"),
-      final_result: yup
-        .string("Pakollinen kenttä.")
-        .required("Pakollinen kenttä"),
-      played: yup
-        .date("Kirjoita hyväkysyttävä päivämäärä.")
-        .required("Pakollinen kenttä."),
-      players: yup
-        .array().min(1, "Vähintään yksi pelaaja on lisättävä")
-    });
+    let games = []
+    seasonGames.seasonGames.map((season) => {
+    if (season.active)
+    {
+      games = season.games
+    }
+  })
+
+  const game = games.find((games => games.id === id))
+
+  const validationSchema = yup.object({
+    season_name: yup
+      .string("Pakollinen kenttä.")
+      .required("Pakollinen kenttä"),
+    game: yup
+      .string("Pakollinen kenttä.")
+      .required("Pakollinen kenttä"),
+    final_result: yup
+      .string("Pakollinen kenttä.")
+      .required("Pakollinen kenttä"),
+    played: yup
+      .date("Kirjoita hyväkysyttävä päivämäärä.")
+      .required("Pakollinen kenttä."),
+    players: yup
+      .array().min(1, "Vähintään yksi pelaaja on lisättävä")
+  });
 
     // MUI TEXTFIELD DEFAULT DATE 
 
-  const dateNow = new Date(seasonGame.date); // Creating a new date object with the current date and time
+  const dateNow = new Date(game.played); // Creating a new date object with the current date and time
   const year = dateNow.getFullYear(); // Getting current year from the created Date object
   const monthWithOffset = dateNow.getUTCMonth() + 1; // January is 0 by default in JS. Offsetting +1 to fix date for calendar.
   const month = // Setting current Month number from current Date object
@@ -73,15 +74,14 @@ const EditSeasonGame = () => {
 
     const formik = useFormik({
       initialValues: {
-      id: id.id,   
-      season_name: seasonGame.season_name,
-      active: "true",
-      game: seasonGame.game,
-      final_result:seasonGame.final_result,
-      date: materialDateInput,
-      description:seasonGame.description,
-      currentPlayers: seasonGame.players,
-      currentGoalMakers: seasonGame.goal_makers,
+      id: id,   
+      season_name: game.season_name,
+      game: game.game,
+      final_result: game.final_result,
+      played: materialDateInput,
+      description: game.description,
+      currentPlayers: game.players,
+      currentGoalMakers: game.goal_makers,
       players: [],
       goal_makers: []
       },
@@ -114,13 +114,13 @@ const EditSeasonGame = () => {
         }
       }
 
-      let gamePlayers = appState.player.players.players.map((player) => {
+      let gamePlayers = appState.player.players.map((player) => {
         return (
            <SeasonGamePlayerRow key={player.id} onChange={onPlayerChange} players={player.player_name} />
         )
       })
       
-      let gameGoalMakers = appState.player.players.players.map((goalMaker) => {
+      let gameGoalMakers = appState.player.players.map((goalMaker) => {
         return (
            <SeasonGameGoalMakerRow key={goalMaker.id} onChange={onGoalMakerChange} goalMakers={goalMaker.player_name} />
         )
@@ -144,17 +144,6 @@ const EditSeasonGame = () => {
              margin="normal"
              fullWidth required
              InputLabelProps={{ shrink: true }} /> 
-              <FormLabel id="active_form">Aktiivinen kausi:</FormLabel>
-              <RadioGroup
-                    row
-                    aria-labelledby="active_form"
-                    defaultValue="true"
-                    name="radio-buttons-group"
-                    onChange={formik.handleChange}
-                    >
-                  <FormControlLabel name="active" value="true"  control={<Radio size="small" />} label="Kyllä" />
-                  <FormControlLabel name="active" value="false" control={<Radio size="small" />} label="Ei" />
-              </RadioGroup>
               <TextField type="text"
                 label="Peli"
                 name="game"
@@ -180,11 +169,11 @@ const EditSeasonGame = () => {
               <TextField
                 type="date"
                 label="Päivämäärä"
-                name="date"
-                value={formik.values.date}
+                name="played"
+                value={formik.values.played}
                 onChange={formik.handleChange}
-                error={formik.touched.date && Boolean(formik.errors.date)}
-                helperText={formik.touched.date && formik.errors.date}
+                error={formik.touched.played && Boolean(formik.errors.played)}
+                helperText={formik.touched.played && formik.errors.played}
                 margin="normal"
                 fullWidth
                 InputLabelProps={{ shrink: true }}

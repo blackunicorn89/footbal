@@ -5,8 +5,6 @@ import {Radio, RadioGroup, FormLabel, FormControlLabel, Box, Grid, Paper, TextFi
 import {  useFormik } from "formik";
 import * as yup from "yup";
 
-
-
 const AddPSeasonForm = () => { 
 
   const dispatch = useDispatch();
@@ -34,9 +32,6 @@ const AddPSeasonForm = () => {
       navigate("/seasons", );
     },
   })
-
-  
-  
 
     return (
       <Grid>
@@ -95,7 +90,5 @@ const AddPSeasonForm = () => {
         </Grid>
   )
 }
-
-
 
 export default AddPSeasonForm;

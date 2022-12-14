@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";
 import { addSeasonGame } from '../../actions/SeasonGameActions';
-import {Radio, RadioGroup, FormLabel, FormControlLabel, Box, Grid, Paper, TextField, Button } from "@mui/material"
+import {Box, Grid, Paper, TextField, Button } from "@mui/material"
 import SeasonGamePlayerRow from './SeasonGamePlayerRow';
 import SeasonGameGoalMakerRow from './SeasonGameGoalMakerRow';
 import {  useFormik } from "formik";
@@ -88,20 +88,18 @@ const AddPSeasonGameForm = () => {
   
   }
 
-    const onGoalMakerChange = (e) => {
+  const onGoalMakerChange = (e) => {
 
-      if (e.target.checked) {
-        formik.values.goal_makers.push(e.target.value);
-      } else {
-        formik.values.goal_makers.splice(formik.values.goal_makers.indexOf(e.target.value), 1);
-      }
-  
+    if (e.target.checked) {
+      formik.values.goal_makers.push(e.target.value);
+    } else {
+      formik.values.goal_makers.splice(formik.values.goal_makers.indexOf(e.target.value), 1);
     }
+
+  }
 
   const dispatch = useDispatch();
   const navigate = useNavigate()
-
- 
 
   let gamePlayers = appState.player.players.map((player) => {
 
