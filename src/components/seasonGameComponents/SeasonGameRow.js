@@ -27,7 +27,15 @@ const SeasonGameRow = (props) => {
   const listOfPlayers = players.map((player) => <li>{player}</li>);
 
   const goalMakers = props.goalmakers
-  const listOfGoalMakers = goalMakers.map((goalMaker) => <li>{goalMaker}</li>);
+  console.log("näytä maalintekijät")
+  console.log(typeof goalMakers)
+  console.log(goalMakers.name)
+
+  let listOfGoalMakers = goalMakers.map((season) => {
+
+    console.log(season.name)
+    
+  })
  
   let title = game
 

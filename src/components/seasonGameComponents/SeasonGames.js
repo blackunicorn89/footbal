@@ -37,7 +37,7 @@ const SeasonGames = () => {
   if (games.length === 0) {
     return (
       <Typography variant="body1" component="pre">
-        Ei aktiivista kautta valittuna. Ole yhteydessä adminiin.
+        Ei näytettäviä pelejä kaudelle.
     </Typography>
     )
   } 
