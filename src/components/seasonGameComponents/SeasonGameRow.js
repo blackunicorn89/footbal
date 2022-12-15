@@ -25,18 +25,13 @@ const SeasonGameRow = (props) => {
   const finalresult = props.finalresult 
   const players = props.players
   const listOfPlayers = players.map((player) => <li>{player}</li>);
-
-  const goalMakers = props.goalmakers
+  
   console.log("näytä maalintekijät")
-  console.log(typeof goalMakers)
-  console.log(goalMakers.name)
+  //console.log(goalMakers)
+  //console.log(goalMakers.name)
+  let goalmaker = props.goalmakers.map((goalmaker) => <li>{goalmaker.name} {goalmaker.points}</li>)
 
-  let listOfGoalMakers = goalMakers.map((season) => {
-
-    console.log(season.name)
-    
-  })
- 
+  
   let title = game
 
   if (appState.login.admin) {
@@ -72,7 +67,7 @@ const SeasonGameRow = (props) => {
           <Typography variant="body1" component="pre">
             Maalintekijät:
             <ul>
-              {listOfGoalMakers}
+              {goalmaker}
             </ul>
           </Typography>
           <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
@@ -109,7 +104,7 @@ const SeasonGameRow = (props) => {
           <Typography variant="body1" component="pre">
             Maalintekijät:
             <ul>
-              {listOfGoalMakers}
+              {goalmaker}
             </ul>
           </Typography>
           <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >

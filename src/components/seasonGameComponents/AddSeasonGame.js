@@ -66,6 +66,7 @@ const AddPSeasonGameForm = () => {
     season_name: seasonname,
 		game: "",
 		final_result: "",
+    points: 0,
     played: materialDateInput,
 		description: "",
     players: [],
@@ -90,7 +91,9 @@ const AddPSeasonGameForm = () => {
 
   const onGoalMakerChange = (e) => {
 
-    if (e.target.checked) {
+    if (e.target.checked && formik.values.points !== 0) {
+      let goalMaker = {"player": e.target.value, "poinsts": 5}
+      console.log(goalMaker)
       formik.values.goal_makers.push(e.target.value);
     } else {
       formik.values.goal_makers.splice(formik.values.goal_makers.indexOf(e.target.value), 1);
