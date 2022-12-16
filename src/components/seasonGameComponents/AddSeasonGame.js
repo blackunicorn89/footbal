@@ -1,14 +1,16 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
+import { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { addSeasonGame } from '../../actions/SeasonGameActions';
 import {Box, Grid, Paper, TextField, Button } from "@mui/material"
 import SeasonGamePlayerRow from './SeasonGamePlayerRow';
 import SeasonGameGoalMakerRow from './SeasonGameGoalMakerRow';
+import SeasonGameGoalScoreRow from './SeasonGameGoalScoreRow';
 import {  useFormik } from "formik";
 import * as yup from "yup";
 
 
-const AddPSeasonGameForm = () => { 
+const AddPSeasonGameForm = (props) => { 
   
   // MUI TEXTFIELD DEFAULT DATE 
 
@@ -52,6 +54,10 @@ const AddPSeasonGameForm = () => {
   const season = useSelector((state) =>
     state.season
   )
+
+  const[gaolState, setGoalState] = useState({
+    goals:1,
+})
   
   let seasonname=""
   season.season.map((season) => {
@@ -66,7 +72,6 @@ const AddPSeasonGameForm = () => {
     season_name: seasonname,
 		game: "",
 		final_result: "",
-    points: 0,
     played: materialDateInput,
 		description: "",
     players: [],
@@ -91,12 +96,22 @@ const AddPSeasonGameForm = () => {
 
   const onGoalMakerChange = (e) => {
 
-    if (e.target.checked && formik.values.points !== 0) {
-      let goalMaker = {"player": e.target.value, "poinsts": 5}
+    let goals
+    setGoalState((gaolState) => {
+      return {
+          ...gaolState,
+          goals: e.target.value
+      }
+  })
+
+
+    let goalMaker
+    if (e.target.checked) {
+      goalMaker = {"player": e.target.value, "goals": e.target.name}
       console.log(goalMaker)
-      formik.values.goal_makers.push(e.target.value);
+      formik.values.goal_makers.push(goalMaker);
     } else {
-      formik.values.goal_makers.splice(formik.values.goal_makers.indexOf(e.target.value), 1);
+      formik.values.goal_makers.splice(formik.values.goal_makers.indexOf(goalMaker), 1);
     }
 
   }
@@ -114,7 +129,10 @@ const AddPSeasonGameForm = () => {
 let gameGoalMakers = appState.player.players.map((goalMaker) => {
 
   return (
+     <>
      <SeasonGameGoalMakerRow key={goalMaker.id} onChange={onGoalMakerChange} goalMakers={goalMaker.player_name} />
+     <SeasonGameGoalScoreRow/>
+     </>
   )
 })
     return (
