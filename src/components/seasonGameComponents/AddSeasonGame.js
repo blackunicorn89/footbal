@@ -2,7 +2,7 @@ import { useDispatch, useSelector} from 'react-redux';
 import { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { addSeasonGame } from '../../actions/SeasonGameActions';
-import {Box, Grid, Paper, TextField, Button } from "@mui/material"
+import {Box, Grid, Paper, TextField, Button, InputLabel, Select, MenuItem } from "@mui/material"
 import SeasonGamePlayerRow from './SeasonGamePlayerRow';
 import SeasonGameGoalMakerRow from './SeasonGameGoalMakerRow';
 import SeasonGameGoalScoreRow from './SeasonGameGoalScoreRow';
@@ -54,10 +54,6 @@ const AddPSeasonGameForm = (props) => {
   const season = useSelector((state) =>
     state.season
   )
-
-  const[gaolState, setGoalState] = useState({
-    goals:1,
-})
   
   let seasonname=""
   season.season.map((season) => {
@@ -66,6 +62,8 @@ const AddPSeasonGameForm = (props) => {
     }
     
   })
+
+  let testArray = [5, 5, 3, 2, 1]
 
   const formik = useFormik({
     initialValues:{
@@ -94,7 +92,9 @@ const AddPSeasonGameForm = (props) => {
   
   }
 
-  const onGoalMakerChange = (e) => {
+  let age = 10;
+
+  /*const onGoalMakerChange = (e) => {
 
     let goals
     setGoalState((gaolState) => {
@@ -107,14 +107,14 @@ const AddPSeasonGameForm = (props) => {
 
     let goalMaker
     if (e.target.checked) {
-      goalMaker = {"player": e.target.value, "goals": e.target.name}
+      goalMaker = {"player": e.target.value, "goals": e.target.value}
       console.log(goalMaker)
       formik.values.goal_makers.push(goalMaker);
     } else {
       formik.values.goal_makers.splice(formik.values.goal_makers.indexOf(goalMaker), 1);
     }
 
-  }
+  }*/
 
   const dispatch = useDispatch();
   const navigate = useNavigate()
@@ -129,12 +129,12 @@ const AddPSeasonGameForm = (props) => {
 let gameGoalMakers = appState.player.players.map((goalMaker) => {
 
   return (
-     <>
-     <SeasonGameGoalMakerRow key={goalMaker.id} onChange={onGoalMakerChange} goalMakers={goalMaker.player_name} />
-     <SeasonGameGoalScoreRow/>
-     </>
+     <SeasonGameGoalMakerRow key={goalMaker.id} goalArray={formik.values.goal_makers} goalMakers={goalMaker.player_name} />
   )
 })
+
+let test = appState.player.players
+
     return (
       <Grid>
         <Paper elevation={10}>
@@ -192,7 +192,16 @@ let gameGoalMakers = appState.player.players.map((goalMaker) => {
           <p >Pelaajat: </p>
             {gamePlayers}
           <p>Maalintekijät</p>
-              {gameGoalMakers}
+          <InputLabel id="demo-simple-select-label">Age</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={age}
+              label="Age"
+              onChange={formik.handleChange}
+              >
+            <MenuItem value={gameGoalMakers}>{gameGoalMakers}</MenuItem>
+            </Select>
           <TextField
             type="text"
             label="Lisätietoa pelistä:"
