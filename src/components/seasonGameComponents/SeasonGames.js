@@ -43,6 +43,7 @@ const SeasonGames = () => {
   } 
   else {
   seasonGame = games.map((seasonGame) => {
+
   
     return (
       <Grid item xs={12} sm={6} md={4} lg={12} key={seasonGame.id}>

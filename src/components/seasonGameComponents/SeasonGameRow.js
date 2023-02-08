@@ -13,23 +13,21 @@ import Typography from "@mui/material/Typography";
 import DeleteConfirmation from "../shared/components/DeleteConfirmation";
 import "../../stylsesheets/seasongame.css"
 
-
 const SeasonGameRow = (props) => {
 
   const appState = useSelector((state) => state);
   let date = new Date(props.played)
   let localDate = date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear();
-
   
   const game = props.game
   const finalresult = props.finalresult 
   const players = props.players
-  const listOfPlayers = players.map((player) => <li>{player}</li>);
+  const goalmakers = props.goalmakers 
   
-  console.log("näytä maalintekijät")
-  //console.log(goalMakers)
-  //console.log(goalMakers.name)
-  let goalmaker = props.goalmakers.map((goalmaker) => <li>{goalmaker.name} {goalmaker.points}</li>)
+
+  const listOfPlayers = players.map((player) => <li>{player}</li>);
+ 
+  const goalmaker = goalmakers.map((goalmaker) => <li>{goalmaker.name} {goalmaker.points}</li>)
 
   
   let title = game
