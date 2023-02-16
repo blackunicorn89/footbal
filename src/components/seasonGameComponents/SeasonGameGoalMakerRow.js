@@ -53,7 +53,7 @@ const onGoalMakerChange = (e) => {
   return (
     <>
 
-    <MenuItem value={props.goalMakers}>{props.goalMakers}</MenuItem>
+    {props.goalMakers}
     {/*
     <FormControlLabel  control={<Checkbox name="goalmakers" size="small" value={props.goalMakers} onChange={onGoalMakerChange} />} label={props.goalMakers}  />
     <TextField
