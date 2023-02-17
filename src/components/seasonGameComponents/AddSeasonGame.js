@@ -12,41 +12,46 @@ import * as yup from "yup";
 
 const AddPSeasonGameForm = (props) => { 
 
-  let goalMakers = []; 
+ 
   
 
   //Pelaajien ja maalivahtien lisäysformin actionit
-  const [goalMaker, setGoalMaker] = useState({
-    plaa: ""
-  })
+  const [goalMakerDropDown, setGoalMakerDropDown] = useState('')
   const [points, setPoints] = useState(1)
+  const [goalMakers, setGoalMakers] = useState([])
+
 
   const handleGoalMakerChange = (event) => {
-    setGoalMaker(event.target.value);
+    setGoalMakerDropDown(event.target.value);
   };
 
   const handlePointsChange = (event) => {
     setPoints(event.target.value);
   };
 
-  console.log("tuliko arvo")  
-  console.log(goalMaker)
+  //console.log("tuliko arvo")  
+  //console.log(goalMaker)
 
   const saveGoalMaker = (e) => {
       e.preventDefault()
 
-     
-      let juu = goalMaker
+      setGoalMakers ([
+        ...goalMakers,
+        {"name": goalMakerDropDown, "points": points}
+        
+      ])
+      /*let juu = goalMaker
       let pisteet = points 
-      let goalmaker = {"name": juu, "points": pisteet}
+      let goalmaker = 
       goalMakers.push(goalmaker)
 
       console.log("Tuleeko submitin jälkeen arvo ja pisteet?")
       console.log(juu)
-      console.log(pisteet)
-      console.log(goalMakers)
+      console.log(pisteet)*/
+      
   
   }
+  console.log(goalMakers)
 
   const inputProps = {
     min: 1,
@@ -176,19 +181,19 @@ const AddPSeasonGameForm = (props) => {
 })
 */
 
-let testing = [
+/*let testing = [
   { label: "Apple", value: "🍎" },
   { label: "Banana", value: "🍌" },
   { label: "Orange", value: "🍊" }
 ]
 console.log("Mitä sisältää testing")
-console.log(testing)
+console.log(testing)*/
 
 let players = appState.player.players
-console.log("Mitä sisältää pelaajat")
 
 
-let belaaja;
+
+//let belaaja;
 
 
     return (
@@ -203,7 +208,7 @@ let belaaja;
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value = {goalMaker}
+              value = {goalMakerDropDown}
               label="Maalintekijät"
               onChange={handleGoalMakerChange}>
               {players.map((player) => <MenuItem value={player.player_name}>{player.player_name}</MenuItem>)}  
