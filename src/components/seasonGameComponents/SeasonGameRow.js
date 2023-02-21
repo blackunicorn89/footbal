@@ -25,7 +25,7 @@ const SeasonGameRow = (props) => {
   const goalmakers = props.goalmakers 
   
 
-  const listOfPlayers = players.map((player) => <li>{player}</li>);
+  const listOfPlayers = players.map((player) => <li>{player.name}</li>);
  
   const goalmaker = goalmakers.map((goalmaker) => <li>{goalmaker.name} {goalmaker.points}</li>)
 
