@@ -44,6 +44,7 @@ const AddPSeasonGameForm = (props) => {
 
   
   let playerData = appState.player.players
+  let goalMakersData = appState.player.players
 
   const login = useSelector((state) =>
     state.login
@@ -70,11 +71,11 @@ const AddPSeasonGameForm = (props) => {
   const [goal_makers, setGoalMakers] = useState([])
 
   const [generalGameInformation, setGeneralGameInformation] = useState({
-  season_name: seasonname,
-  game: "",
-  final_result: "",
-  played: materialDateInput,
-  description: "",
+    season_name: seasonname,
+    game: "",
+    final_result: "",
+    played: materialDateInput,
+    description: "",
   })
 
   const dispatch = useDispatch();
@@ -83,8 +84,9 @@ const AddPSeasonGameForm = (props) => {
 //Tilojen muutosten hallinta
  const handleGoalMakerDropdownChange = (event) => {
    setGoalMakerDropDown(event.target.value);
+   
  };
-
+ 
  const handlePlayerDropdownChange = (event) => {
   setPlayerDropDown(event.target.value);
 };
@@ -113,9 +115,22 @@ const AddPSeasonGameForm = (props) => {
  const saveGoalMaker = (e) => {
      e.preventDefault()
 
+     //Alusutkset
+     let goalMaker = []
+     let name = ""
+     let goalMakerId = 0
+
+     //Filteröidään dropwdownista tulleen id:perusteella oikean pelaajan tiedot
+     goalMaker = goalMakersData.filter((goalmaker) => goalmaker.id === goalMakerDropDown)
+
+     //otetaan pelaajan nimi ja ja id talteen. Pisteet tulevat points-statesta. Koska goalMaker taulukon ei pitiäsi koskaan sisältää kuin yksi arvo,
+    //voidaan käyttää suoraan indeksiviittauksia
+     name = goalMaker[0].player_name
+     goalMakerId = goalMaker[0].id
+
      setGoalMakers ([
        ...goal_makers,
-       {"name": goalMakerDropDown, "points": points}
+       {"name": name, "points": points, "id": goalMakerId}
        
      ])
  }
@@ -130,10 +145,6 @@ const AddPSeasonGameForm = (props) => {
   ])  
 }
 
- const inputProps = {
-   min: 1,
- };
-
   const onGameSubmit = (e) => {
     e.preventDefault()
     let game = {
@@ -144,8 +155,14 @@ const AddPSeasonGameForm = (props) => {
     dispatch(addSeasonGame(login, game));
     navigate("/seasongames")
 
-    console.log(game)
   }  
+
+  //Muut
+  
+  //Asettaa oletusarvon pelaajan pisteille
+  const inputProps = {
+    min: 1,
+  };
 
   return (
       <Grid>
@@ -179,7 +196,8 @@ const AddPSeasonGameForm = (props) => {
               value = {goalMakerDropDown}
               label="Maalintekijät"
               onChange={handleGoalMakerDropdownChange}>
-              {playerData.map((goalMaker) => <MenuItem key={goalMaker.id} value={goalMaker.player_name}>{goalMaker.player_name}</MenuItem>)}  
+              {/*asetetaan arvoksi poikkeuksellisesti id, koska sitä tarvitaan pelaajan pistetietojen päivittämiseen*/}
+              {playerData.map((goalMaker) => <MenuItem key={goalMaker.id} value={goalMaker.id}>{goalMaker.player_name}</MenuItem>)}  
             </Select>
             <TextField
              type="number"
