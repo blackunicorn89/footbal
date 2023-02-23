@@ -10,6 +10,7 @@ import { green } from '@mui/material/colors';
 import EditIcon from '@mui/icons-material/Edit';
 import CardContent from '@mui/material/CardContent';
 import Typography from "@mui/material/Typography";
+import {ListItem, ListItemText} from "@mui/material";
 import DeleteConfirmation from "../shared/components/DeleteConfirmation";
 import "../../stylsesheets/seasongame.css"
 
@@ -25,9 +26,9 @@ const SeasonGameRow = (props) => {
   const goalmakers = props.goalmakers 
   
 
-  const listOfPlayers = players.map((player) => <li>{player.name}</li>);
+  const listOfPlayers = players.map((player) => <ListItemText>{player.name}</ListItemText>);
  
-  const goalmaker = goalmakers.map((goalmaker) => <li>{goalmaker.name} {goalmaker.points}</li>)
+  const goalmaker = goalmakers.map((goalmaker) => <ListItemText>{goalmaker.name}, pisteet {goalmaker.points}</ListItemText>)
 
   
   let title = game
@@ -58,20 +59,19 @@ const SeasonGameRow = (props) => {
           </Typography>
           <Typography variant="body1" component="pre">
             Pelaajat:
-            <ul>
+            <ListItem>
               {listOfPlayers}
-            </ul>     
+            </ListItem>     
           </Typography>
           <Typography variant="body1" component="pre">
             Maalintekijät:
-            <ul>
+            <ListItem>
               {goalmaker}
-            </ul>
+            </ListItem>
           </Typography>
           <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
-           
           </Typography>
-          <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
+          <Typography variant="body1" component="pre" >
             Lisätietoa pelistä: {props.description}
           </Typography>
         </CardContent>

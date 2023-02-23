@@ -2,7 +2,7 @@ import { useDispatch, useSelector} from 'react-redux';
 import { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { addSeasonGame } from '../../actions/SeasonGameActions';
-import {Box, Grid, Paper, TextField, Button, InputLabel, Select, MenuItem } from "@mui/material"
+import {Box, Grid, Paper, TextField, Button, InputLabel, Select, MenuItem, Typography, Divider} from "@mui/material"
 import * as yup from "yup";
 
 const AddPSeasonGameForm = (props) => { 
@@ -168,9 +168,9 @@ const AddPSeasonGameForm = (props) => {
       <Grid>
         <Paper elevation={10}>
             <Grid align="center">
-              <h1>Lisää uusi peli kauteen</h1>
+              <Typography variant="h3" sx={{paddingBottom: 3}}>Lisää uusi peli kauteen</Typography>
             </Grid>
-
+            <Divider/>
             {/*Pelaajien lisäys formi*/}
             <form onSubmit = {savePlayer}>
             <InputLabel id="demo-simple-select-label">Lisää pelaajat</InputLabel>
@@ -186,7 +186,7 @@ const AddPSeasonGameForm = (props) => {
             <Button type="submit" color="primary" variant="contained" margin="normal" sx={{ padding: 1, margin: 2 }} >Lisää Pelaaja</Button>
             </Box>        
             </form>
-            
+            <Divider />
             {/*Maalientekijöiden ja pisteiden lisäysformi*/} 
             <form onSubmit = {saveGoalMaker}>
             <InputLabel id="demo-simple-select-label">Lisää maalintekijät</InputLabel>
@@ -199,16 +199,15 @@ const AddPSeasonGameForm = (props) => {
               {/*asetetaan arvoksi poikkeuksellisesti id, koska sitä tarvitaan pelaajan pistetietojen päivittämiseen*/}
               {playerData.map((goalMaker) => <MenuItem key={goalMaker.id} value={goalMaker.id}>{goalMaker.player_name}</MenuItem>)}  
             </Select>
+            <br />
             <TextField
              type="number"
              label="Pisteet"
              inputProps={inputProps}
              name="points"
              value={points}
-             min="0"
              onChange={handlePointsChange}
              margin="normal"
-             fullWidth required
              InputLabelProps={{ shrink: true }} /> 
             <Box display="flex" justifyContent="flex-start">
             <Button type="submit" color="primary" variant="contained" margin="normal" sx={{ padding: 1, margin: 2 }} >Lisää maalintekijä</Button>

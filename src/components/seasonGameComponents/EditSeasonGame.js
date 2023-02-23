@@ -1,10 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { editSeasonGame } from "../../actions/SeasonGameActions";
-import { Box, Grid, Paper, TextField, Button} from "@mui/material"
-import SeasonGameGoalMakerRow from "./SeasonGameGoalMakerRow";
-import SeasonGamePlayerRow from "./SeasonGamePlayerRow";
-import {  useFormik } from "formik";
+import { Box, Grid, Paper, TextField, Button, InputLabel, Select, MenuItem, Typography, ListItem, ListItemText, Divider} from "@mui/material"
 import * as yup from "yup";
 
 const EditSeasonGame = () => {
@@ -13,7 +11,7 @@ const EditSeasonGame = () => {
     const seasonGameId = useParams()
     
     //Parsetaan numeroksi, koska id:n arvo on numero. Parametrinä tuleva seasonGameId on stringi, jonka vuoksi kauden pelin haku kaatuu
-    const id = parseInt(seasonGameId.id)
+    const gameId = parseInt(seasonGameId.id)
 
     const appState = useSelector((state) => state);
 
@@ -24,9 +22,6 @@ const EditSeasonGame = () => {
     const seasonGames = useSelector((state) =>
       state.seasonGame
     )
-  
-    console.log("kauden pelit")
-    console.log(seasonGames)
 
     let games = []
     seasonGames.seasonGames.map((season) => {
@@ -36,7 +31,7 @@ const EditSeasonGame = () => {
     }
   })
 
-  const game = games.find((games => games.id === id))
+  const game = games.find((games => games.id === gameId))
 
   const validationSchema = yup.object({
     season_name: yup
@@ -72,29 +67,8 @@ const EditSeasonGame = () => {
 
   // END MUI TEXTFIELD DEFAULT DATE
 
-    /*const formik = useFormik({
-      initialValues: {
-      id: id,   
-      season_name: game.season_name,
-      game: game.game,
-      final_result: game.final_result,
-      played: materialDateInput,
-      description: game.description,
-      currentPlayers: game.players,
-      currentGoalMakers: game.goal_makers,
-      players: [],
-      goal_makers: []
-      },
-      validationSchema: validationSchema,
-        onSubmit: (values) => {
-        dispatch(editSeasonGame(login, values));
-        navigate("/seasongames");
-    },
-
-      })*/
-      
-  const listOfCurrentPlayers = game.players.map((currentPlayer) =>  <li>{currentPlayer.name}</li>);
-  const listOfCurrentGoalMakers = game.goal_makers.map((currentGoalMaker) =>  <li>{currentGoalMaker.name}{currentGoalMaker.points}</li>);
+  const listOfCurrentPlayers = game.players.map((currentPlayer) =>  <ListItemText key={currentPlayer.id}>{currentPlayer.name}</ListItemText>);
+  const listOfCurrentGoalMakers = game.goal_makers.map((currentGoalMaker) =>  <ListItemText key={currentGoalMaker.id}>{currentGoalMaker.name}, pisteet:  {currentGoalMaker.points}</ListItemText>);
 
   const [playerDropDown, setPlayerDropDown] = useState('')
   const [players, setPlayers] = useState([]) 
@@ -104,6 +78,7 @@ const EditSeasonGame = () => {
   const [goal_makers, setGoalMakers] = useState([])
 
   const [generalGameInformation, setGeneralGameInformation] = useState({
+    id: gameId,
     season_name: game.season_name,
     game: game.game,
     final_result: game.final_result,
@@ -111,39 +86,43 @@ const EditSeasonGame = () => {
     description: game.description,
   })
 
+  //Tilatietojan haku
+  let playerData = appState.player.players
+  let goalMakersData = appState.player.players
+
   //Tilojen muutosten hallinta
- const handleGoalMakerDropdownChange = (event) => {
+  const handleGoalMakerDropdownChange = (event) => {
   setGoalMakerDropDown(event.target.value);
-  
-};
 
-const handlePlayerDropdownChange = (event) => {
- setPlayerDropDown(event.target.value);
-};
+  };
 
-const handlePointsChange = (event) => {
-  setPoints(event.target.value);
-};
+  const handlePlayerDropdownChange = (event) => {
+  setPlayerDropDown(event.target.value);
+  };
 
-const handeGeneralInformationChange = (event) => {
- setGeneralGameInformation((generalGameInformation) => {
-     return {
-         ...generalGameInformation,
-         [event.target.name]:event.target.value
-     }
- })
- setGoalMakers ([
-   ...goal_makers,
-   
- ])
- setPlayers ([
-   ...players,
- ])
-}
+  const handlePointsChange = (event) => {
+    setPoints(event.target.value);
+  };
 
-//Submittien hallinta
-const saveGoalMaker = (e) => {
-    e.preventDefault()
+  const handeGeneralInformationChange = (event) => {
+    setGeneralGameInformation((generalGameInformation) => {
+        return {
+            ...generalGameInformation,
+            [event.target.name]:event.target.value
+        }
+    })
+    setGoalMakers ([
+      ...goal_makers,
+      
+    ])
+    setPlayers ([
+      ...players,
+    ])
+  }
+
+  //Submittien hallinta
+  const saveGoalMaker = (e) => {
+      e.preventDefault()
 
     //Alusutkset
     let goalMaker = []
@@ -154,7 +133,7 @@ const saveGoalMaker = (e) => {
     goalMaker = goalMakersData.filter((goalmaker) => goalmaker.id === goalMakerDropDown)
 
     //otetaan pelaajan nimi ja ja id talteen. Pisteet tulevat points-statesta. Koska goalMaker taulukon ei pitiäsi koskaan sisältää kuin yksi arvo,
-   //voidaan käyttää suoraan indeksiviittauksia
+    //voidaan käyttää suoraan indeksiviittauksia
     name = goalMaker[0].player_name
     goalMakerId = goalMaker[0].id
 
@@ -163,29 +142,28 @@ const saveGoalMaker = (e) => {
       {"name": name, "points": points, "id": goalMakerId}
       
     ])
-}
+  }
 
-const savePlayer = (e) => {
- e.preventDefault()
+  const savePlayer = (e) => {
+    e.preventDefault()
 
- setPlayers ([
-   ...players,
-   {"name":playerDropDown}
-   
- ])  
-}
+    setPlayers ([
+      ...players,
+      {"name":playerDropDown}
+      
+    ])  
+  }
 
- const onGameSubmit = (e) => {
-   e.preventDefault()
-   let game = {
-     ...generalGameInformation,
-     goal_makers,
-     players
-   }
-   dispatch(addSeasonGame(login, game));
-   navigate("/seasongames")
-
- }  
+  const onGameSubmit = (e) => {
+    e.preventDefault()
+    let game = {
+      ...generalGameInformation,
+      goal_makers,
+      players
+    }
+    dispatch(editSeasonGame(login, game));
+    navigate("/seasongames")
+  }  
 
  //Muut
  
@@ -194,139 +172,138 @@ const savePlayer = (e) => {
    min: 1,
  };
       
-
-      return (
-        <Grid>
-          <Paper elevation={10}>
-            <Grid align="center">
-              <h1>Muokkaa kauden pelin tietoja</h1>
+  return (
+    <Grid>
+      <Paper elevation={10}>
+        <Grid align="center">
+          <Typography variant="h3" sx={{paddingBottom: 3}}>Muokkaa kauden pelin tietoja</Typography>
+        </Grid>
+        <Divider />
+        {/*Pelaajien lisäys formi*/}
+        <form onSubmit = {savePlayer}>
+        <Typography variant="body1">Nykyinen joukkuekokoonpano:</Typography>
+          <ListItem>
+            {listOfCurrentPlayers}
+          </ListItem>
+        <InputLabel id="demo-simple-select-label">Muokkaa joukkuekokoonpanoa</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value = {playerDropDown}
+          label="Maalintekijät"
+          onChange={handlePlayerDropdownChange}>
+          {playerData.map((player) => <MenuItem key={player.id} value={player.player_name}>{player.player_name}</MenuItem>)}  
+        </Select>
+        <Box display="flex" justifyContent="flex-start">
+        <Button type="submit" color="primary" variant="contained" margin="normal" sx={{ padding: 1, margin: 2 }} >Lisää Pelaaja</Button>
+        </Box>        
+        </form>
+        <Divider />
+        {/*Maalientekijöiden ja pisteiden lisäysformi*/} 
+        <form onSubmit = {saveGoalMaker}>
+        <Typography variant="body1">Maalintekijät</Typography>
+          <ListItem>
+            {listOfCurrentGoalMakers}
+          </ListItem>  
+        <InputLabel id="demo-simple-select-label">Muokkaa maalintekijöitä</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value = {goalMakerDropDown}
+          label="Maalintekijät"
+          onChange={handleGoalMakerDropdownChange}>
+          {/*asetetaan arvoksi poikkeuksellisesti id, koska sitä tarvitaan pelaajan pistetietojen päivittämiseen*/}
+          {playerData.map((goalMaker) => <MenuItem key={goalMaker.id} value={goalMaker.id}>{goalMaker.player_name}</MenuItem>)}  
+        </Select>
+        <TextField
+          type="number"
+          label="Pisteet"
+          inputProps={inputProps}
+          name="points"
+          value={points}
+          onChange={handlePointsChange}
+          margin="normal"
+          fullWidth required
+          InputLabelProps={{ shrink: true }} /> 
+        <Box display="flex" justifyContent="flex-start">
+        <Button type="submit" color="primary" variant="contained" margin="normal" sx={{ padding: 1, margin: 2 }} >Lisää maalintekijä</Button>
+        </Box>          
+        </form>
+        {/*Yleisten tietojen lisäysformi*/} 
+        <form onSubmit={onGameSubmit}> 
+        <TextField
+          type="text"
+          label="Kausi"
+          name="season_name"
+          value={generalGameInformation.season_name}
+          onChange={handeGeneralInformationChange}
+          /*error={formik.touched.season_name&& Boolean(formik.errors.season_name)}
+          helperText={formik.touched.season_name && formik.errors.season_name}*/
+          margin="normal"
+          fullWidth required
+          InputLabelProps={{ shrink: true }} /> 
+          <TextField type="text"
+            label="Peli"
+            name="game"
+            value={generalGameInformation.game}
+            onChange={handeGeneralInformationChange}
+            /*error={formik.touched.game&& Boolean(formik.errors.game)}
+            helperText={formik.touched.game && formik.errors.game}*/
+            margin="normal"
+            fullWidth required
+            InputLabelProps={{ shrink: true }}
+          />
+          <TextField type="text"
+            label="Tulos"
+            name="final_result"
+            value={generalGameInformation.final_result}
+            onChange={handeGeneralInformationChange}
+            /*error={formik.touched.final_result&& Boolean(formik.errors.final_result)}
+            helperText={formik.touched.final_result && formik.final_result}*/
+            margin="normal"
+            fullWidth required
+            InputLabelProps={{ shrink: true }}
+        />                 
+          <TextField
+            type="date"
+            label="Päivämäärä"
+            name="played"
+            value={generalGameInformation.played}
+            onChange={handeGeneralInformationChange}
+            /*error={formik.touched.played && Boolean(formik.errors.played)}
+            helperText={formik.touched.played && formik.errors.played}*/
+            margin="normal"
+            fullWidth
+            InputLabelProps={{ shrink: true }}
+        />
+          <TextField
+            type="text"
+            label="Lisätietoa pelistä:"
+            name="description"
+            value={generalGameInformation.description}
+            onChange={handeGeneralInformationChange}
+            margin="normal"
+            fullWidth required InputLabelProps={{ shrink: true }}
+        />
+          <Grid container>
+            <Grid item xs={4}>
+              <Box display="flex" justifyContent="flex-start">
+                <Button color="secondary" variant="contained" margin="normal" component={Link} to={"/seasongames"} fullWidth sx={{ padding: 1, margin: 2 }} >Peruuta</Button>
+              </Box>
             </Grid>
-            {/*Pelaajien lisäys formi*/}
-            <form onSubmit = {savePlayer}>
-            <p>Nykyinen joukkuekokoonpano</p>
-              <ul>
-                {listOfCurrentPlayers}
-              </ul>
-            <p>Muokkaa joukkuekokoonpanoa</p>  
-            <InputLabel id="demo-simple-select-label">Lisää pelaajat</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value = {playerDropDown}
-              label="Maalintekijät"
-              onChange={handlePlayerDropdownChange}>
-              {playerData.map((player) => <MenuItem key={player.id} value={player.player_name}>{player.player_name}</MenuItem>)}  
-            </Select>
-            <Box display="flex" justifyContent="flex-start">
-            <Button type="submit" color="primary" variant="contained" margin="normal" sx={{ padding: 1, margin: 2 }} >Lisää Pelaaja</Button>
-            </Box>        
-            </form>
-            {/*Maalientekijöiden ja pisteiden lisäysformi*/} 
-            <form onSubmit = {saveGoalMaker}>
-            <p>Maalintekijät</p>
-              <ul>
-                {listOfCurrentGoalMakers}
-              </ul>
-              <p>Lisää poistaa maalintekijöitä</p>  
-            <InputLabel id="demo-simple-select-label">Lisää maalintekijät</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value = {goalMakerDropDown}
-              label="Maalintekijät"
-              onChange={handleGoalMakerDropdownChange}>
-              {/*asetetaan arvoksi poikkeuksellisesti id, koska sitä tarvitaan pelaajan pistetietojen päivittämiseen*/}
-              {playerData.map((goalMaker) => <MenuItem key={goalMaker.id} value={goalMaker.id}>{goalMaker.player_name}</MenuItem>)}  
-            </Select>
-            <TextField
-             type="number"
-             label="Pisteet"
-             inputProps={inputProps}
-             name="points"
-             value={points}
-             onChange={handlePointsChange}
-             margin="normal"
-             fullWidth required
-             InputLabelProps={{ shrink: true }} /> 
-            <Box display="flex" justifyContent="flex-start">
-            <Button type="submit" color="primary" variant="contained" margin="normal" sx={{ padding: 1, margin: 2 }} >Lisää maalintekijä</Button>
-            </Box>          
-            </form>
-            {/*Yleisten tietojen lisäysformi*/} 
-            <form onSubmit={onGameSubmit}> 
-            <TextField
-             type="text"
-             label="Kausi"
-             name="season_name"
-             value={generalGameInformation.season_name}
-             onChange={handeGeneralInformationChange}
-             /*error={formik.touched.season_name&& Boolean(formik.errors.season_name)}
-             helperText={formik.touched.season_name && formik.errors.season_name}*/
-             margin="normal"
-             fullWidth required
-             InputLabelProps={{ shrink: true }} /> 
-              <TextField type="text"
-                label="Peli"
-                name="game"
-                value={generalGameInformation.game}
-                onChange={handeGeneralInformationChange}
-                error={formik.touched.game&& Boolean(formik.errors.game)}
-                helperText={formik.touched.game && formik.errors.game}
-                margin="normal"
-                fullWidth required
-                InputLabelProps={{ shrink: true }}
-              />
-              <TextField type="text"
-                label="Tulos"
-                name="final_result"
-                value={generalGameInformation.final_result}
-                onChange={handeGeneralInformationChange}
-                error={formik.touched.final_result&& Boolean(formik.errors.final_result)}
-                helperText={formik.touched.final_result && formik.final_result}
-                margin="normal"
-                fullWidth required
-                InputLabelProps={{ shrink: true }}
-            />                 
-              <TextField
-                type="date"
-                label="Päivämäärä"
-                name="played"
-                value={generalGameInformation}
-                onChange={handeGeneralInformationChange}
-                error={formik.touched.played && Boolean(formik.errors.played)}
-                helperText={formik.touched.played && formik.errors.played}
-                margin="normal"
-                fullWidth
-                InputLabelProps={{ shrink: true }}
-            />
-              <TextField
-                type="text"
-                label="Lisätietoa pelistä:"
-                name="description"
-                value={generalGameInformation.description}
-                onChange={handeGeneralInformationChange}
-                margin="normal"
-                fullWidth required InputLabelProps={{ shrink: true }}
-            />
-              <Grid container>
-                <Grid item xs={4}>
-                  <Box display="flex" justifyContent="flex-start">
-                    <Button color="secondary" variant="contained" margin="normal" component={Link} to={"/seasongames"} fullWidth sx={{ padding: 1, margin: 2 }} >Peruuta</Button>
-                  </Box>
-                </Grid>
-                <Grid item xs={4}>
-    
-                </Grid>
-                <Grid item xs={4}>
-                  <Box display="flex" justifyContent="flex-end">
-                    <Button type="submit" color="primary" variant="contained" margin="normal" fullWidth sx={{ padding: 1, margin: 2 }} >Tallenna </Button>
-                  </Box>
-                </Grid>
-              </Grid>
-            </form>
-          </Paper>
-        </Grid >
-        )
+            <Grid item xs={4}>
+
+            </Grid>
+            <Grid item xs={4}>
+              <Box display="flex" justifyContent="flex-end">
+                <Button type="submit" color="primary" variant="contained" margin="normal" fullWidth sx={{ padding: 1, margin: 2 }} >Tallenna </Button>
+              </Box>
+            </Grid>
+          </Grid>
+        </form>
+      </Paper>
+    </Grid >
+    )
     
 }
 
