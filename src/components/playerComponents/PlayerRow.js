@@ -43,6 +43,9 @@ const PlayerRow = (props) => {
             {props.position}
           </Typography>
           <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
+            Pisteet: {props.points}
+          </Typography>
+          <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
             {props.description}
           </Typography>
         </CardContent>
@@ -61,6 +64,9 @@ const PlayerRow = (props) => {
           </Typography>
           <Typography variant="body1" component="pre">
             {props.position}
+          </Typography>
+          <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
+            Pisteet: {props.points}
           </Typography>
           <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
             {props.description}

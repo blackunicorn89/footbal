@@ -21,7 +21,7 @@ const Players = () => {
 
     return (
       <Grid item xs={12} sm={6} md={4} lg={12} key={player.id}>
-        <PlayerRow image={player.image} id={player.id} player_name={player.player_name} position={player.position} player_number={player.player_number} description={player.description} />
+        <PlayerRow image={player.image} id={player.id} player_name={player.player_name} position={player.position} player_number={player.player_number} points = {player.goal_points} description={player.description} />
       </Grid >
     )
   })
