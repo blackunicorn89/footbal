@@ -13,6 +13,15 @@ export const REMOVE_SEASON_GAME_FAILED = "REMOVE_SEASON_GAME_FAILED";
 export const EDIT_SEASON_GAME_SUCCESS = "EDIT_SEASON_GAME_SUCCESS";
 export const EDIT_SEASON_GAME_FAILED = "EDIT_SEASON_GAME_FAILED";
 
+export const ADD_GOAL_POINTS_SUCCESS = "ADD_GOAL_POINTS_SUCCESS";
+export const ADD_GOAL_POINTS_FAILED = "ADD_GOAL_POINTS_FAILED";
+
+export const DELETE_GOAL_POINTS_SUCCESS = "DELETE_GOAL_POINTS_SUCCESS";
+export const DELETE_GOAL_POINTS_FAILED = "DELETE_GOAL_POINTS_FAILED";
+
+export const EDIT_GOAL_POINTS_SUCCESS = "EDIT_GOAL_POINTS_SUCCESS";
+export const EDIT_GOAL_POINTS_FAILED = "EDIT_GOAL_POINTS_FAILED";
+
 
 
 // GET Season's games
@@ -152,6 +161,101 @@ export const editSeasonGame = (login, seasonGame) => {
   };
 }; 
 
+//Add goal points
+export const addGoalPoints = (login, goalPoints) => {
+  return async (dispatch) => {
+    let request = {
+      method: "POST",
+      headers: {"Content-type":"application/json" ,  "Authorization": "Bearer " + login.token},
+      body:JSON.stringify(goalPoints)
+    }
+    console.log("REQUEST", request)
+    dispatch(loading())
+    let response = await fetch("/api/games/addgoalpoints", request);
+    dispatch(stopLoading())
+    if (!response) {
+      dispatch(addGoalPointsFailed("There was an error with the connection. Adding goal points failed"));
+      return;
+    }
+    if (response.ok) {
+      dispatch(addGoalPointsSuccess())
+    }
+    else {
+      if (response.status === 403) {
+        dispatch(clearState());
+        dispatch(addGoalPointsFailed("Your session has expired. Logging you out!"));
+      }
+      else {
+        dispatch(addGoalPointsFailed("Adding goal points failed. Server responded with a status " + response.status + " " + response.statusText));
+      }
+    }
+
+  }
+}
+
+//Delete goal points
+export const deleteGoalPoints = (login, goalPoints) => {
+  return async (dispatch) => {
+    let request = {
+      method: "POST",
+      headers: {"Content-type":"application/json" ,  "Authorization": "Bearer " + login.token},
+      body:JSON.stringify(goalPoints)
+    }
+    console.log("REQUEST", request)
+    dispatch(loading())
+    let response = await fetch("/api/deletegoalpoints", request);
+    dispatch(stopLoading())
+    if (!response) {
+      dispatch(deleteGoalPointsFailed("There was an error with the connection. Deleting goal points failed"));
+      return;
+    }
+    if (response.ok) {
+      dispatch(deleteGoalPointsSuccess())
+    }
+    else {
+      if (response.status === 403) {
+        dispatch(clearState());
+        dispatch(deleteGoalPointsFailed("Your session has expired. Logging you out!"));
+      }
+      else {
+        dispatch(deleteGoalPointsFailed("Deleting goal points failed. Server responded with a status " + response.status + " " + response.statusText));
+      }
+    }
+
+  }
+}
+
+//Edit goal points
+export const editGoalPoints = (login, currentGoalPoints, newGoalPoints) => {
+  return async (dispatch) => {
+    let request = {
+      method: "POST",
+      headers: {"Content-type":"application/json" ,  "Authorization": "Bearer " + login.token},
+      body:JSON.stringify(currentGoalPoints, newGoalPoints)
+    }
+    console.log("REQUEST", request)
+    dispatch(loading())
+    let response = await fetch("/api/editgoalpoints", request);
+    dispatch(stopLoading())
+    if (!response) {
+      dispatch(editGoalPointsFailed("There was an error with the connection. Deleting goal points failed"));
+      return;
+    }
+    if (response.ok) {
+      dispatch(editGoalPointsSuccess())
+    }
+    else {
+      if (response.status === 403) {
+        dispatch(clearState());
+        dispatch(editGoalPointsFailed("Your session has expired. Logging you out!"));
+      }
+      else {
+        dispatch(editGoalPointsFailed("Deleting goal points failed. Server responded with a status " + response.status + " " + response.statusText));
+      }
+    }
+
+  }
+}
 
 //Action Creators
 
@@ -206,5 +310,44 @@ const editSeasonGameFailed = (error) => {
   return {
       type:EDIT_SEASON_GAME_FAILED,
       error:error
+  }
+}
+
+const addGoalPointsSuccess = () => {
+  return {
+    type: ADD_GOAL_POINTS_SUCCESS
+  }
+}
+
+const addGoalPointsFailed = (error) => {
+  return {
+    type: ADD_GOAL_POINTS_FAILED,
+    error: error
+  }
+}
+
+const deleteGoalPointsSuccess = () => {
+  return {
+    type: DELETE_GOAL_POINTS_SUCCESS
+  }
+}
+
+const deleteGoalPointsFailed = (error) => {
+  return {
+    type: DELETE_GOAL_POINTS_FAILED,
+    error: error
+  }
+}
+
+const editGoalPointsSuccess = () => {
+  return {
+    type: EDIT_GOAL_POINTS_SUCCESS
+  }
+}
+
+const editGoalPointsFailed = (error) => {
+  return {
+    type: EDIT_GOAL_POINTS_FAILED,
+    error: error
   }
 }

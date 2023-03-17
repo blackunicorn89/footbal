@@ -14,9 +14,7 @@ export const EDIT_PLAYER_SUCCESS = "EDIT_PLAYER_SUCCESS";
 export const EDIT_PLAYER_FAILED = "EDIT_PLAYER_FAILED";
 
 
-
 // GET PLAYERS
-
 export const getPlayers = () => {
   return async (dispatch) => {
 
@@ -150,7 +148,6 @@ export const editPlayer = (login, formData, id) => {
 
 
 //Action Creators
-
 const fetchPlayersSuccess = (players) => {
   console.log("player actions console.log", players)
   return {
@@ -204,3 +201,4 @@ const editPlayerFailed = (error) => {
     error: error
   }
 }
+

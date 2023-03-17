@@ -1,7 +1,7 @@
 import { useDispatch, useSelector} from 'react-redux';
 import { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import { addSeasonGame } from '../../actions/SeasonGameActions';
+import { addSeasonGame, addGoalPoints } from '../../actions/SeasonGameActions';
 import {Box, Grid, Paper, TextField, Button, InputLabel, Select, MenuItem, Typography, Divider} from "@mui/material"
 import * as yup from "yup";
 
@@ -153,6 +153,9 @@ const AddPSeasonGameForm = (props) => {
       players
     }
     dispatch(addSeasonGame(login, game));
+    console.log("Palvelimelle lähetys")
+    console.log(goal_makers)
+    dispatch(addGoalPoints(login, goal_makers))
     navigate("/seasongames")
 
   }  
