@@ -153,9 +153,6 @@ const AddPSeasonGameForm = (props) => {
       players
     }
     dispatch(addSeasonGame(login, game));
-    console.log("Palvelimelle lähetys")
-    console.log(goal_makers)
-    dispatch(addGoalPoints(login, goal_makers))
     navigate("/seasongames")
 
   }  
