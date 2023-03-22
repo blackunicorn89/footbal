@@ -24,6 +24,8 @@ const EditSeasonGame = () => {
     )
 
     let games = []
+
+
     seasonGames.seasonGames.map((season) => {
     if (season.active)
     {
@@ -32,6 +34,8 @@ const EditSeasonGame = () => {
   })
 
   const game = games.find((games => games.id === gameId))
+
+  let current_goal_makers = game.goal_makers
 
   const validationSchema = yup.object({
     season_name: yup
@@ -67,15 +71,16 @@ const EditSeasonGame = () => {
 
   // END MUI TEXTFIELD DEFAULT DATE
 
+
   const listOfCurrentPlayers = game.players.map((currentPlayer) =>  <ListItemText key={currentPlayer.id}>{currentPlayer.name}</ListItemText>);
-  const listOfCurrentGoalMakers = game.goal_makers.map((currentGoalMaker) =>  <ListItemText key={currentGoalMaker.id}>{currentGoalMaker.name}, pisteet:  {currentGoalMaker.points}</ListItemText>);
+  const listOfCurrentGoalMakers = current_goal_makers.map((currentGoalMaker) =>  <ListItemText key={currentGoalMaker.id}>{currentGoalMaker.name}, pisteet:  {currentGoalMaker.points}</ListItemText>);
 
   const [playerDropDown, setPlayerDropDown] = useState('')
   const [players, setPlayers] = useState([]) 
 
   const [goalMakerDropDown, setGoalMakerDropDown] = useState('')
   const [points, setPoints] = useState(1)
-  const [goal_makers, setGoalMakers] = useState([])
+  const [goal_makers, setNewGoalMakers] = useState([])
 
   const [generalGameInformation, setGeneralGameInformation] = useState({
     id: gameId,
@@ -111,7 +116,7 @@ const EditSeasonGame = () => {
             [event.target.name]:event.target.value
         }
     })
-    setGoalMakers ([
+    setNewGoalMakers ([
       ...goal_makers,
       
     ])
@@ -137,7 +142,7 @@ const EditSeasonGame = () => {
     name = goalMaker[0].player_name
     goalMakerId = goalMaker[0].id
 
-    setGoalMakers ([
+    setNewGoalMakers ([
       ...goal_makers,
       {"name": name, "points": points, "id": goalMakerId}
       
@@ -159,7 +164,8 @@ const EditSeasonGame = () => {
     let game = {
       ...generalGameInformation,
       goal_makers,
-      players
+      players,
+      current_goal_makers
     }
     dispatch(editSeasonGame(login, game));
     navigate("/seasongames")
