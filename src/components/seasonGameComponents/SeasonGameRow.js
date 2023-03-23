@@ -34,6 +34,12 @@ const SeasonGameRow = (props) => {
   let title = game
 
   if (appState.login.admin) {
+  
+    let seasongame = {
+      id: props.id,
+      goal_makers: goalmakers
+    }
+    console.log(seasongame)
 
     return (
 
@@ -45,7 +51,7 @@ const SeasonGameRow = (props) => {
               <Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"/seasongames/editSeasonGame/" + props.id} >
                 <EditIcon />
               </Fab>
-              <DeleteConfirmation removeType="game" id={props.id} header={props.game} title="Haluatko varmasti poistaa seuraavan pelin?" token={appState.login.token} />
+              <DeleteConfirmation removeType="game" seasonGame={seasongame} header={props.game} title="Haluatko varmasti poistaa seuraavan pelin?" token={appState.login} />
             </>
           }
           title={title}

@@ -85,17 +85,20 @@ export const addSeasonGame = (login, seasonGame) => {
 
 // REMOVE SEASON'S GAME
 
-export const removeSeasonGame = (token, id) => {
+export const removeSeasonGame = (login, seasonGame) => {
+  console.log("ennen lähetystä")
+  console.log(seasonGame)
   return async (dispatch) => {
     let request = {
-      method: "DELETE",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + token
-      }
+        "Authorization": "Bearer " + login.token
+      },
+      body: JSON.stringify(seasonGame)
     }
     dispatch(loading());
-    let response = await fetch("/api/games/" + id, request);
+    let response = await fetch("/api/games/deletegame/" + seasonGame.id, request);
     dispatch(stopLoading());
     if (!response) {
       dispatch(removeSeasonGameFailed("There was an error with the connection. Removing season's game failed."))

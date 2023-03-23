@@ -49,7 +49,7 @@ const DeleteConfirmation = (props) => {
     }
 
     if (removeType === "game") {
-      dispatch(removeSeasonGame(props.token, props.id))
+      dispatch(removeSeasonGame(props.token, props.seasonGame))
       handleClose()
     }
 
