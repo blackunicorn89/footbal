@@ -39,8 +39,6 @@ const SeasonGameRow = (props) => {
       id: props.id,
       goal_makers: goalmakers
     }
-    console.log(seasongame)
-
     return (
 
 

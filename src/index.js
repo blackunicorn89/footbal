@@ -11,6 +11,7 @@ import newsReducer from './reducers/NewsReducer';
 import playerReducer from './reducers/PlayerReducer';
 import seasonReducer from './reducers/SeasonReducer';
 import seasonGameReducer from './reducers/SeasonGameReducer';
+import userReducer from './reducers/UserReducer';
 
 
 const rootReducer = combineReducers({
@@ -18,7 +19,9 @@ const rootReducer = combineReducers({
   news: newsReducer,
   player: playerReducer,
   seasonGame: seasonGameReducer,
-  season:seasonReducer
+  season:seasonReducer,
+  user:userReducer
+
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

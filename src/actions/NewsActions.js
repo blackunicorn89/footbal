@@ -1,5 +1,5 @@
 
-import { loading, stopLoading, clearState } from "./LoginActions"
+import { loading, stopLoading, clearState } from "./UserActions"
 
 // Action constraits
 export const FETCH_NEWS_SUCCESS = "FETCH_NEWS_SUCCESS";
