@@ -4,6 +4,7 @@ import { removeNews } from "../../../actions/NewsActions";
 import { removePlayer } from '../../../actions/PlayerActions';
 import { removeSeasonGame } from '../../../actions/SeasonGameActions';
 import { removeSeason } from '../../../actions/SeasonActions';
+import { removeUser } from '../../../actions/UserActions';
 
 // MATERIAL UI
 import {
@@ -50,6 +51,11 @@ const DeleteConfirmation = (props) => {
 
     if (removeType === "game") {
       dispatch(removeSeasonGame(props.token, props.seasonGame))
+      handleClose()
+    }
+
+    if (removeType === "user") {
+      dispatch(removeUser(props.token, props.id))
       handleClose()
     }
 

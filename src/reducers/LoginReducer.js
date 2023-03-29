@@ -4,7 +4,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILED,
   LOGOUT_SUCCESS
-} from "../actions/UserActions"
+} from "../actions/LoginActions"
 
 const getInitialState = () => {
   if (localStorage.getItem("loginstate")) {

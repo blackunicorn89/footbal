@@ -35,7 +35,7 @@ const userReducer = (state = initialState, action) => {
 
     case FETCH_USERS_SUCCESS:
       tempState = {
-        news: action.users,
+        users: action.users,
         error: ""
       }
       saveToStorage(tempState);

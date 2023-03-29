@@ -39,12 +39,10 @@ const AddPlayerForm = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log("VALUES!", values);
       const formData = new FormData();
       for (let value in values) {
         formData.append(value, values[value]);
       }
-      console.log("FORMDATA!!!", formData)
       dispatch(addPlayer(login, formData));
       navigate("/players");
     }

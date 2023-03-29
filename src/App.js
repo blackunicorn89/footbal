@@ -2,7 +2,6 @@ import { Routes, Route, Navigate } from "react-router-dom"
 import { useSelector } from 'react-redux';
 import Navbar from "./components/shared/components/Navbar";
 import LoginPage from "./components/shared/components/LoginPage"
-import Register from "./components/Register";
 import NewsArticles from "./components/newsComponents/NewsArticles";
 import AddArticle from "./components/newsComponents/AddArticle";
 import EditArticle from "./components/newsComponents/EditArticle";
@@ -15,6 +14,8 @@ import EditSeason from "./components/seasonComponents/EditSeason";
 import SeasonGames from "./components/seasonGameComponents/SeasonGames";
 import AddPSeasonGame from "./components/seasonGameComponents/AddSeasonGame";
 import EditSeasonGame from "./components/seasonGameComponents/EditSeasonGame";
+import Users from "./components/userComponents/Users";
+import Register from "./components/userComponents/Register";
 import React from "react";
 import { Container } from "@mui/material";
 
@@ -47,7 +48,8 @@ function App() {
       <Route path="/seasongames" element={<SeasonGames />} />
       <Route path="/seasongames/addseasongame" element={<AddPSeasonGame />} />
       <Route path="/seasongames/editseasongame/:id" element={<EditSeasonGame />} />
-      <Route path="/register" element={<Register />} />
+      <Route path="/users" element={<Users />} />
+      <Route path="/users/register" element={<Register />} />
       <Route path="*" element={<Navigate to="/" />} />
 
     </Routes>

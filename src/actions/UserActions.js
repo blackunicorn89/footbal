@@ -1,5 +1,4 @@
-export const LOADING = "LOADING";
-export const STOP_LOADING = "STOP_LOADING";
+import { loading, stopLoading, clearState } from "./LoginActions"
 export const FETCH_USERS_SUCCESS = "FETCH_USERS_SUCCESS";
 export const FETCH_USERS_FAILED = "FETCH_USERS_FAILED";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
@@ -8,17 +7,21 @@ export const EDIT_USER_SUCCESS = "EDIT_USER_SUCCESS";
 export const EDIT_USER_FAILED = "EDIT_USER_FAILED";
 export const REMOVE_USER_SUCCESS = "REMOVE_USER_SUCCESS";
 export const REMOVE_USER_FAILED = "REMOVE_USER_FAILED";
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-export const LOGIN_FAILED = "LOGIN_FAILED";
-export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
-export const CLEAR_STATE = "CLEAR_STATE";
 
 // GET USERS
 export const getUsers = () => {
   return async (dispatch) => {
+    let request = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
+      //   body: ""
+
+    }
 
     dispatch(loading());
-    let response = await fetch("/api/users/getusers");
+    let response = await fetch("/api/users/getusers/", request);
+    console.log("user response")
+    console.log(response)
 
     dispatch(stopLoading());
     if (!response) {
@@ -27,6 +30,8 @@ export const getUsers = () => {
     }
     if (response.ok) {
       let data = await response.json();
+      console.log("onko dataa")
+      console.log(data)
       if (!data) {
         dispatch(fetchUsersFailed("Failed to parse users' data."));
         return
@@ -138,60 +143,13 @@ export const removeUser = (token, id) => {
 };
 
 
-export const login = (user) => {
-  return async (dispatch) => {
-
-    let request = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(user)
-    }
-    dispatch(loading());
-    let response = await fetch("/api/users/login", request)
-    if (!response) {
-      dispatch(loginFailed("Failed to parse login information. Login failed."))
-      return;
-    }
-    if (response.ok) {
-      let data = await response.json();
-
-      if (!data) {
-        dispatch(loginFailed("Failed to parse login information. Login failed."));
-        return
-      }
-      dispatch(loginSuccess(data));
-      dispatch(getNews());
-    } else {
-      dispatch(loginFailed("Virheellinen sähköposti tai salasana"));
-
-    }
-  }
-}
-
-export const logout = () => {
-  return async (dispatch) => {
-    dispatch(logoutSuccess())
-    dispatch(getNews())
-  }
-}
 
 // ACTION CREATORS
-
-export const loading = () => {
+const fetchUsersSuccess = (users) => {
+  console.log("user actions console.log", users)
   return {
-    type: LOADING
-  }
-};
-
-export const stopLoading = () => {
-  return {
-    type: STOP_LOADING
-  }
-};
-
-const fetchUsersSuccess = () => {
-  return {
-    type: FETCH_USERS_SUCCESS
+    type: FETCH_USERS_SUCCESS,
+    users:users
   }
 }
 
@@ -241,29 +199,3 @@ export const removeUserFailed = (error) => {
   }
 }
 
-const loginSuccess = (data) => {
-  return {
-    type: LOGIN_SUCCESS,
-    token: data.token,
-    admin: data.admin
-  }
-};
-
-const loginFailed = (error) => {
-  return {
-    type: LOGIN_FAILED,
-    error: error
-  }
-}
-
-const logoutSuccess = () => {
-  return {
-    type: LOGOUT_SUCCESS
-  }
-}
-
-export const clearState = () => {
-  return {
-    type: CLEAR_STATE
-  }
-};

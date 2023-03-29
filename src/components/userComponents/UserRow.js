@@ -27,17 +27,17 @@ const UserRow = (props) => {
         <CardHeader
           action={
             <>
-              <Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"/players/editplayer/" + props.id} >
+              <Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"/users/edituser/" + props.id} >
                 <EditIcon />
               </Fab>
-              <DeleteConfirmation removeType="player" id={props.id} header={userFullName}  title="Haluatko varmasti poistaa seuraavan pelaajan?" token={appState.login.token} />
+              <DeleteConfirmation removeType="user" id={props.id} header={userFullName}  title="Haluatko varmasti poistaa seuraavan pelaajan?" token={appState.login.token} />
             </>
           }
           title={userFullName}
         />
         <CardContent>
-          <Typography variant="h4" component="pre">
-            {props.email}
+          <Typography variant="body1" component="pre">
+           sähköpostiosoite: {props.email}
           </Typography>
           {props.admin ? (
             <Typography variant="body1" component="pre">
