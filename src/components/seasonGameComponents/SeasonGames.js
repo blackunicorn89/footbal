@@ -56,10 +56,10 @@ const SeasonGames = () => {
   return (
     <React.Fragment>
       <Grid align="center" >
-      {season}
         {appState.login.admin &&
           <Button color="primary" variant="contained" margin="normal" component={Link} to={"/seasongames/addseasongame"} fullWidth sx={{ padding: 1, margin: 2 }} >Lisää uusi</Button>
         }
+      {season} 
       </Grid>
       <Grid container spacing={2} alignItems="center" justify="center">
         {seasonGame}

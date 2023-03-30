@@ -5,7 +5,6 @@ import {
   Card,
   CardHeader,
   Fab,
-  Avatar,
 } from '@mui/material';
 import { green } from '@mui/material/colors';
 import EditIcon from '@mui/icons-material/Edit';
@@ -30,7 +29,7 @@ const UserRow = (props) => {
               <Fab sx={{ bgcolor: green[500], marginRight: 1 }} aria-label="edit" size="small" component={Link} to={"/users/edituser/" + props.id} >
                 <EditIcon />
               </Fab>
-              <DeleteConfirmation removeType="user" id={props.id} header={userFullName}  title="Haluatko varmasti poistaa seuraavan pelaajan?" token={appState.login.token} />
+              <DeleteConfirmation removeType="user" id={props.id} header={userFullName}  title="Haluatko varmasti poistaa seuraavan käyttäjän?" token={appState.login.token} />
             </>
           }
           title={userFullName}

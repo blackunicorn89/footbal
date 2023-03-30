@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import {
   Card,
@@ -10,7 +10,7 @@ import { green } from '@mui/material/colors';
 import EditIcon from '@mui/icons-material/Edit';
 import CardContent from '@mui/material/CardContent';
 import Typography from "@mui/material/Typography";
-import {ListItem, ListItemText} from "@mui/material";
+import {ListItem, List} from "@mui/material";
 import DeleteConfirmation from "../shared/components/DeleteConfirmation";
 import "../../stylsesheets/seasongame.css"
 
@@ -26,9 +26,9 @@ const SeasonGameRow = (props) => {
   const goalmakers = props.goalmakers 
   
 
-  const listOfPlayers = players.map((player) => <ListItemText>{player.name}</ListItemText>);
+  const listOfPlayers = players.map((player) => <ListItem>{player.name}</ListItem>);
  
-  const goalmaker = goalmakers.map((goalmaker) => <ListItemText>{goalmaker.name}, pisteet {goalmaker.points}</ListItemText>)
+  const goalmaker = goalmakers.map((goalmaker) => <ListItem>{goalmaker.name}, pisteet {goalmaker.points}</ListItem>)
 
   
   let title = game
@@ -63,15 +63,15 @@ const SeasonGameRow = (props) => {
           </Typography>
           <Typography variant="body1" component="pre">
             Pelaajat:
-            <ListItem>
+            <List>
               {listOfPlayers}
-            </ListItem>     
+            </List>     
           </Typography>
           <Typography variant="body1" component="pre">
             Maalintekijät:
-            <ListItem>
+            <List>
               {goalmaker}
-            </ListItem>
+            </List>
           </Typography>
           <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
           </Typography>
@@ -88,9 +88,6 @@ const SeasonGameRow = (props) => {
           title={title}
         />
         <CardContent>
-        <Typography variant="h5" component="pre">
-            Peli: {props.game}
-          </Typography>  
         <Typography variant="body1" component="pre">
             Pelattu: {localDate}
           </Typography>
@@ -99,15 +96,15 @@ const SeasonGameRow = (props) => {
           </Typography>
           <Typography variant="body1" component="pre">
             Pelaajat:
-            <ul>
+            <List>
               {listOfPlayers}
-            </ul>     
+            </List>     
           </Typography>
           <Typography variant="body1" component="pre">
             Maalintekijät:
-            <ul>
+            <List>
               {goalmaker}
-            </ul>
+            </List>
           </Typography>
           <Typography variant="body1" component="pre" sx={{ marginTop: 3 }} >
            

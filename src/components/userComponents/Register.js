@@ -143,7 +143,7 @@ const Register = () => {
         <Grid container>
           <Grid item xs={4}>
             <Box display="flex" justifyContent="flex-start">
-              <Button color="secondary" variant="contained" margin="normal" component={Link} to={"/"} fullWidth sx={{ padding: 1, margin: 2 }} >Peruuta</Button>
+              <Button color="secondary" variant="contained" margin="normal" component={Link} to={"/users"} fullWidth sx={{ padding: 1, margin: 2 }} >Peruuta</Button>
             </Box>
           </Grid>
           <Grid item xs={4}>

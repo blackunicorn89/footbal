@@ -1,9 +1,10 @@
+import * as React from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { register } from "../../actions/UserActions";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { editUser } from "../../actions/UserActions";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Grid, Paper, TextField, Button, Box, RadioGroup, Radio, FormLabel, FormControlLabel } from "@mui/material"
+import { Grid, TextField, Button, Box, RadioGroup, Radio, FormLabel, FormControlLabel } from "@mui/material"
 
 const validationSchema = yup.object({
   firstname: yup
@@ -18,35 +19,42 @@ const validationSchema = yup.object({
     .required("Pakollinen kenttä"),
   password: yup
     .string()
-    .min(6, "Salanan on oltava vähintään 6 merkkiä pitkä")
-    .required("Pakollinen kenttä."),
+    .min(6, "Salanan on oltava vähintään 6 merkkiä pitkä"),
   confirmPassword: yup
     .string()
-    .required("pakollinen kenttä")
     .oneOf([yup.ref('password'), null], 'Salasanat eivät täsmää')
 });
 
-const Register = () => {
+const EditUser = () => {
 
   const navigate = useNavigate();
-
   const dispatch = useDispatch()
+
+  const userid = useParams()
+   //Parsetaan numeroksi, koska id:n arvo on numero. Parametrinä tuleva userid on stringi, jonka vuoksi articlen haku kaatuu
+   const id = parseInt(userid.id)
+
+   const user = useSelector((state) =>
+    state.user.users.find((user => user.id === id))
+  );
+
   const login = useSelector((state) =>
     state.login
   );
 
   const formik = useFormik({
     initialValues: {
-      firstname: "",
-      lastname: "",
-      email: "",
+      id: id,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
       password: "",
       confirmPassword: "",
-      admin: "true"
+      admin: user.admin
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      dispatch(register(login, values));
+      dispatch(editUser(login, values));
       console.log(values)
       navigate("/users")
     },
@@ -56,7 +64,7 @@ const Register = () => {
 
     <Grid>
       <Grid align="center">
-      <h2>Lisää uusi pääkäyttäjä</h2>
+      <h2>Muokkaa pääkäyttäjän tietoja</h2>
       </Grid>
 
       <form onSubmit={formik.handleSubmit}>
@@ -102,11 +110,10 @@ const Register = () => {
           fullWidth
           InputLabelProps={{ shrink: true }}
         />
-
         <TextField
           id="password"
           type="password"
-          label="Salasana"
+          label="Salasana - täytä vain, jos olet vaihtamassa käyttäjän salasanaa"
           name="password"
           value={formik.values.password}
           onChange={formik.handleChange}
@@ -119,7 +126,7 @@ const Register = () => {
          <TextField
           id="confirmPassword"
           type="password"
-          label="Toista salasana"
+          label="Toista salasana - täytä vain, jos olet vaihtamassa käyttäjän salasanaa"
           name="confirmPassword"
           value={formik.values.confirmPassword}
           onChange={formik.handleChange}
@@ -143,7 +150,7 @@ const Register = () => {
         <Grid container>
           <Grid item xs={4}>
             <Box display="flex" justifyContent="flex-start">
-              <Button color="secondary" variant="contained" margin="normal" component={Link} to={"/"} fullWidth sx={{ padding: 1, margin: 2 }} >Peruuta</Button>
+              <Button color="secondary" variant="contained" margin="normal" component={Link} to={"/users"} fullWidth sx={{ padding: 1, margin: 2 }} >Peruuta</Button>
             </Box>
           </Grid>
           <Grid item xs={4}>
@@ -160,4 +167,4 @@ const Register = () => {
   )
 }
 
-export default Register;
+export default EditUser;
