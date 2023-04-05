@@ -35,14 +35,15 @@ const SeasonGames = () => {
   })
 
   if (games.length === 0) {
-    return (
+    seasonGame = 
       <Typography variant="body1" component="pre">
         Ei näytettäviä pelejä kaudelle.
     </Typography>
-    )
+    
   } 
   else {
   seasonGame = games.map((seasonGame) => {
+  
 
   
     return (
@@ -59,7 +60,7 @@ const SeasonGames = () => {
         {appState.login.admin &&
           <Button color="primary" variant="contained" margin="normal" component={Link} to={"/seasongames/addseasongame"} fullWidth sx={{ padding: 1, margin: 2 }} >Lisää uusi</Button>
         }
-      {season} 
+       {season}
       </Grid>
       <Grid container spacing={2} alignItems="center" justify="center">
         {seasonGame}

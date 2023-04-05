@@ -3,6 +3,12 @@ import { useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { addSeasonGame, addGoalPoints } from '../../actions/SeasonGameActions';
 import {Box, Grid, Paper, TextField, Button, InputLabel, Select, MenuItem, Typography, Divider} from "@mui/material"
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import * as yup from "yup";
 
 const AddPSeasonGameForm = (props) => { 
@@ -186,6 +192,29 @@ const AddPSeasonGameForm = (props) => {
             <Button type="submit" color="primary" variant="contained" margin="normal" sx={{ padding: 1, margin: 2 }} >Lisää Pelaaja</Button>
             </Box>        
             </form>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  pelaajat
+                  <TableRow>
+                    <TableCell>Pelaaja</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                
+                  <TableRow
+                    //key={row.name}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    {/* <TableCell component="th" scope="row">
+                      {row.name} 
+                    </TableCell>*/}
+                    <TableCell align="left">Ulkoasu testi</TableCell>
+                  </TableRow>
+              </TableBody>
+           </Table>
+          </TableContainer>
+
             <Divider />
             {/*Maalientekijöiden ja pisteiden lisäysformi*/} 
             <form onSubmit = {saveGoalMaker}>
