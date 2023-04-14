@@ -1,15 +1,16 @@
 import React from "react";
 import {
-  FormControlLabel,
-  Checkbox
+  TableRow,
+  TableCell,
 } from '@mui/material';
 
 const SeasonGamePlayerRow = (props) => {
 
    return (
     <>
-    <FormControlLabel  control={<Checkbox name="players" size="small" value={props.players} onChange={props.onChange} />} label={props.players}  /> 
-    <br />
+      <TableRow key={props.key}>
+        <TableCell>{props.plaah}</TableCell>
+      </TableRow>
     </>
   )
 };

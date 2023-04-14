@@ -1,5 +1,5 @@
 import { useDispatch, useSelector} from 'react-redux';
-import { useState } from 'react';
+import { useState, createElement, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { addSeasonGame, addGoalPoints } from '../../actions/SeasonGameActions';
 import {Box, Grid, Paper, TextField, Button, InputLabel, Select, MenuItem, Typography, Divider} from "@mui/material"
@@ -10,7 +10,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import * as yup from "yup";
-
+import SeasonGamePlayerRow from './SeasonGamePlayerRow';
+import { ADD_PLAYER_SUCCESS } from '../../actions/PlayerActions';
 const AddPSeasonGameForm = (props) => { 
 
   // MUI TEXTFIELD DEFAULT DATE 
@@ -84,8 +85,19 @@ const AddPSeasonGameForm = (props) => {
     description: "",
   })
 
+  const [layoutTest, setLayoutTest] = useState([
+  
+  ])
+
   const dispatch = useDispatch();
   const navigate = useNavigate()
+
+  let liipalaapa = [];
+
+  /*let rowtest = <TableRow>
+  <TableCell>Ulkoasu testi</TableCell>
+  <TableCell>Poista</TableCell>
+</TableRow>*/
 
 //Tilojen muutosten hallinta
  const handleGoalMakerDropdownChange = (event) => {
@@ -142,14 +154,60 @@ const AddPSeasonGameForm = (props) => {
  }
 
  const savePlayer = (e) => {
+
+  let playerRow = "";
+
   e.preventDefault()
 
   setPlayers ([
     ...players,
-    {"name":playerDropDown}
-    
-  ])  
+    {"name":playerDropDown},
+    playerRow = {"name": playerDropDown},
+  ])
+
+  setLayoutTest([
+    ...layoutTest,
+    playerRow
+  ])
+
+  console.log("tuliko layoutestiin jotain uutta?")
+  console.log(layoutTest)
+
+  /*setGoalMakerRow({
+    ...goalMakerRow,
+    rowTest: <TableRow>
+    <TableCell>{playerRow}</TableCell>
+    <TableCell>Poista</TableCell>
+  </TableRow>
+  })*/
+ 
+  console.log(liipalaapa)
+  //console.log("Tuliko playerRow:hun mitään järkevää " + playerRow + " ja mikä sen tyyppi on? " +  typeof playerRow )
+
+
+  //Luodaan tauluun uusi rivi, jossa näytetään pelaaja
+  /*const row = document.createElement("tr");
+  row.id = "pelaaja1";
+  document.getElementById("pelaajat").appendChild(row);
+  const cell = document.createElement("td");
+  cell.id = "arvo1"
+  document.getElementById("pelaaja1").appendChild(cell);
+  document.getElementById("arvo1").appendChild(tablePlayer)*/
+
+
+
+  Dispatchtesti(playerRow)
 }
+
+
+let Dispatchtesti = (player) => {
+  return (
+    <SeasonGamePlayerRow key={player} player={player}></SeasonGamePlayerRow>
+
+  )
+
+}
+
 
   const onGameSubmit = (e) => {
     e.preventDefault()
@@ -192,29 +250,42 @@ const AddPSeasonGameForm = (props) => {
             <Button type="submit" color="primary" variant="contained" margin="normal" sx={{ padding: 1, margin: 2 }} >Lisää Pelaaja</Button>
             </Box>        
             </form>
+            {/* <table>
+              <thead>
+                <tr>Pelaajat</tr>
+              </thead>
+              <tbody id="pelaajat">
+                <tr>
+                  <td>Ulkoasu testi</td>
+                  <td>Poista</td>
+                </tr>
+              </tbody>
+            </table> */}
+            <ul id="dispatchtesti"> </ul>
             <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <Table aria-label="simple table">
                 <TableHead>
-                  pelaajat
                   <TableRow>
-                    <TableCell>Pelaaja</TableCell>
+                    <TableCell>Pelaajat</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                
-                  <TableRow
-                    //key={row.name}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
-                    {/* <TableCell component="th" scope="row">
-                      {row.name} 
-                    </TableCell>*/}
-                    <TableCell align="left">Ulkoasu testi</TableCell>
+                  {/* <TableRow>
+                    <TableCell>Ulkoasu testi</TableCell>
+                    <TableCell>Poista</TableCell>
                   </TableRow>
+                  <TableRow>
+                    <TableCell align="left">Ulkoasu testi2</TableCell>
+                    <TableCell align="left">Poista 2</TableCell>
+                </TableRow>*/}
+                {layoutTest.map((row) =>
+                 <TableRow key={row.name}>
+                   <TableCell>{row.name}</TableCell>
+                   <TableCell><Button type="submit" color="warning" variant="contained">Poista</Button></TableCell>
+                 </TableRow>)}
               </TableBody>
            </Table>
-          </TableContainer>
-
+          </TableContainer>          
             <Divider />
             {/*Maalientekijöiden ja pisteiden lisäysformi*/} 
             <form onSubmit = {saveGoalMaker}>
