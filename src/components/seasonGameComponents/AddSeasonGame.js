@@ -85,7 +85,11 @@ const AddPSeasonGameForm = (props) => {
     description: "",
   })
 
-  const [layoutTest, setLayoutTest] = useState([
+  const [playerRows, setPlayerRows] = useState([
+  
+  ])
+
+  const [goalMakerRows, setGoalMakerRows] = useState([
   
   ])
 
@@ -93,11 +97,6 @@ const AddPSeasonGameForm = (props) => {
   const navigate = useNavigate()
 
   let liipalaapa = [];
-
-  /*let rowtest = <TableRow>
-  <TableCell>Ulkoasu testi</TableCell>
-  <TableCell>Poista</TableCell>
-</TableRow>*/
 
 //Tilojen muutosten hallinta
  const handleGoalMakerDropdownChange = (event) => {
@@ -134,9 +133,10 @@ const AddPSeasonGameForm = (props) => {
      e.preventDefault()
 
      //Alusutkset
-     let goalMaker = []
-     let name = ""
-     let goalMakerId = 0
+     let goalMaker = [];
+     let name = "";
+     let goalMakerId = 0;
+     let goalMakerRow = {};
 
      //Filteröidään dropwdownista tulleen id:perusteella oikean pelaajan tiedot
      goalMaker = goalMakersData.filter((goalmaker) => goalmaker.id === goalMakerDropDown)
@@ -148,67 +148,46 @@ const AddPSeasonGameForm = (props) => {
 
      setGoalMakers ([
        ...goal_makers,
-       {"name": name, "points": points, "id": goalMakerId}
+       {"name": name, "points": points, "id": goalMakerId},
+       goalMakerRow = {"name": name, "points": points, "id": goalMakerId}
        
      ])
+
+     setGoalMakerRows([
+      ...goalMakerRows,
+      goalMakerRow
+    ])
+
+
  }
 
  const savePlayer = (e) => {
 
-  let playerRow = "";
-
   e.preventDefault()
+
+  let player = [];
+  let playerName = "";
+  let playerId = 0;
+  let playerRow = {};
+
+  player = playerData.filter((player) => player.id === playerDropDown)
+
+  playerName = player[0].player_name;
+  playerId = player[0].id;  
+
 
   setPlayers ([
     ...players,
-    {"name":playerDropDown},
-    playerRow = {"name": playerDropDown},
+    {"name":playerName},
+    playerRow = {"name": playerName, "id": playerId},
   ])
 
-  setLayoutTest([
-    ...layoutTest,
+  setPlayerRows([
+    ...playerRows,
     playerRow
   ])
 
-  console.log("tuliko layoutestiin jotain uutta?")
-  console.log(layoutTest)
-
-  /*setGoalMakerRow({
-    ...goalMakerRow,
-    rowTest: <TableRow>
-    <TableCell>{playerRow}</TableCell>
-    <TableCell>Poista</TableCell>
-  </TableRow>
-  })*/
- 
-  console.log(liipalaapa)
-  //console.log("Tuliko playerRow:hun mitään järkevää " + playerRow + " ja mikä sen tyyppi on? " +  typeof playerRow )
-
-
-  //Luodaan tauluun uusi rivi, jossa näytetään pelaaja
-  /*const row = document.createElement("tr");
-  row.id = "pelaaja1";
-  document.getElementById("pelaajat").appendChild(row);
-  const cell = document.createElement("td");
-  cell.id = "arvo1"
-  document.getElementById("pelaaja1").appendChild(cell);
-  document.getElementById("arvo1").appendChild(tablePlayer)*/
-
-
-
-  Dispatchtesti(playerRow)
 }
-
-
-let Dispatchtesti = (player) => {
-  return (
-    <SeasonGamePlayerRow key={player} player={player}></SeasonGamePlayerRow>
-
-  )
-
-}
-
-
   const onGameSubmit = (e) => {
     e.preventDefault()
     let game = {
@@ -219,7 +198,50 @@ let Dispatchtesti = (player) => {
     dispatch(addSeasonGame(login, game));
     navigate("/seasongames")
 
-  }  
+  }
+  
+
+  //
+  const removePlayerRow = (playerRowId) => {
+
+    console.log(playerRowId)
+    console.log(playerRows)
+    let index = playerRows.findIndex(playerRow => playerRow.id==playerRowId);
+
+
+    console.log("onko oikea indeksi? " + index)
+    //const newPlayerRows = playerRows.filter((_, i) => i === name);
+    playerRows.splice(index, 1);
+    setPlayerRows([
+      ...playerRows
+    ])
+    //console.log("mitä sisältää uusi taulukko")
+    //console.log(newPlayerRows)
+  //setPlayerRows(newPlayerRows);
+  console.log("tapahtuuko poistoa painettaessa mitään")
+  console.log(playerRows)
+  };
+
+  //
+  const removeGoalMakerRow = (goalMakerRowId) => {
+
+    console.log(goalMakerRowId)
+    console.log(goalMakerRows)
+    let index = goalMakerRows.findIndex(goalMakerRow => goalMakerRow.id==goalMakerRowId);
+
+
+    console.log("onko oikea indeksi? " + index)
+    //const newPlayerRows = playerRows.filter((_, i) => i === name);
+    goalMakerRows.splice(index, 1);
+    setGoalMakerRows([
+      ...goalMakerRows
+    ])
+    //console.log("mitä sisältää uusi taulukko")
+    //console.log(newPlayerRows)
+  //setPlayerRows(newPlayerRows);
+  console.log("tapahtuuko poistoa painettaessa mitään")
+  console.log(goalMakerRows)
+  };
 
   //Muut
   
@@ -244,24 +266,12 @@ let Dispatchtesti = (player) => {
               value = {playerDropDown}
               label="Maalintekijät"
               onChange={handlePlayerDropdownChange}>
-              {playerData.map((player) => <MenuItem key={player.id} value={player.player_name}>{player.player_name}</MenuItem>)}  
+              {playerData.map((player) => <MenuItem key={player.id} value={player.id}>{player.player_name}</MenuItem>)}  
             </Select>
             <Box display="flex" justifyContent="flex-start">
             <Button type="submit" color="primary" variant="contained" margin="normal" sx={{ padding: 1, margin: 2 }} >Lisää Pelaaja</Button>
             </Box>        
             </form>
-            {/* <table>
-              <thead>
-                <tr>Pelaajat</tr>
-              </thead>
-              <tbody id="pelaajat">
-                <tr>
-                  <td>Ulkoasu testi</td>
-                  <td>Poista</td>
-                </tr>
-              </tbody>
-            </table> */}
-            <ul id="dispatchtesti"> </ul>
             <TableContainer component={Paper}>
               <Table aria-label="simple table">
                 <TableHead>
@@ -270,18 +280,10 @@ let Dispatchtesti = (player) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {/* <TableRow>
-                    <TableCell>Ulkoasu testi</TableCell>
-                    <TableCell>Poista</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell align="left">Ulkoasu testi2</TableCell>
-                    <TableCell align="left">Poista 2</TableCell>
-                </TableRow>*/}
-                {layoutTest.map((row) =>
-                 <TableRow key={row.name}>
+                {playerRows.map((row) =>
+                 <TableRow key={row.id}>
                    <TableCell>{row.name}</TableCell>
-                   <TableCell><Button type="submit" color="warning" variant="contained">Poista</Button></TableCell>
+                   <TableCell><Button onClick={() => removePlayerRow(row.id)} color="warning" variant="contained">Poista</Button></TableCell>
                  </TableRow>)}
               </TableBody>
            </Table>
@@ -313,6 +315,24 @@ let Dispatchtesti = (player) => {
             <Button type="submit" color="primary" variant="contained" margin="normal" sx={{ padding: 1, margin: 2 }} >Lisää maalintekijä</Button>
             </Box>          
             </form>
+            <TableContainer component={Paper}>
+              <Table aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Maalintekijät</TableCell>
+                    <TableCell>Pisteet</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                {goalMakerRows.map((goalMakerRow) =>
+                 <TableRow key={goalMakerRow.id}>
+                   <TableCell>{goalMakerRow.name}</TableCell>
+                   <TableCell>{goalMakerRow.points}</TableCell>
+                   <TableCell><Button onClick={() => removeGoalMakerRow(goalMakerRow.id)} color="warning" variant="contained">Poista</Button></TableCell>
+                 </TableRow>)}
+              </TableBody>
+           </Table>
+          </TableContainer>          
 
             {/*Yleisten tietojen lisäysformi*/} 
             <form onSubmit={onGameSubmit}>
