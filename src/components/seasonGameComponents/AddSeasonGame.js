@@ -1,7 +1,7 @@
 import { useDispatch, useSelector} from 'react-redux';
-import { useState, createElement, useEffect } from 'react';
+import { useState} from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import { addSeasonGame, addGoalPoints } from '../../actions/SeasonGameActions';
+import { addSeasonGame} from '../../actions/SeasonGameActions';
 import {Box, Grid, Paper, TextField, Button, InputLabel, Select, MenuItem, Typography, Divider} from "@mui/material"
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,8 +10,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import * as yup from "yup";
-import SeasonGamePlayerRow from './SeasonGamePlayerRow';
-import { ADD_PLAYER_SUCCESS } from '../../actions/PlayerActions';
 const AddPSeasonGameForm = (props) => { 
 
   // MUI TEXTFIELD DEFAULT DATE 
@@ -85,23 +83,18 @@ const AddPSeasonGameForm = (props) => {
     description: "",
   })
 
-  const [playerRows, setPlayerRows] = useState([
-  
-  ])
+  //UI:n pelaajarivit
+  const [playerRows, setPlayerRows] = useState([])
 
-  const [goalMakerRows, setGoalMakerRows] = useState([
-  
-  ])
+  //UI:n maalintekijärivit  
+  const [goalMakerRows, setGoalMakerRows] = useState([])
 
   const dispatch = useDispatch();
   const navigate = useNavigate()
 
-  let liipalaapa = [];
-
-//Tilojen muutosten hallinta
+ //Tilojen muutosten hallinta
  const handleGoalMakerDropdownChange = (event) => {
    setGoalMakerDropDown(event.target.value);
-   
  };
  
  const handlePlayerDropdownChange = (event) => {
@@ -137,21 +130,30 @@ const AddPSeasonGameForm = (props) => {
      let name = "";
      let goalMakerId = 0;
      let goalMakerRow = {};
+     let goalMakerRowId = []
 
      //Filteröidään dropwdownista tulleen id:perusteella oikean pelaajan tiedot
      goalMaker = goalMakersData.filter((goalmaker) => goalmaker.id === goalMakerDropDown)
 
      //otetaan pelaajan nimi ja ja id talteen. Pisteet tulevat points-statesta. Koska goalMaker taulukon ei pitiäsi koskaan sisältää kuin yksi arvo,
-    //voidaan käyttää suoraan indeksiviittauksia
+     //voidaan käyttää suoraan indeksiviittauksia
      name = goalMaker[0].player_name
      goalMakerId = goalMaker[0].id
 
+    //Haetaan tieto, sisältääkö ui:n maalintekijärivit jo maalintekijän id:n perusteella
+    goalMakerRowId = goalMakerRows.filter((row) => row.id === goalMakerId)
+  
+    //Jos ui:n maalintekijärrivit sisältää jo pelaajan, ei lisätä sitä duplikaattina varsinaisiin lisättäviin maalintekijöihin sekä uissa näkyviin maalintekijöihin
+    if (goalMakerRowId.length > 0) {
+      alert("Maalintekijä " + goalMakerRowId[0].name + " on jo lisätty listalle")
+      return
+    }
+
      setGoalMakers ([
        ...goal_makers,
-       {"name": name, "points": points, "id": goalMakerId},
-       goalMakerRow = {"name": name, "points": points, "id": goalMakerId}
-       
+       {"name": name, "points": points, "id": goalMakerId}
      ])
+     goalMakerRow = {"name": name, "points": points, "id": goalMakerId}
 
      setGoalMakerRows([
       ...goalMakerRows,
@@ -169,18 +171,28 @@ const AddPSeasonGameForm = (props) => {
   let playerName = "";
   let playerId = 0;
   let playerRow = {};
+  let playerRowId = []
 
   player = playerData.filter((player) => player.id === playerDropDown)
 
   playerName = player[0].player_name;
-  playerId = player[0].id;  
-
+  playerId = player[0].id; 
+  
+  //Haetaan tieto, sisältääkö pelaajarivit jo pelaajan id:n perusteella
+  playerRowId = playerRows.filter((row) => row.id === playerId)
+  
+  //Jos pelaajarivit sisältää jo pelaajan, ei lisätä sitä duplikaattina varsinaisiin lisättäviin pelaajiin sekä muissa näkymiin pelaajiin
+  if (playerRowId.length > 0) {
+    alert("Pelaaja " + playerRowId[0].name + " on jo lisätty listalle")
+    return
+  }
 
   setPlayers ([
     ...players,
-    {"name":playerName},
-    playerRow = {"name": playerName, "id": playerId},
+    {"name":playerName}
+    
   ])
+  playerRow = {"name": playerName, "id": playerId}
 
   setPlayerRows([
     ...playerRows,
@@ -188,59 +200,49 @@ const AddPSeasonGameForm = (props) => {
   ])
 
 }
-  const onGameSubmit = (e) => {
-    e.preventDefault()
-    let game = {
-      ...generalGameInformation,
-      goal_makers,
-      players
-    }
-    dispatch(addSeasonGame(login, game));
-    navigate("/seasongames")
-
+const onGameSubmit = (e) => {
+  e.preventDefault()
+  let game = {
+    ...generalGameInformation,
+    goal_makers,
+    players
   }
+  dispatch(addSeasonGame(login, game));
+  navigate("/seasongames")
+}
   
 
-  //
+  //Pelaajarivin poistonapin handlaus
   const removePlayerRow = (playerRowId) => {
 
-    console.log(playerRowId)
-    console.log(playerRows)
     let index = playerRows.findIndex(playerRow => playerRow.id==playerRowId);
 
-
-    console.log("onko oikea indeksi? " + index)
-    //const newPlayerRows = playerRows.filter((_, i) => i === name);
     playerRows.splice(index, 1);
     setPlayerRows([
       ...playerRows
     ])
-    //console.log("mitä sisältää uusi taulukko")
-    //console.log(newPlayerRows)
-  //setPlayerRows(newPlayerRows);
-  console.log("tapahtuuko poistoa painettaessa mitään")
-  console.log(playerRows)
+
+    players.splice(index, 1)
+    setPlayers([
+      ...players
+    ])
   };
 
-  //
+  //Maalintekijäivin poistonapin handlaus
   const removeGoalMakerRow = (goalMakerRowId) => {
 
-    console.log(goalMakerRowId)
-    console.log(goalMakerRows)
     let index = goalMakerRows.findIndex(goalMakerRow => goalMakerRow.id==goalMakerRowId);
 
-
-    console.log("onko oikea indeksi? " + index)
-    //const newPlayerRows = playerRows.filter((_, i) => i === name);
     goalMakerRows.splice(index, 1);
     setGoalMakerRows([
       ...goalMakerRows
     ])
-    //console.log("mitä sisältää uusi taulukko")
-    //console.log(newPlayerRows)
-  //setPlayerRows(newPlayerRows);
-  console.log("tapahtuuko poistoa painettaessa mitään")
-  console.log(goalMakerRows)
+
+    goal_makers.splice(index, 1)
+    setGoalMakers([
+      ...goal_makers
+    ])
+
   };
 
   //Muut
