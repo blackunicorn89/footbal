@@ -62,9 +62,10 @@ const AddPSeasonGameForm = (props) => {
   let seasonname=""
   season.season.map((season) => {
     if (season.active) {
-        seasonname = season.season_name
+      seasonname = season.season_name
     }
-    
+
+    return seasonname
   })
 
   //Alustusket
@@ -92,18 +93,18 @@ const AddPSeasonGameForm = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
 
- //Tilojen muutosten hallinta
- const handleGoalMakerDropdownChange = (event) => {
-   setGoalMakerDropDown(event.target.value);
- };
- 
- const handlePlayerDropdownChange = (event) => {
-  setPlayerDropDown(event.target.value);
-};
+  //Tilojen muutosten hallinta
+  const handleGoalMakerDropdownChange = (event) => {
+    setGoalMakerDropDown(event.target.value);
+  };
+  
+  const handlePlayerDropdownChange = (event) => {
+    setPlayerDropDown(event.target.value);
+  };
 
- const handlePointsChange = (event) => {
-   setPoints(event.target.value);
- };
+  const handlePointsChange = (event) => {
+    setPoints(event.target.value);
+  };
 
  const handeGeneralInformationChange = (event) => {
   setGeneralGameInformation((generalGameInformation) => {
@@ -123,44 +124,42 @@ const AddPSeasonGameForm = (props) => {
 
 //Submittien hallinta
  const saveGoalMaker = (e) => {
-     e.preventDefault()
+  e.preventDefault()
 
-     //Alusutkset
-     let goalMaker = [];
-     let name = "";
-     let goalMakerId = 0;
-     let goalMakerRow = {};
-     let goalMakerRowId = []
+  //Alusutkset
+  let goalMaker = [];
+  let name = "";
+  let goalMakerId = 0;
+  let goalMakerRow = {};
+  let goalMakerRowId = []
 
-     //Filteröidään dropwdownista tulleen id:perusteella oikean pelaajan tiedot
-     goalMaker = goalMakersData.filter((goalmaker) => goalmaker.id === goalMakerDropDown)
+  //Filteröidään dropwdownista tulleen id:perusteella oikean pelaajan tiedot
+  goalMaker = goalMakersData.filter((goalmaker) => goalmaker.id === goalMakerDropDown)
 
-     //otetaan pelaajan nimi ja ja id talteen. Pisteet tulevat points-statesta. Koska goalMaker taulukon ei pitiäsi koskaan sisältää kuin yksi arvo,
-     //voidaan käyttää suoraan indeksiviittauksia
-     name = goalMaker[0].player_name
-     goalMakerId = goalMaker[0].id
+  //otetaan pelaajan nimi ja ja id talteen. Pisteet tulevat points-statesta. Koska goalMaker taulukon ei pitiäsi koskaan sisältää kuin yksi arvo,
+  //voidaan käyttää suoraan indeksiviittauksia
+  name = goalMaker[0].player_name
+  goalMakerId = goalMaker[0].id
 
-    //Haetaan tieto, sisältääkö ui:n maalintekijärivit jo maalintekijän id:n perusteella
-    goalMakerRowId = goalMakerRows.filter((row) => row.id === goalMakerId)
-  
-    //Jos ui:n maalintekijärrivit sisältää jo pelaajan, ei lisätä sitä duplikaattina varsinaisiin lisättäviin maalintekijöihin sekä uissa näkyviin maalintekijöihin
-    if (goalMakerRowId.length > 0) {
-      alert("Maalintekijä " + goalMakerRowId[0].name + " on jo lisätty listalle")
-      return
-    }
+  //Haetaan tieto, sisältääkö ui:n maalintekijärivit jo maalintekijän id:n perusteella
+  goalMakerRowId = goalMakerRows.filter((row) => row.id === goalMakerId)
 
-     setGoalMakers ([
-       ...goal_makers,
-       {"name": name, "points": points, "id": goalMakerId}
-     ])
-     goalMakerRow = {"name": name, "points": points, "id": goalMakerId}
+  //Jos ui:n maalintekijärrivit sisältää jo pelaajan, ei lisätä sitä duplikaattina varsinaisiin lisättäviin maalintekijöihin sekä uissa näkyviin maalintekijöihin
+  if (goalMakerRowId.length > 0) {
+    alert("Maalintekijä " + goalMakerRowId[0].name + " on jo lisätty listalle")
+    return
+  }
 
-     setGoalMakerRows([
-      ...goalMakerRows,
-      goalMakerRow
-    ])
+  setGoalMakers ([
+    ...goal_makers,
+    {"name": name, "points": points, "id": goalMakerId}
+  ])
+  goalMakerRow = {"name": name, "points": points, "id": goalMakerId}
 
-
+  setGoalMakerRows([
+  ...goalMakerRows,
+  goalMakerRow
+  ])
  }
 
  const savePlayer = (e) => {
@@ -215,7 +214,7 @@ const onGameSubmit = (e) => {
   //Pelaajarivin poistonapin handlaus
   const removePlayerRow = (playerRowId) => {
 
-    let index = playerRows.findIndex(playerRow => playerRow.id==playerRowId);
+    let index = playerRows.findIndex(playerRow => playerRow.id === playerRowId);
 
     playerRows.splice(index, 1);
     setPlayerRows([
@@ -231,7 +230,7 @@ const onGameSubmit = (e) => {
   //Maalintekijäivin poistonapin handlaus
   const removeGoalMakerRow = (goalMakerRowId) => {
 
-    let index = goalMakerRows.findIndex(goalMakerRow => goalMakerRow.id==goalMakerRowId);
+    let index = goalMakerRows.findIndex(goalMakerRow => goalMakerRow.id === goalMakerRowId);
 
     goalMakerRows.splice(index, 1);
     setGoalMakerRows([

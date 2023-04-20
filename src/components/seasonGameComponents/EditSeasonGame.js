@@ -3,6 +3,12 @@ import { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { editSeasonGame } from "../../actions/SeasonGameActions";
 import { Box, Grid, Paper, TextField, Button, InputLabel, Select, MenuItem, Typography, ListItem, ListItemText, Divider} from "@mui/material"
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 import * as yup from "yup";
 
 const EditSeasonGame = () => {
@@ -76,11 +82,11 @@ const EditSeasonGame = () => {
   const listOfCurrentGoalMakers = current_goal_makers.map((currentGoalMaker) =>  <ListItemText key={currentGoalMaker.id}>{currentGoalMaker.name}, pisteet:  {currentGoalMaker.points}</ListItemText>);
 
   const [playerDropDown, setPlayerDropDown] = useState('')
-  const [players, setPlayers] = useState([]) 
+  const [players, setNewPlayers] = useState(game.players) 
 
   const [goalMakerDropDown, setGoalMakerDropDown] = useState('')
   const [points, setPoints] = useState(1)
-  const [goal_makers, setNewGoalMakers] = useState([])
+  const [goal_makers, setNewGoalMakers] = useState(game.goal_makers)
 
   const [generalGameInformation, setGeneralGameInformation] = useState({
     id: gameId,
@@ -90,6 +96,23 @@ const EditSeasonGame = () => {
     played: materialDateInput,
     description: game.description,
   })
+
+   //UI:n pelaajarivit
+  const [playerRows, setPlayerRows] = useState(game.players)
+  console.log("Pelaajat rivissä")
+  console.log(playerRows)
+
+  console.log("Pelaajat taulukossa")
+  console.log(players)
+
+
+  //UI:n maalintekijärivit  
+  const [goalMakerRows, setGoalMakerRows] = useState(game.goal_makers)
+  console.log("Maalintekijät rivissä")
+  console.log(goalMakerRows)
+
+  console.log("Maalintekijät taulukossa")
+  console.log(goal_makers)
 
   //Tilatietojan haku
   let playerData = appState.player.players
@@ -120,7 +143,7 @@ const EditSeasonGame = () => {
       ...goal_makers,
       
     ])
-    setPlayers ([
+    setNewPlayers ([
       ...players,
     ])
   }
@@ -130,9 +153,11 @@ const EditSeasonGame = () => {
       e.preventDefault()
 
     //Alusutkset
-    let goalMaker = []
-    let name = ""
-    let goalMakerId = 0
+    let goalMaker = [];
+    let name = "";
+    let goalMakerId = 0;
+    let goalMakerRow = {};
+    let goalMakerRowId = [];
 
     //Filteröidään dropwdownista tulleen id:perusteella oikean pelaajan tiedot
     goalMaker = goalMakersData.filter((goalmaker) => goalmaker.id === goalMakerDropDown)
@@ -142,21 +167,59 @@ const EditSeasonGame = () => {
     name = goalMaker[0].player_name
     goalMakerId = goalMaker[0].id
 
+    //Haetaan tieto, sisältääkö ui:n maalintekijärivit jo maalintekijän id:n perusteella
+    goalMakerRowId = goalMakerRows.filter((row) => row.id === goalMakerId)
+    //Jos ui:n maalintekijärrivit sisältää jo pelaajan, ei lisätä sitä duplikaattina varsinaisiin lisättäviin maalintekijöihin sekä uissa näkyviin maalintekijöihin
+    if (goalMakerRowId.length > 0) {
+      alert("Maalintekijä " + goalMakerRowId[0].name + " on jo lisätty listalle")
+      return
+    }
+
     setNewGoalMakers ([
       ...goal_makers,
       {"name": name, "points": points, "id": goalMakerId}
-      
     ])
+    goalMakerRow = {"name": name, "points": points, "id": goalMakerId}
+    setGoalMakerRows([
+      ...goalMakerRows,
+      goalMakerRow
+    ])
+
   }
 
   const savePlayer = (e) => {
     e.preventDefault()
 
-    setPlayers ([
+    let player = [];
+    let playerName = "";
+    let playerId = 0;
+    let playerRow = {};
+    let playerRowId = []
+
+    player = playerData.filter((player) => player.id === playerDropDown)
+
+    playerName = player[0].player_name;
+    playerId = player[0].id; 
+    
+    //Haetaan tieto, sisältääkö pelaajarivit jo pelaajan id:n perusteella
+    playerRowId = playerRows.filter((row) => row.id === playerId)
+    
+    //Jos pelaajarivit sisältää jo pelaajan, ei lisätä sitä duplikaattina varsinaisiin lisättäviin pelaajiin sekä muissa näkymiin pelaajiin
+    if (playerRowId.length > 0) {
+      alert("Pelaaja " + playerRowId[0].name + " on jo lisätty listalle")
+      return
+    }
+    setNewPlayers ([
       ...players,
-      {"name":playerDropDown}
-      
-    ])  
+      {"name": playerName, "id": playerId}
+    ])
+    
+    playerRow = {"name": playerName, "id": playerId}
+
+    setPlayerRows([
+      ...playerRows,
+      playerRow
+    ])
   }
 
   const onGameSubmit = (e) => {
@@ -170,6 +233,44 @@ const EditSeasonGame = () => {
     dispatch(editSeasonGame(login, game));
     navigate("/seasongames")
   }  
+
+
+   //Pelaajarivin poistonapin handlaus
+   const removePlayerRow = (playerRowId) => {
+
+    let index = playerRows.findIndex(playerRow => playerRow.id === playerRowId);
+
+    playerRows.splice(index, 1);
+    setPlayerRows([
+      ...playerRows
+    ])
+
+    players.splice(index, 1)
+    setNewPlayers([
+      ...players
+    ])
+  };
+
+  //Maalintekijäivin poistonapin handlaus
+  const removeGoalMakerRow = (goalMakerRowId) => {
+
+    let index = goalMakerRows.findIndex(goalMakerRow => goalMakerRow.id === goalMakerRowId);
+
+    goalMakerRows.splice(index, 1);
+    setGoalMakerRows([
+      ...goalMakerRows
+    ])
+
+    goal_makers.splice(index, 1)
+    setNewGoalMakers([
+      ...goal_makers
+    ])
+
+    console.log("poiston jälkeen")
+    console.log(goalMakerRows)
+    console.log(goal_makers)
+
+  };
 
  //Muut
  
@@ -187,10 +288,6 @@ const EditSeasonGame = () => {
         <Divider />
         {/*Pelaajien lisäys formi*/}
         <form onSubmit = {savePlayer}>
-        <Typography variant="body1">Nykyinen joukkuekokoonpano:</Typography>
-          <ListItem>
-            {listOfCurrentPlayers}
-          </ListItem>
         <InputLabel id="demo-simple-select-label">Muokkaa joukkuekokoonpanoa</InputLabel>
         <Select
           labelId="demo-simple-select-label"
@@ -198,19 +295,31 @@ const EditSeasonGame = () => {
           value = {playerDropDown}
           label="Maalintekijät"
           onChange={handlePlayerDropdownChange}>
-          {playerData.map((player) => <MenuItem key={player.id} value={player.player_name}>{player.player_name}</MenuItem>)}  
+          {playerData.map((player) => <MenuItem key={player.id} value={player.id}>{player.player_name}</MenuItem>)}  
         </Select>
         <Box display="flex" justifyContent="flex-start">
         <Button type="submit" color="primary" variant="contained" margin="normal" sx={{ padding: 1, margin: 2 }} >Lisää Pelaaja</Button>
         </Box>        
         </form>
+        <TableContainer component={Paper}>
+              <Table aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Pelaajat</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                {playerRows.map((row) =>
+                 <TableRow key={row.id}>
+                   <TableCell>{row.name}</TableCell>
+                   <TableCell><Button onClick={() => removePlayerRow(row.id)} color="warning" variant="contained">Poista</Button></TableCell>
+                 </TableRow>)}
+              </TableBody>
+           </Table>
+          </TableContainer>
         <Divider />
         {/*Maalientekijöiden ja pisteiden lisäysformi*/} 
         <form onSubmit = {saveGoalMaker}>
-        <Typography variant="body1">Maalintekijät</Typography>
-          <ListItem>
-            {listOfCurrentGoalMakers}
-          </ListItem>  
         <InputLabel id="demo-simple-select-label">Muokkaa maalintekijöitä</InputLabel>
         <Select
           labelId="demo-simple-select-label"
@@ -235,6 +344,24 @@ const EditSeasonGame = () => {
         <Button type="submit" color="primary" variant="contained" margin="normal" sx={{ padding: 1, margin: 2 }} >Lisää maalintekijä</Button>
         </Box>          
         </form>
+        <TableContainer component={Paper}>
+              <Table aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Maalintekijät</TableCell>
+                    <TableCell>Pisteet</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                {goalMakerRows.map((goalMakerRow) =>
+                 <TableRow key={goalMakerRow.id}>
+                   <TableCell>{goalMakerRow.name}</TableCell>
+                   <TableCell>{goalMakerRow.points}</TableCell>
+                   <TableCell><Button onClick={() => removeGoalMakerRow(goalMakerRow.id)} color="warning" variant="contained">Poista</Button></TableCell>
+                 </TableRow>)}
+              </TableBody>
+           </Table>
+          </TableContainer>
         {/*Yleisten tietojen lisäysformi*/} 
         <form onSubmit={onGameSubmit}> 
         <TextField
