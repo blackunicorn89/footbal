@@ -11,8 +11,8 @@ import {
 } from '../actions/UserActions';
 
 const getInitialState = () => {
-  if (localStorage.getItem("userstate")) {
-    let state = JSON.parse(localStorage.getItem("userstate"));
+  if (sessionStorage.getItem("userstate")) {
+    let state = JSON.parse(sessionStorage.getItem("userstate"));
     return state;
   } else {
     return {
@@ -23,7 +23,7 @@ const getInitialState = () => {
 }
 
 const saveToStorage = (state) => {
-  localStorage.setItem("userstate", JSON.stringify(state));
+  sessionStorage.setItem("userstate", JSON.stringify(state));
 }
 
 const initialState = getInitialState();

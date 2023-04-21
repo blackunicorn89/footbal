@@ -7,8 +7,8 @@ import {
 } from "../actions/LoginActions"
 
 const getInitialState = () => {
-  if (localStorage.getItem("loginstate")) {
-    let state = JSON.parse(localStorage.getItem("loginstate"));
+  if (sessionStorage.getItem("loginstate")) {
+    let state = JSON.parse(sessionStorage.getItem("loginstate"));
     return state;
   } else {
     return {
@@ -22,7 +22,7 @@ const getInitialState = () => {
 }
 
 const saveToStorage = (state) => {
-  localStorage.setItem("loginstate", JSON.stringify(state));
+  sessionStorage.setItem("loginstate", JSON.stringify(state));
 }
 
 const initialState = getInitialState();
@@ -61,7 +61,7 @@ const loginReducer = (state = initialState, action) => {
       return tempState;
 
     case LOGOUT_SUCCESS:
-      localStorage.removeItem("loginstate")
+      sessionStorage.removeItem("loginstate")
       tempState = {
         isLogged: false,
         token: "",
