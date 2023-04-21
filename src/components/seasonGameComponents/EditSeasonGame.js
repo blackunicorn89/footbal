@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { editSeasonGame } from "../../actions/SeasonGameActions";
-import { Box, Grid, Paper, TextField, Button, InputLabel, Select, MenuItem, Typography, ListItem, ListItemText, Divider} from "@mui/material"
+import { Box, Grid, Paper, TextField, Button, InputLabel, Select, MenuItem, Typography, Divider} from "@mui/material"
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -37,6 +37,7 @@ const EditSeasonGame = () => {
     {
       games = season.games
     }
+      return games
   })
 
   const game = games.find((games => games.id === gameId))
@@ -78,9 +79,6 @@ const EditSeasonGame = () => {
   // END MUI TEXTFIELD DEFAULT DATE
 
 
-  const listOfCurrentPlayers = game.players.map((currentPlayer) =>  <ListItemText key={currentPlayer.id}>{currentPlayer.name}</ListItemText>);
-  const listOfCurrentGoalMakers = current_goal_makers.map((currentGoalMaker) =>  <ListItemText key={currentGoalMaker.id}>{currentGoalMaker.name}, pisteet:  {currentGoalMaker.points}</ListItemText>);
-
   const [playerDropDown, setPlayerDropDown] = useState('')
   const [players, setNewPlayers] = useState(game.players) 
 
@@ -99,21 +97,10 @@ const EditSeasonGame = () => {
 
    //UI:n pelaajarivit
   const [playerRows, setPlayerRows] = useState(game.players)
-  console.log("Pelaajat rivissä")
-  console.log(playerRows)
-
-  console.log("Pelaajat taulukossa")
-  console.log(players)
-
 
   //UI:n maalintekijärivit  
   const [goalMakerRows, setGoalMakerRows] = useState(game.goal_makers)
-  console.log("Maalintekijät rivissä")
-  console.log(goalMakerRows)
-
-  console.log("Maalintekijät taulukossa")
-  console.log(goal_makers)
-
+ 
   //Tilatietojan haku
   let playerData = appState.player.players
   let goalMakersData = appState.player.players
@@ -266,15 +253,11 @@ const EditSeasonGame = () => {
       ...goal_makers
     ])
 
-    console.log("poiston jälkeen")
-    console.log(goalMakerRows)
-    console.log(goal_makers)
-
   };
 
  //Muut
  
- //Asettaa oletusarvon pelaajan pisteille
+ //Määrittää minimiarvon pisteille. Pisteet eivät voi olla alle yhden.
  const inputProps = {
    min: 1,
  };
