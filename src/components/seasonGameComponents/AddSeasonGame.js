@@ -10,6 +10,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import * as yup from "yup";
+import { useForm } from "react-hook-form";
 const AddPSeasonGameForm = (props) => { 
 
   // MUI TEXTFIELD DEFAULT DATE 
@@ -44,6 +45,8 @@ const AddPSeasonGameForm = (props) => {
       .array().min(1, "Vähintään yksi pelaaja on lisättävä")
   });
 
+  const {generalGameInformation} = useForm();
+
   //Tlatietojen haku
   const appState = useSelector((state) => state);
 
@@ -76,13 +79,15 @@ const AddPSeasonGameForm = (props) => {
   const [points, setPoints] = useState(1)
   const [goal_makers, setGoalMakers] = useState([])
 
-  const [generalGameInformation, setGeneralGameInformation] = useState({
+  /*const [generalGameInformation, setGeneralGameInformation] = useState({
     season_name: seasonname,
     game: "",
     final_result: "",
     played: materialDateInput,
     description: "",
-  })
+  })*/
+
+  const {generalInformation, control} = useForm();
 
   //UI:n pelaajarivit
   const [playerRows, setPlayerRows] = useState([])
@@ -110,7 +115,7 @@ const AddPSeasonGameForm = (props) => {
   setGeneralGameInformation((generalGameInformation) => {
       return {
           ...generalGameInformation,
-          [event.target.name]:event.target.value
+          [event.target.name]:event.target.valued
       }
   })
   setGoalMakers ([
@@ -342,8 +347,8 @@ const onGameSubmit = (e) => {
              label="Kausi"
              disabled = {true}
              name="season_name"
-             value={generalGameInformation.season_name}
-             onChange={handeGeneralInformationChange}
+             //value={generalGameInformation.season_name}
+             //onChange={handeGeneralInformationChange}
             /* error={formik.touched.season_name&& Boolean(formik.errors.season_name)} */
             /* helperText={formik.touched.season_name && formik.errors.season_name} */
              margin="normal"
@@ -352,8 +357,8 @@ const onGameSubmit = (e) => {
             <TextField type="text"
               label="Peli"
               name="game"
-              value={generalGameInformation.game}
-              onChange={handeGeneralInformationChange}
+              //value={generalGameInformation.game}
+              //onChange={handeGeneralInformationChange}
               /*error={formik.touched.game&& Boolean(formik.errors.game)}
               helperText={formik.touched.game && formik.errors.game}*/
               margin="normal"
@@ -362,9 +367,9 @@ const onGameSubmit = (e) => {
             />   
             <TextField type="text"
               label="Tulos"
-              name="final_result"
-              value={generalGameInformation.final_result}
-              onChange={handeGeneralInformationChange}
+               {...generalInformation("final_result")}
+              //value={generalGameInformation.final_result}
+              //onChange={handeGeneralInformationChange}
               /*error={formik.touched.final_result&& Boolean(formik.errors.final_result)}
               helperText={formik.touched.final_result && formik.final_result}*/
               margin="normal"
@@ -375,9 +380,9 @@ const onGameSubmit = (e) => {
               id="date"
               type="date"
               label="Päivämäärä"
-              name="played"
-              value={generalGameInformation.played}
-              onChange={handeGeneralInformationChange}
+              {...generalInformation("played")}
+              //value={generalGameInformation.played}
+              //onChange={handeGeneralInformationChange}
               /*error={formik.touched.played && Boolean(formik.errors.played)}
               helperText={formik.touched.played && formik.errors.played}*/
               margin="normal"
@@ -385,11 +390,11 @@ const onGameSubmit = (e) => {
               InputLabelProps={{ shrink: true }}
             />          
             <TextField
+              {...generalInformation("description")}
               type="text"
               label="Lisätietoa pelistä:"
-              name="description"
-              value={generalGameInformation.description}
-              onChange={handeGeneralInformationChange}
+              //value={generalGameInformation.description}
+              //onChange={handeGeneralInformationChange}
               margin="normal"
               fullWidth required InputLabelProps={{ shrink: true }}
               />    
