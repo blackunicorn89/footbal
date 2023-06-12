@@ -9,7 +9,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import * as yup from "yup";
 import { useForm } from "react-hook-form";
 const AddPSeasonGameForm = (props) => { 
 
@@ -21,36 +20,16 @@ const AddPSeasonGameForm = (props) => {
     monthWithOffset.toString().length < 2 // Checking if month is < 10 and pre-prending 0 if not to adjust for date input.
       ? `0${monthWithOffset}`
       : monthWithOffset;
-  const date =
+  const currentDate =
     dateNow.getUTCDate().toString().length < 2 // Checking if date is < 10 and pre-prending 0 if not to adjust for date input.
       ? `0${dateNow.getUTCDate()}`
       : dateNow.getUTCDate();
 
-  const materialDateInput = `${year}-${month}-${date}`; // combining to format for defaultValue or value attribute of material <TextField>  
-
-  const validationSchema = yup.object({
-    season_name: yup
-      .string("Pakollinen kenttä.")
-      .required("Pakollinen kenttä"),
-    game: yup
-      .string("Pakollinen kenttä.")
-      .required("Pakollinen kenttä"),
-    final_result: yup
-      .string("Pakollinen kenttä.")
-      .required("Pakollinen kenttä"),
-    played: yup
-      .date("Kirjoita hyväkysyttävä päivämäärä.")
-      .required("Pakollinen kenttä."),
-    players: yup
-      .array().min(1, "Vähintään yksi pelaaja on lisättävä")
-  });
-
-  const {generalGameInformation} = useForm();
+  const materialDateInput = `${year}-${month}-${currentDate}`; // combining to format for defaultValue or value attribute of material <TextField>  
 
   //Tlatietojen haku
   const appState = useSelector((state) => state);
 
-  
   let playerData = appState.player.players
   let goalMakersData = appState.player.players
 
@@ -79,15 +58,15 @@ const AddPSeasonGameForm = (props) => {
   const [points, setPoints] = useState(1)
   const [goal_makers, setGoalMakers] = useState([])
 
-  /*const [generalGameInformation, setGeneralGameInformation] = useState({
-    season_name: seasonname,
-    game: "",
-    final_result: "",
-    played: materialDateInput,
-    description: "",
-  })*/
-
-  const {generalInformation, control} = useForm();
+  const {register, handleSubmit, formState: {errors}} = useForm({
+    defaultValues: {
+      season_name: seasonname,
+      game: "",
+      final_result: "",
+      played: materialDateInput,
+      description: "",
+    }
+  });
 
   //UI:n pelaajarivit
   const [playerRows, setPlayerRows] = useState([])
@@ -111,22 +90,6 @@ const AddPSeasonGameForm = (props) => {
     setPoints(event.target.value);
   };
 
- const handeGeneralInformationChange = (event) => {
-  setGeneralGameInformation((generalGameInformation) => {
-      return {
-          ...generalGameInformation,
-          [event.target.name]:event.target.valued
-      }
-  })
-  setGoalMakers ([
-    ...goal_makers,
-    
-  ])
-  setPlayers ([
-    ...players,
-  ])
-}
-
 //Submittien hallinta
  const saveGoalMaker = (e) => {
   e.preventDefault()
@@ -134,6 +97,7 @@ const AddPSeasonGameForm = (props) => {
   //Alusutkset
   let goalMaker = [];
   let name = "";
+  let names = []
   let goalMakerId = 0;
   let goalMakerRow = {};
   let goalMakerRowId = []
@@ -146,12 +110,30 @@ const AddPSeasonGameForm = (props) => {
   name = goalMaker[0].player_name
   goalMakerId = goalMaker[0].id
 
+  
+  //Tarkistetaan, sisältääkö pelaajat yhtään pelaajat. Jos ei, ei anneta lisätä maalintekijöitä
+  if (playerRows.length === 0) {
+    alert("Maalintekjiä " + name + " pitää lisätä pelaajiin ennen kuin hänet voidaan lisätä maalintekijöihin!");
+    return;
+    }
+   
+   //Lisätään pelaajariviobjektitaulukosta pelaajat erilliseen taulukkoon, jotta voidaan, tarkistaako onko maalintekijä jo pelaajissa 
+   for (let i = 0; i < playerRows.length; i++) {
+    names.push(playerRows[i].name)
+   }
+
+   //Jos maalintekijä ei ole pelaajissa, annetaan virhe
+   if (!names.includes(name)) {
+    alert("Maalintekjiä " + name + "pitää lisätä pelaajiin ennen kuin hänet voidaan lisätä maalintekijöihin!");
+    return
+   }
+
   //Haetaan tieto, sisältääkö ui:n maalintekijärivit jo maalintekijän id:n perusteella
   goalMakerRowId = goalMakerRows.filter((row) => row.id === goalMakerId)
 
   //Jos ui:n maalintekijärrivit sisältää jo pelaajan, ei lisätä sitä duplikaattina varsinaisiin lisättäviin maalintekijöihin sekä uissa näkyviin maalintekijöihin
   if (goalMakerRowId.length > 0) {
-    alert("Maalintekijä " + goalMakerRowId[0].name + " on jo lisätty listalle")
+    alert("Maalintekijä " + goalMakerRowId[0].name + " on jo lisätty listalle!")
     return
   }
 
@@ -204,17 +186,24 @@ const AddPSeasonGameForm = (props) => {
   ])
 
 }
-const onGameSubmit = (e) => {
-  e.preventDefault()
+  //Tallentaa pelaajien, maalintekijöiden ja muut pelin tiedot kantaann.
+  const handleSave = (formValues) => {
+
+  //tarkistetaan, että pelissä on vähintään yksi pelaaja lisättynä
+  if (players.length === 0)
+  {
+    alert("Tarkista pelaajien määrä");
+    return;
+  }
+  
   let game = {
-    ...generalGameInformation,
+    ...formValues,
     goal_makers,
     players
   }
   dispatch(addSeasonGame(login, game));
   navigate("/seasongames")
 }
-  
 
   //Pelaajarivin poistonapin handlaus
   const removePlayerRow = (playerRowId) => {
@@ -304,7 +293,7 @@ const onGameSubmit = (e) => {
               value = {goalMakerDropDown}
               label="Maalintekijät"
               onChange={handleGoalMakerDropdownChange}>
-              {/*asetetaan arvoksi poikkeuksellisesti id, koska sitä tarvitaan pelaajan pistetietojen päivittämiseen*/}
+              {/*asetetaan arvoksi id, koska sitä tarvitaan pelaajan pistetietojen päivittämiseen*/}
               {playerData.map((goalMaker) => <MenuItem key={goalMaker.id} value={goalMaker.id}>{goalMaker.player_name}</MenuItem>)}  
             </Select>
             <br />
@@ -341,62 +330,67 @@ const onGameSubmit = (e) => {
           </TableContainer>          
 
             {/*Yleisten tietojen lisäysformi*/} 
-            <form onSubmit={onGameSubmit}>
+            <form onSubmit={handleSubmit(handleSave)}>
             <TextField
              type="text"
              label="Kausi"
+             required
              disabled = {true}
-             name="season_name"
-             //value={generalGameInformation.season_name}
-             //onChange={handeGeneralInformationChange}
-            /* error={formik.touched.season_name&& Boolean(formik.errors.season_name)} */
-            /* helperText={formik.touched.season_name && formik.errors.season_name} */
+             {...register("season_name")}
              margin="normal"
-             fullWidth required
-             InputLabelProps={{ shrink: true }} /> 
+             fullWidth 
+             InputLabelProps={{ shrink: true }} />
             <TextField type="text"
               label="Peli"
-              name="game"
-              //value={generalGameInformation.game}
-              //onChange={handeGeneralInformationChange}
-              /*error={formik.touched.game&& Boolean(formik.errors.game)}
-              helperText={formik.touched.game && formik.errors.game}*/
+              required
+              {...register("game", {
+                required:true,
+                pattern:/[A-Za-zäöÄÖåÅ]+-[A-Za-zäöÄÖåÅ]+$/
+              }) }
+              error={(errors.game && errors.game.type === "required") || (errors.game && errors.game.type === "pattern") } 
+              helperText=  {(errors.game && errors.game.type === "required" && (
+                "Pelin tulos on pakollinen tieto.")) || (errors.game && errors.game.type === "pattern" && (
+                  "Peli on oltava muodossa peli-peli"))}
               margin="normal"
-              fullWidth required
+              fullWidth 
               InputLabelProps={{ shrink: true }}
-            />   
+            />
             <TextField type="text"
               label="Tulos"
-               {...generalInformation("final_result")}
-              //value={generalGameInformation.final_result}
-              //onChange={handeGeneralInformationChange}
-              /*error={formik.touched.final_result&& Boolean(formik.errors.final_result)}
-              helperText={formik.touched.final_result && formik.final_result}*/
+              required
+               {...register("final_result", {
+                required:true,
+                pattern: /\d+\-\d+/
+               })}
               margin="normal"
-              fullWidth required
+              fullWidth
               InputLabelProps={{ shrink: true }}
-            />    
+              error={(errors.final_result && errors.final_result.type === "required") || (errors.final_result && errors.final_result.type === "pattern") } 
+              helperText=  {(errors.final_result && errors.final_result.type === "required" && (
+                "Pelin tulos on pakollinen tieto.")) || (errors.final_result && errors.final_result.type === "pattern" && (
+                  "Pelin tulos on oltava numeromuodosssa 1-1 eikä saa sisältää kirjaimia,"))} 
+            />   
             <TextField
               id="date"
               type="date"
-              label="Päivämäärä"
-              {...generalInformation("played")}
-              //value={generalGameInformation.played}
-              //onChange={handeGeneralInformationChange}
-              /*error={formik.touched.played && Boolean(formik.errors.played)}
-              helperText={formik.touched.played && formik.errors.played}*/
+              required
+              label="Pelattu"
+              {...register("played", {
+                required:true
+              })}
+              error={errors.date && errors.date.type === "required" } 
+              helperText=  {errors.date && errors.date.type === "required" && (
+                "Pelipäivä on pakollinen tieto.")} 
               margin="normal"
               fullWidth
               InputLabelProps={{ shrink: true }}
             />          
             <TextField
-              {...generalInformation("description")}
+              {...register("description")}
               type="text"
               label="Lisätietoa pelistä:"
-              //value={generalGameInformation.description}
-              //onChange={handeGeneralInformationChange}
               margin="normal"
-              fullWidth required InputLabelProps={{ shrink: true }}
+              fullWidth InputLabelProps={{ shrink: true }}
               />    
              <Grid container>
                 <Grid item xs={4}>
