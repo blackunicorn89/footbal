@@ -17,6 +17,7 @@ import EditSeasonGame from "./components/seasonGameComponents/EditSeasonGame";
 import Users from "./components/userComponents/Users";
 import Register from "./components/userComponents/Register";
 import EditUser from "./components/userComponents/EditUser";
+import ExpiredSession from "./components/shared/components/ExpiredSession";
 import React from "react";
 import { Container } from "@mui/material";
 
@@ -31,6 +32,7 @@ function App() {
     <Route path="/players" element={<Players />} />
     <Route path="/seasongames" element={<SeasonGames />} />
     <Route path="/seasons" element={<Season />} />
+    <Route path="/expiredsession" element={<ExpiredSession />} />
     <Route path="*" element={<Navigate to="/" />} />
 
   </Routes>

@@ -5,6 +5,7 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILED = "LOGIN_FAILED";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const CLEAR_STATE = "CLEAR_STATE";
+export const SESSION_EXPIRED = "SESSION_EXPIRED";
 
 
 export const login = (user) => {
@@ -44,6 +45,13 @@ export const login = (user) => {
     }
   }
 
+  export const expiredSession = () => {
+    return async (dispatch) => {
+      dispatch(sessionExpired())
+      dispatch(getNews())
+    }
+  }
+
 
 // ACTION CREATORS
 
@@ -77,6 +85,12 @@ export const loading = () => {
   const logoutSuccess = () => {
     return {
       type: LOGOUT_SUCCESS
+    }
+  }
+
+  const sessionExpired = () => {
+    return {
+      type: SESSION_EXPIRED
     }
   }
   

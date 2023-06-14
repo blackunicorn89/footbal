@@ -3,7 +3,8 @@ import {
   STOP_LOADING,
   LOGIN_SUCCESS,
   LOGIN_FAILED,
-  LOGOUT_SUCCESS
+  LOGOUT_SUCCESS,
+  SESSION_EXPIRED
 } from "../actions/LoginActions"
 
 const getInitialState = () => {
@@ -62,6 +63,19 @@ const loginReducer = (state = initialState, action) => {
 
     case LOGOUT_SUCCESS:
       sessionStorage.removeItem("loginstate")
+      sessionStorage.removeItem("userstate")
+      tempState = {
+        isLogged: false,
+        token: "",
+        admin: false,
+        loading: false,
+        error: ""
+      }
+      saveToStorage("loginstate")
+      return tempState
+    case SESSION_EXPIRED:
+      sessionStorage.removeItem("loginstate")
+      sessionStorage.removeItem("userstate")
       tempState = {
         isLogged: false,
         token: "",
