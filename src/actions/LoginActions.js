@@ -1,4 +1,5 @@
-import { getNews } from "./NewsActions"
+import { getNews } from "./NewsActions";
+import { useNavigate } from "react-router-dom";
 export const LOADING = "LOADING";
 export const STOP_LOADING = "STOP_LOADING";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -46,9 +47,12 @@ export const login = (user) => {
   }
 
   export const expiredSession = () => {
+    const navigate = useNavigate()
     return async (dispatch) => {
       dispatch(sessionExpired())
-      dispatch(getNews())
+      navigate("/sessionexprided")
+
+
     }
   }
 

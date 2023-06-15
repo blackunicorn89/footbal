@@ -1,5 +1,5 @@
 
-import { loading, stopLoading, clearState } from "./LoginActions"
+import { loading, stopLoading, clearState, expiredSession } from "./LoginActions"
 
 // Action constraits
 export const FETCH_NEWS_SUCCESS = "FETCH_NEWS_SUCCESS";
@@ -69,6 +69,7 @@ export const addNews = (login, article) => {
       if (response.status === 403) {
         dispatch(clearState());
         dispatch(addArticleFailed("Your session has expired. Logging you out!"))
+        dispatch(expiredSession)
       } else {
         dispatch(addArticleFailed("Adding new article failed. Server responded with a status " + response.status + " " + response.statusText));
       }
@@ -103,6 +104,7 @@ export const editNews = (login, article) => {
       if (response.status === 403) {
         dispatch(clearState());
         dispatch(editArticleFailed("Your session has expired. Logging you out!"));
+
       } else {
         dispatch(editArticleFailed("Editing article failed. Server responded with status " + response.status + " " + response.statusText));
 
@@ -133,9 +135,10 @@ export const removeNews = (token, id) => {
       dispatch(removeArticleSuccess());
       dispatch(getNews())
     } else {
-      if (response.status === 403) {
+      if (response.status === 401) {
         dispatch(clearState());
         dispatch(removeArticleFailed("Your session has expired. Logging you out!"));
+        dispatch(expiredSession())
       } else {
         dispatch(removeArticleFailed("Removing Article failed. Server responded with a status " + response.status + " " + response.statusText))
       }

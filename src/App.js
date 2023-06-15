@@ -54,6 +54,7 @@ function App() {
       <Route path="/users" element={<Users />} />
       <Route path="/users/register" element={<Register />} />
       <Route path="/users/edituser/:id" element={<EditUser />} />
+      <Route path="/expiredsession" element={<ExpiredSession />} />
       <Route path="*" element={<Navigate to="/" />} />
 
     </Routes>
